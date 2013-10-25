@@ -1,23 +1,12 @@
 BillSplitter::Application.routes.draw do
   devise_for :users
   resources :groups do
-    member do
-      post 'users', to: 'groups#add_user'
-      delete 'users/:email', to: 'groups#remove_user'
-
-      get 'bill', to: 'groups#bill'
-
-    end
+    resources :group_users, only: [:show, :create, :destroy], path: 'users', as: 'users'
   end
 
   resources :items, except: [:index, :show] do
-    member do
-      post 'users', to: 'items#add_user'
-      delete 'users/:email', to: 'items#remove_user'
-    end
+    resources :user_items, only: [:create, :destroy], path: 'users', as: 'users'
   end
-
-  resources :bills, only: [:show, ]
 
   # Aliases
   devise_scope :user do

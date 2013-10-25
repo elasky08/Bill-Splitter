@@ -28,7 +28,7 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.save
         format.html { redirect_to @group, notice: 'Group created.' }
-        format.json { render action: 'show', status: :created, location: group_url(@group) }
+        format.json { render action: 'show', status: :created, location: @group }
       else
         format.html { render action: 'new' }
         format.json { render json: @group.errors, status: :unprocessable_entity }
@@ -39,7 +39,7 @@ class GroupsController < ApplicationController
   def update
     respond_to do |format|
       if @group.update(group_params)
-        format.html { redirect_to group_url(@group), notice: 'Group updated.' }
+        format.html { redirect_to @group, notice: 'Group updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -56,37 +56,18 @@ class GroupsController < ApplicationController
     end
   end
 
-  def add_user
-    respond_to do |format|
-      user = User.find_by(username: username)
-      if user && @group.add_user(user)
-        format.json { render json: group, status: :accepted }
-      else
-        format.json { render json: group, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def remove_user
-    respond_to do |format|
-      user = User.find_by(username: username)
-      # Check that current user is either group owner or user being removed
-      if [@group.owner, user].include?(current_user)
-        if user
-          @group.remove_user(user)
-          format.json { render json: group, status: :accepted }
-        else
-          format.json { render json: group, status: :unprocessable_entity }
-        end
-      else
-        format.json { render json: @group, status: :forbidden, location: home_url }
-      end
-    end
-  end
+  
   
   private
     def set_group
       @group = Group.find(params[:id])
+      # If url slug is old, redirect to current one.
+      if request_path != article_path(@article)
+        respond_to do |format|
+          format.html { redirect_to @group, status: :moved_permanently }
+          format.json { render json: @group, status: :moved_permanently, location @group }
+        end
+      end
     end
 
     # Sanitize params.
@@ -108,8 +89,8 @@ class GroupsController < ApplicationController
     def check_owner
       unless current_user == @group.owner
         respond_to do |format|
-          format.html { redirect_to group_url(@group), alert: 'Forbidden to edit group.' }
-          format.json { render json: @group, status: :forbidden, location: group_url(@group) }
+          format.html { redirect_to @group, alert: 'Forbidden to edit group.' }
+          format.json { render json: @group, status: :forbidden, location: @group }
         end
       end
     end

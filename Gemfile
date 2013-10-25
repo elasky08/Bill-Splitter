@@ -43,7 +43,11 @@ gem 'devise'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+# For Heroku
 gem 'rails_12factor', group: :production
+
+# Nice URLs
+gem 'friendly_id'
 
 group :development, :test do
     gem 'sqlite3'
