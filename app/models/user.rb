@@ -20,4 +20,14 @@ class User < ActiveRecord::Base
 
   NAME_MAX_LENGTH = 20
   validates :name, presence: true, length: {minimum: 1, maximum: Group::NAME_MAX_LENGTH}, uniqueness: { scope: :owner }
+
+  
+  # Methods
+  # -------
+
+  # Returns a string represenation of the user.
+  def to_s
+    "#{self.name}"
+  end
+
 end
