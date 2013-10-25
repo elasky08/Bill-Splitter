@@ -15,7 +15,7 @@ class GroupsController < ApplicationController
   end
 
   def new
-    @group = Group.new(owner: current_user)
+    @group = current_user.owned_groups.new()
   end
 
   def edit
@@ -51,21 +51,20 @@ class GroupsController < ApplicationController
   def destroy
     @group.destroy
     respond_to do |format|
-      format.html { redirect_to home_url }
-      format.json { head :no_content }
+      format.html { redirect_to :home_url }
+      format.json { render status: :ok, location: :home_url }
     end
   end
+  
 
-  
-  
   private
     def set_group
       @group = Group.find(params[:id])
 
       # If group id is invalid redirect, and throw 404 code.
       unless @group
-        format.html { redirect_to home_url, status: :not_found }
-        format.json { render status: :not_found }
+        format.html { redirect_to :home_url, status: :not_found }
+        format.json { render status: :not_found, location: :home_url }
       end 
     end
 
@@ -76,20 +75,20 @@ class GroupsController < ApplicationController
 
     # If current user is not in group, redirect to home url.
     def check_member
-      unless @group.include_user(current_user)
+      unless [@group.users, @group.ownder].include?(current_user)
         respond_to do |format|
-          format.html { redirect_to home_url, alert: 'Forbidden to view group.' }
-          format.json { render json: @group, status: :forbidden, location: home_url }
+          format.html { redirect_to :home_url, alert: 'Forbidden to view group.' }
+          format.json { render status: :forbidden, location: :home_url }
         end
       end
     end
 
     # If current user is not group owner, redirect to group url.
     def check_owner
-      unless current_user == @group.owner
+      unless [@group.owner].include?(current_user)
         respond_to do |format|
           format.html { redirect_to @group, alert: 'Forbidden to edit group.' }
-          format.json { render json: @group, status: :forbidden, location: @group }
+          format.json { render status: :forbidden, location: @group }
         end
       end
     end

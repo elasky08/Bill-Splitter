@@ -1,26 +1,27 @@
 # Primary Author: Jonathan Allen (jallen01)
 
+# Controls adding/removing items in a group. All actions only return json.
 class ItemsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_item, except: [:new]
-  before_action :check_permissions, except: new
+  before_action :set_item, except: [:new, :create]
+  before_action :check_member
 
   def new
-    @item = Item.new
+    group = params[:group_id]
+    @item = group.items.new
   end
 
   def edit
   end
 
   def create
-    @item = Item.new(item_params)
+    group = params[:group_id]
+    @item = group.add_item_by_name(item_params[:name])
 
     respond_to do |format|
       if @item.save
-        format.html { redirect_to item_url(@item), notice: 'Item created.' }
-        format.json { render action: 'show', status: :created, location: item_url(@item) }
+        format.json { render status: :created }
       else
-        format.html { render action: 'new' }
         format.json { render json: @item.errors, status: :unprocessable_entity }
       end
     end
@@ -29,54 +30,27 @@ class ItemsController < ApplicationController
   def update
     respond_to do |format|
       if @item.update(item_params)
-        format.html { redirect_to item_url(@item), notice: 'Item updated.' }
-        format.json { head :no_content }
+        format.json { render status: :ok }
       else
-        format.html { render action: 'edit' }
         format.json { render json: @item.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def destroy
-    group = item.group
     @item.destroy
     respond_to do |format|
-      format.html { redirect_to group_url(group) }
-      format.json { head :no_content }
-    end
-  end
-
-  def add_user
-    respond_to do |format|
-      user = User.find_by(username: username)
-      if user && @item.add_user(user)
-        format.json { render json: item, status: :accepted }
-      else
-        format.json { render json: item, status: :unprocessable_entity}
-      end
-    end
-  end
-
-  def remove_user
-    respond_to do |format|
-      user = User.find_by(username: username)
-      if user
-        @item.remove_user(user)
-        format.json { render json: item, status: :accepted }
-      else
-        format.json { render json: item, status: :unprocessable_entity }
-      end
+      format.json { render status: :ok }
     end
   end
 
   private
+
     def set_item
       @item = Item.find(params[:id])
 
-      # If item id is invalid redirect, and throw 404 code.
+      # If item id is invalid, render 404.
       unless @group
-        format.html { redirect_to home_url, status: :not_found }
         format.json { render status: :not_found }
       end 
     end
@@ -86,12 +60,12 @@ class ItemsController < ApplicationController
       params.require(:item).permit(:name)
     end
 
-    # If current user is not in item's group, redirect to home url.
+    # If current user is not in item's group, render 403.
     def check_permission
-      unless @item.group.include_user?(current_user)
+      group = params[:group_id]
+      unless group.include_user?(current_user)
         respond_to do |format|
-          format.html { redirect_to home_path, :alert => "Forbidden to edit item." }
-          format.json { render json: @item, status: :forbidden, location: home_url }
+          format.json { render status: :forbidden }
         end
       end
     end

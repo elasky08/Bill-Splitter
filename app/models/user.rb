@@ -1,9 +1,9 @@
 # Primary Author: Jonathan Allen (jallen01)
 
 class User < ActiveRecord::Base
-  # User email for id in url
+  # Use username as id.
   extend FriendlyId
-  friendly_id :email, use: [:slugged]
+  friendly_id :username, use: [:slugged]
 
   # Attributes
   # ----------
@@ -22,6 +22,11 @@ class User < ActiveRecord::Base
   # Returns list of groups owned by user and groups to which user belongs.
   def all_groups
     [groups, owned_groups].flatten(1)
+  end
+
+  # Returns a unique name for the user.
+  def unique_name
+    email.gsub('@', '-').split(".")[0]
   end
 
 

@@ -56,6 +56,10 @@ class Item < ActiveRecord::Base
     end
   end
 
+  def get_user_item(user)
+    return user_items.find_by(user: user)
+  end
+
   # Unshares item with specified user. Does nothing if item is not already shared with user.
   def remove_user(user)
     user_items.destroy_all(user: user)

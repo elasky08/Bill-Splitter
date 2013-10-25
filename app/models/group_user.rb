@@ -12,7 +12,6 @@ class GroupUser < ActiveRecord::Base
   # Validations
   # -----------
 
-  validates :cost, on: :create
   validates :cost, presence: true, currency: true
 
   # If no payment, set to 0.
