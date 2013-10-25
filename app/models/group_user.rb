@@ -13,4 +13,6 @@ class GroupUser < ActiveRecord::Base
   # -----------
 
   validates :cost, presence: true, currency: true
+
+  before_validation {amount}
 end
