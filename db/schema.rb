@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20131025012041) do
   create_table "group_users", force: true do |t|
     t.integer  "group_id"
     t.integer  "user_id"
+    t.decimal  "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -31,14 +32,6 @@ ActiveRecord::Schema.define(version: 20131025012041) do
     t.decimal  "cost",       precision: 8, scale: 2
     t.string   "name"
     t.integer  "group_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "payments", force: true do |t|
-    t.decimal  "amount"
-    t.integer  "group_id"
-    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
