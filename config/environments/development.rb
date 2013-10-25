@@ -29,7 +29,4 @@ BillSplitter::Application.configure do
 
   # Set default url
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
-
-  config.middleware.delete Rack::Lock
-
 end

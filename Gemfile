@@ -45,8 +45,6 @@ gem 'devise'
 
 gem 'rails_12factor', group: :production
 
-gem 'websocket-rails'
-
 group :development, :test do
     gem 'sqlite3'
 end
