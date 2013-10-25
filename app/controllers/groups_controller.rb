@@ -21,7 +21,7 @@ class GroupsController < ApplicationController
   end
 
   def create
-    @group = Group.new(owner)
+    @group = current_user.owned_groups.create.new(group_params)
 
     respond_to do |format|
       if @group.save
@@ -36,7 +36,7 @@ class GroupsController < ApplicationController
   def update
     respond_to do |format|
       if @group.update(group_params)
-        format.html { redirect_to @group, notice: 'Group created.' }
+        format.html { redirect_to group_url(@group), notice: 'Group updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -57,9 +57,9 @@ class GroupsController < ApplicationController
     respond_to do |format|
       user = User.find_by(username: username)
       if user && @group.add_user(user)
-        format.json { render json: user, status: :accepted }
+        format.json { render json: group, status: :accepted }
       else
-        format.json { render json: user, status: :unprocessable_entity }
+        format.json { render json: group, status: :unprocessable_entity }
       end
     end
   end
@@ -69,19 +69,16 @@ class GroupsController < ApplicationController
       user = User.find_by(username: username)
       # Check that current user is either group owner or user being removed
       if [@group.owner, user].include?(current_user)
-        if user && @group.remove_user(user)
-          format.json { render json: user, status: :accepted }
+        if user
+          @group.remove_user(user)
+          format.json { render json: group, status: :accepted }
         else
-          format.json { render json: user, status: :unprocessable_entity }
+          format.json { render json: group, status: :unprocessable_entity }
         end
       else
         format.json { render json: @group, status: :forbidden, location: home_url }
       end
     end
-  end
-
-  def index
-
   end
   
   private

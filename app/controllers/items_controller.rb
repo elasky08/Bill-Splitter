@@ -13,21 +13,47 @@ class ItemsController < ApplicationController
   end
 
   def create
+    @item = Item.new(item_params)
+
+    respond_to do |format|
+      if @item.save
+        format.html { redirect_to item_url(@item), notice: 'Item created.' }
+        format.json { render action: 'show', status: :created, location: item_url(@item) }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @item.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def update
+    respond_to do |format|
+      if @item.update(item_params)
+        format.html { redirect_to item_url(@item), notice: 'Item updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @item.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def destroy
+    group = item.group
+    @item.destroy
+    respond_to do |format|
+      format.html { redirect_to group_url(group) }
+      format.json { head :no_content }
+    end
   end
 
   def add_user
     respond_to do |format|
       user = User.find_by(username: username)
       if user && @item.add_user(user)
-
+        format.json { render json: item, status: :accepted }
       else
-
+        format.json { render json: item, status: :unprocessable_entity}
       end
     end
   end
@@ -35,10 +61,11 @@ class ItemsController < ApplicationController
   def remove_user
     respond_to do |format|
       user = User.find_by(username: username)
-      if user && @item.include_user?(user)
+      if user
         @item.remove_user(user)
+        format.json { render json: item, status: :accepted }
       else
-        
+        format.json { render json: item, status: :unprocessable_entity }
       end
     end
   end
