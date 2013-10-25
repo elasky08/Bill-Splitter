@@ -17,7 +17,7 @@ class Item < ActiveRecord::Base
   validates :name, presence: true, length: {minimum: 1, maximum: ITEM::NAME_MAX_LENGTH}, uniqueness: { scope: :group }
   validates :cost, presence: true, currency: true
 
-  before_validation {self.name.downcase}
+  before_validation {name.downcase}
 
 
   # Methods
@@ -25,26 +25,33 @@ class Item < ActiveRecord::Base
 
   # Returns a string representation of the item. 
   def to_s
-    "#{self.name.downcase.split.map(&:capitalize).join(' ')}: #{number_to_currency(self.cost, :unit => "$")}"
+    "#{name.downcase.split.map(&:capitalize).join(' ')}: #{number_to_currency(cost, :unit => "$")}"
   end
 
   # Returns true if item is shared with specified user.
   def include_user?(user)
-    users.include? user
+    users.exists? user
   end
 
   # Shares item with specified user. Does nothing if item is already shared with user. Returns true if successful, false otherwise.
   def add_user(user)
-    if self.include_user?(user)
+    if include_user?(user)
       return true
     end
 
     # Check that the user is in the item's group.
-    if self.group.include_user?(user)
+    if group.include_user?(user)
       return UserItem.create(user_id: user.id, group_id: group.id)
     else  
       record.errors[:users] << (options[:message] || "is not a member of the item's group")
       return false
+    end
+  end
+
+  # Unshares item with specified user. Does nothing if item is not already shared with user.
+  def remove_user(user)
+    if group.include_user?(user)
+      group.find(user).destroy
     end
   end
 end
