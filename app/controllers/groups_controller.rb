@@ -31,6 +31,7 @@ class GroupsController < ApplicationController
         format.html { render action: 'new' }
         format.json { render json: @group.errors, status: :unprocessable_entity }
       end
+    end
   end
 
   def update

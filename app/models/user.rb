@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :group_users, dependent: :destroy
-  has_many :groups, through: :groups
+  has_many :groups, through: :group_users
   has_many :user_items, dependent: :destroy
   has_many :items, through: :user_items
   has_many :payments, dependent: :destroy
