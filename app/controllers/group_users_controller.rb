@@ -5,12 +5,12 @@ class GroupUsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group_user
   before_action :check_url
-  before_action :check_member, only: [:show]
-  before_action :check_owner, only: [:create]
 
   def create
     group = Group.find(params[:group_id])
     user = User.find(params[:id])
+
+    
 
     # If user id or group id is invalid redirect, and throw 404 code.
     unless user && group

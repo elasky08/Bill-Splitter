@@ -1,8 +1,9 @@
 # Primary Author: Jonathan Allen (jallen01)
 
 class Group < ActiveRecord::Base
+  # User name for id in url
   extend FriendlyId
-  friendly_id :name, use: [:slugged, :history]
+  friendly_id :unique_name, use: [:slugged]
 
   # Attributes
   # ----------
@@ -15,6 +16,10 @@ class Group < ActiveRecord::Base
   # Returns list of group users and group owner
   def all_users
     [users, owner].flatten(1)
+  end
+
+  def unique_name
+    "#{owner}-#{name}"
   end
 
   scope :ordered, -> { order :created_at }

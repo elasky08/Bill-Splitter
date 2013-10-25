@@ -67,14 +67,6 @@ class GroupsController < ApplicationController
         format.html { redirect_to home_url, status: :not_found }
         format.json { render status: :not_found }
       end 
-
-      # If url slug is old, redirect to current one.
-      if request_path != article_path(@article)
-        respond_to do |format|
-          format.html { redirect_to @group, status: :moved_permanently }
-          format.json { render json: @group, status: :moved_permanently, location @group }
-        end
-      end
     end
 
     # Sanitize params.

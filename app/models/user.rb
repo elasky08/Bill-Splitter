@@ -1,6 +1,9 @@
 # Primary Author: Jonathan Allen (jallen01)
 
 class User < ActiveRecord::Base
+  # User email for id in url
+  extend FriendlyId
+  friendly_id :email, use: [:slugged]
 
   # Attributes
   # ----------
