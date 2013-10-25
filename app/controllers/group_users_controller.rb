@@ -30,6 +30,13 @@ class GroupUsersController < ApplicationController
     end
   end
 
+  # Show user personal bill
+  def show
+    @group_user = @group.get_group_user(@user)
+    @items = @group.get_user_items(@user).include(:user)
+    @items_total = @group.get_user_items_total(@user)
+  end
+
   # Update user payment to group
   def update
     # If current user does not have permission to update payment, render 403.

@@ -1,3 +1,5 @@
+# Primary Author: Jonathan Allen (jallen01)
+
 BillSplitter::Application.routes.draw do
   devise_for :users
   resources :groups do
