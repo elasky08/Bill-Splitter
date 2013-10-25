@@ -14,7 +14,6 @@ class User < ActiveRecord::Base
   has_many :groups, through: :group_users
   has_many :user_items, dependent: :destroy
   has_many :items, through: :user_items
-  has_many :payments, dependent: :destroy
   has_many :owned_groups, class_name: "Group", foreign_key: "owner_id", dependent: :destroy
 
   # Returns list of groups owned by user and groups to which user belongs.

@@ -9,6 +9,8 @@ class Item < ActiveRecord::Base
   has_many :users, through: :user_items
   belongs_to :group
 
+  scope :ordered, -> {order :name}
+
 
   # Validations
   # -----------
@@ -25,7 +27,7 @@ class Item < ActiveRecord::Base
 
   # Returns a string representation of the item. 
   def to_s
-    "#{name.downcase.split.map(&:capitalize).join(' ')}: #{number_to_currency(cost, :unit => "$")}"
+    "#{name.split.map(&:capitalize).join(' ')}: #{number_to_currency(cost, :unit => "$")}"
   end
 
   # Returns true if item is shared with specified user.

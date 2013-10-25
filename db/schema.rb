@@ -16,21 +16,21 @@ ActiveRecord::Schema.define(version: 20131025012041) do
   create_table "group_users", force: true do |t|
     t.integer  "group_id"
     t.integer  "user_id"
-    t.decimal  "amount"
+    t.decimal  "payment",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "groups", force: true do |t|
-    t.string   "name"
+    t.string   "name",       null: false
     t.integer  "owner_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "items", force: true do |t|
-    t.decimal  "cost",       precision: 8, scale: 2
-    t.string   "name"
+    t.decimal  "cost",       precision: 8, scale: 2, null: false
+    t.string   "name",                               null: false
     t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20131025012041) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "name"
+    t.string   "name",                                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "email",                  default: "", null: false

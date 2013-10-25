@@ -3,7 +3,7 @@ class CreateGroupUsers < ActiveRecord::Migration
     create_table :group_users do |t|
       t.belongs_to :group
       t.belongs_to :user
-      t.decimal :payment
+      t.decimal :payment, null: false
       
       t.timestamps
     end

@@ -5,9 +5,9 @@ class Group < ActiveRecord::Base
   # Attributes
   # ----------
 
-  has_many :users
+  has_many :group_users, dependent: :destroy
+  has_many :users, throug: :group_users
   has_many :items, dependent: :destroy
-  has_many :payments, dependent: :destroy
   belongs_to :owner, class_name: "User"
 
   # Returns list of group users and group owner
@@ -15,14 +15,14 @@ class Group < ActiveRecord::Base
     [users, owner].flatten(1)
   end
 
-  scope :ordered, -> {order :name}
+  scope :ordered, -> { order :created_at }
 
 
   # Validations
   # -----------
 
   NAME_MAX_LENGTH = 20
-  validates :name, presence: true, length: {minimum: 1, maximum: Group::NAME_MAX_LENGTH}, uniqueness: { scope: :owner }
+  validates :name, presence: true, length: { minimum: 1, maximum: Group::NAME_MAX_LENGTH }, uniqueness: { scope: :owner }
 
   before_validation {self.name.downcase}
 
@@ -32,26 +32,30 @@ class Group < ActiveRecord::Base
 
   # Returns a string represenation of the group.
   def to_s
-    "#{name.downcase.split.map(&:capitalize).join(' ')}"
+    "#{name.split.map(&:capitalize).join(' ')}"
   end
 
   # Returns sum of all payment amounts.
   def get_payments_total
-    payments.sum {|payment| p.amount}
+    group_users.sum { |group_user| group_user.payment }
+  end
+
+  def update_payment(user, amount)
+    group_users.find(user: user).update_attributes(payment: amount)
   end
 
   # returns sum of all item costs.
   def get_items_total
-    items.sum {|item| item.cost}
+    items.sum { |item| item.cost }
   end
 
   def get_user_items_total(user)
-    items.where(user: user).sum {|item| item.cost}
+    items.where(user: user).sum { |item| item.cost }
   end
 
   # Returns true if user is in the group.
   def include_user?(user)
-    all_users.exists? user
+    all_users.exists?(user)
   end 
 
   # Create item with specified name, and add it to the group. Returns the item object. If item with same name already exists in the group, returns the existing item.
