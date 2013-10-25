@@ -5,7 +5,7 @@ BillSplitter::Application.routes.draw do
   # get "log_in" => "logins#new", :as => "log_in"
   # get "log_out" => "logins#destroy", :as => "log_out"
 
-  # Route root to login page
-  # root :to => "logins#new"
+  # Route root to group index
+  root :to => "groups#index"
 
 end
