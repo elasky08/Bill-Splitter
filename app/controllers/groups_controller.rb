@@ -40,7 +40,7 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.update(group_params)
         format.html { redirect_to @group, notice: 'Group updated.' }
-        format.json { head :no_content }
+        format.json { render status: :ok }
       else
         format.html { render action: 'edit' }
         format.json { render json: @group.errors, status: :unprocessable_entity }
@@ -61,6 +61,13 @@ class GroupsController < ApplicationController
   private
     def set_group
       @group = Group.find(params[:id])
+
+      # If group id is invalid redirect, and throw 404 code.
+      unless @group
+        format.html { redirect_to home_url, status: :not_found }
+        format.json { render status: :not_found }
+      end 
+
       # If url slug is old, redirect to current one.
       if request_path != article_path(@article)
         respond_to do |format|

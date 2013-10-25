@@ -73,6 +73,12 @@ class ItemsController < ApplicationController
   private
     def set_item
       @item = Item.find(params[:id])
+
+      # If item id is invalid redirect, and throw 404 code.
+      unless @group
+        format.html { redirect_to home_url, status: :not_found }
+        format.json { render status: :not_found }
+      end 
     end
 
     # Sanitize params.
