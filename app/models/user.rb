@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   # -----------
 
   NAME_MAX_LENGTH = 20
-  validates :name, presence: true, length: {minimum: 1, maximum: User::NAME_MAX_LENGTH}
+  validates :name, presence: true, length: { minimum: 1, maximum: User::NAME_MAX_LENGTH }
 
   
   # Methods

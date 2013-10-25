@@ -24,7 +24,7 @@ class Group < ActiveRecord::Base
   NAME_MAX_LENGTH = 20
   validates :name, presence: true, length: { minimum: 1, maximum: Group::NAME_MAX_LENGTH }, uniqueness: { scope: :owner }
 
-  before_validation {self.name.downcase}
+  before_validation { self.name.downcase }
 
 
   # Methods
@@ -40,11 +40,16 @@ class Group < ActiveRecord::Base
     group_users.sum { |group_user| group_user.payment }
   end
 
+  # Changes user payment to specified amount. Returns true if success, false otherwise.
   def update_payment(user, amount)
-    group_users.find(user: user).update_attributes(payment: amount)
+    if group_users.find(user: user)
+      return group_users.find(user: user).update_attributes(payment: amount)
+    else
+      return false
+    end
   end
 
-  # returns sum of all item costs.
+  # Returns sum of all item costs.
   def get_items_total
     items.sum { |item| item.cost }
   end
@@ -65,12 +70,12 @@ class Group < ActiveRecord::Base
 
   # Adds user to group. Does nothing if user is already in group. Returns true if successful, false otherwise.
   def add_user(user)
-    return group_users.find_or_create_by(user_id: user.id)
+    return group_users.find_or_create_by(user: user)
   end
 
   # Removes user from group. Does nothing if item is not already shared with user.
   def remove_user(user)
-    group_users.delete(user)
+    group_users.delete(user: user)
   end
 
 end

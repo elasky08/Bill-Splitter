@@ -4,6 +4,9 @@ BillSplitter::Application.routes.draw do
     member do
       post 'users', to: 'groups#add_user'
       delete 'users/:email', to: 'groups#remove_user'
+
+      get 'bill', to: 'groups#bill'
+
     end
   end
 
@@ -13,6 +16,8 @@ BillSplitter::Application.routes.draw do
       delete 'users/:email', to: 'items#remove_user'
     end
   end
+
+  resources :bills, only: [:show, ]
 
   # Aliases
   devise_scope :user do

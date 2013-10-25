@@ -7,10 +7,11 @@ class GroupsController < ApplicationController
   before_action :check_owner, only: [:update, :destroy, :add_user]
 
   def index
-    @groups = current_user.groups
+    @groups = current_user.groups.ordered
   end
 
   def show
+    @group = @group.includes(:item)
   end
 
   def new
@@ -18,6 +19,7 @@ class GroupsController < ApplicationController
   end
 
   def edit
+    @group = @group.includes(:user)
   end
 
   def create
