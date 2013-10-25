@@ -66,6 +66,10 @@ class GroupsController < ApplicationController
     end
   end
 
+  def index
+
+  end
+  
   private
     def set_group
       @group = Group.find(params[:id])
