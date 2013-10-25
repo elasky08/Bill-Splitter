@@ -35,13 +35,9 @@ class Item < ActiveRecord::Base
 
   # Shares item with specified user. Does nothing if item is already shared with user. Returns true if successful, false otherwise.
   def add_user(user)
-    if include_user?(user)
-      return true
-    end
-
     # Check that the user is in the item's group.
     if group.include_user?(user)
-      return UserItem.create(user_id: user.id, group_id: group.id)
+      return user_items.find_or_create_by(user_id: user.id)
     else  
       record.errors[:users] << (options[:message] || "is not a member of the item's group")
       return false
@@ -50,8 +46,6 @@ class Item < ActiveRecord::Base
 
   # Unshares item with specified user. Does nothing if item is not already shared with user.
   def remove_user(user)
-    if group.include_user?(user)
-      group.find(user).destroy
-    end
+    user_items.destroy_all(user)
   end
 end

@@ -1,9 +1,12 @@
+# Primary Author: Jonathan Allen (jallen01)
+
 class ItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item, except: [:new]
   before_action :check_permissions, except: new
 
   def new
+    @item = Item.new
   end
 
   def edit
@@ -32,8 +35,8 @@ class ItemsController < ApplicationController
   def remove_user
     respond_to do |format|
       user = User.find_by(username: username)
-      if user && @item.remove_user(user)
-
+      if user && @item.include_user?(user)
+        @item.remove_user(user)
       else
         
       end
@@ -50,9 +53,13 @@ class ItemsController < ApplicationController
       params.require(:item).permit(:name)
     end
 
+    # If current user is not in item's group, redirect to home url.
     def check_permission
-      unless @item.group.include? current_user
-        redirect_to home_path, :alert => "You don't have permission to modify that item."
+      unless @item.group.include_user?(current_user)
+        respond_to do |format|
+          format.html { redirect_to home_path, :alert => "Forbidden to edit item." }
+          format.json { render json: @item, status: :forbidden, location: home_url }
+        end
       end
     end
 end

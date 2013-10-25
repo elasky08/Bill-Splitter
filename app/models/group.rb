@@ -56,26 +56,17 @@ class Group < ActiveRecord::Base
 
   # Create item with specified name, and add it to the group. Returns the item object. If item with same name already exists in the group, returns the existing item.
   def add_item_by_name?(item_name)
-    if items.exists?(name: item.name)
-      return items.find_by(name: item_name)
-    else
-      return items.create(name: item_name, group_id: id)
-    end
+    return items.find_or_create_by(name: item_name)
   end
 
   # Adds user to group. Does nothing if user is already in group. Returns true if successful, false otherwise.
   def add_user(user)
-    if include_user?(user)
-      record.errors[:users] << (options[:message] || "is already a member of the group.")
-      return false
-    else
-      return group_users.create(user_id: user.id)
-    end
+    return group_users.find_or_create_by(user_id: user.id)
   end
 
   # Removes user from group. Does nothing if item is not already shared with user.
   def remove_user(user)
-    group.group_users.destroy_all(user_id: user.id)
+    group_users.delete(user)
   end
 
 end

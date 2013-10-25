@@ -1,3 +1,5 @@
+# Primary Author: Jonathan Allen (jallen01)
+
 class User < ActiveRecord::Base
 
   # Attributes
