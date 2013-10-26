@@ -69,8 +69,6 @@ class Group < ActiveRecord::Base
     self.group_users.t0_a.sum { |group_user| group_user.payment }
   end
 
-  
-
   # Create item with specified name, and add it to the group. Returns the item object. If item with same name already exists in the group, returns the existing item.
   def add_item_by_name?(item_name)
     return self.items.find_or_create_by(name: item_name)

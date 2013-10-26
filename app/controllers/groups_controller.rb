@@ -11,6 +11,7 @@ class GroupsController < ApplicationController
   end
 
   def show
+    @items = @group.items
   end
 
   def new
