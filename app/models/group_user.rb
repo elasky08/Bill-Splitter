@@ -2,6 +2,7 @@
 
 class GroupUser < ActiveRecord::Base
 
+
   # Attributes
   # ----------
 
@@ -12,8 +13,8 @@ class GroupUser < ActiveRecord::Base
   # Validations
   # -----------
 
-  validates :cost, presence: true, currency: true
+  validates :payment, presence: true, currency: true
 
   # If no payment, set to 0.
-  before_validation { payment.amount ||= 0 }
+  before_validation { self.payment ||= 0 }
 end

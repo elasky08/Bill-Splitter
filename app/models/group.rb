@@ -2,8 +2,8 @@
 
 class Group < ActiveRecord::Base
   # Use unique_name as id.
-  # extend FriendlyId
-  # friendly_id :unique_name, use: [:slugged]
+  extend FriendlyId
+  friendly_id :unique_name, use: [:slugged]
 
   # Attributes
   # ----------
@@ -15,7 +15,7 @@ class Group < ActiveRecord::Base
 
   # Returns unique group identifier name.
   def unique_name
-    "#{owner.unique_name}-#{name}"
+    "#{self.owner.unique_name}-#{self.name}"
   end
 
   scope :ordered, -> { order :created_at }
@@ -27,7 +27,13 @@ class Group < ActiveRecord::Base
   NAME_MAX_LENGTH = 20
   validates :name, presence: true, length: { minimum: 1, maximum: Group::NAME_MAX_LENGTH }, uniqueness: { scope: :owner }
 
-  before_validation { self.name.downcase }
+  before_validation { self.name = self.name.downcase }
+
+  # Make sure that owner is a group user
+  def add_owner_group_user
+    self.add_user(self.owner)
+  end
+  after_save :add_owner_group_user
 
 
   # Methods
@@ -35,56 +41,54 @@ class Group < ActiveRecord::Base
 
   # Returns a string represenation of the group.
   def to_s
-    "#{name.split.map(&:capitalize).join(' ')}"
+    "#{self.name.split.map(&:capitalize).join(' ')}"
   end
 
 
   # Returns true if user is in the group.
   def include_user?(user)
-    users.exists?(user)
+    self.users.exists?(user)
   end 
 
   # Adds user to group. Does nothing if user is already in group. Returns true if successful, false otherwise.
   def add_user(user)
-    return group_users.find_or_create_by(user: user)
+    return self.group_users.find_or_create_by(user: user)
   end
 
   def get_group_user(user)
-    return group_users.find_by(user: user)
+    return self.group_users.find_by(user: user)
   end
 
   # Removes user from group. Does nothing if item is not already shared with user.
   def remove_user(user)
-    group_users.delete(user: user)
+    self.group_users.delete(user: user)
   end
 
   # Returns sum of all payment amounts.
   def get_payments_total
-    group_users.sum { |group_user| group_user.payment }
+    self.group_users.t0_a.sum { |group_user| group_user.payment }
   end
 
   
 
   # Create item with specified name, and add it to the group. Returns the item object. If item with same name already exists in the group, returns the existing item.
   def add_item_by_name?(item_name)
-    return items.find_or_create_by(name: item_name)
+    return self.items.find_or_create_by(name: item_name)
   end
 
   # Returns sum of all item costs.
   def get_items_total
-    items.sum { |item| item.cost }
+    self.items.to_a.sum { |item| item.cost }
   end
 
   # Returns the group items shared with specified user.
   def get_user_items(user)
-    items.where(user: user)
+    self.items.where(user: user)
   end
 
   # Returns partial cost of all items shared with specified user.
   def get_user_items_total(user)
-    get_user_items(user).sum { |item| item.cost }
+    self.get_user_items(user).to_a.sum { |item| item.cost }
   end
-
-  
 
 end

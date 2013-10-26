@@ -1,6 +1,8 @@
 # Primary Author: Jonathan Allen (jallen01)
 
 class Item < ActiveRecord::Base
+  # Kind of a hack. Want to use currency print method in to_s method.
+  include ActionView::Helpers::NumberHelper
 
   # Attributes
   # ----------
@@ -19,7 +21,7 @@ class Item < ActiveRecord::Base
   validates :name, presence: true, length: { minimum: 1, maximum: Item::NAME_MAX_LENGTH }, uniqueness: { scope: :group }
   validates :cost, presence: true, currency: true
 
-  before_validation {name.downcase}
+  before_validation { self.name = self.name.downcase }
 
 
   # Methods
@@ -27,29 +29,29 @@ class Item < ActiveRecord::Base
 
   # Returns a string representation of the item. 
   def to_s
-    "#{name.split.map(&:capitalize).join(' ')}: #{number_to_currency(cost, :unit => "$")}"
+    "#{self.name.split.map(&:capitalize).join(' ')}: #{number_to_currency(self.cost, :unit => "$")}"
   end
 
   # Returns true if item is shared with specified user.
   def include_user?(user)
-    users.exists? user
+    self.users.exists?(user)
   end
 
   # Returns the number of users whom this item is shared with
   def count_users
-    users.count
+    self.users.count
   end
 
   # Returns the partial cost of this item for the specified user.
   def user_cost(user)
-    cost * (1.0 / count_users)
+    self.cost * (1.0 / self.count_users)
   end
 
   # Shares item with specified user. Does nothing if item is already shared with user. Returns true if successful, false otherwise.
   def add_user(user)
     # Check that the user is in the item's group.
-    if group.include_user?(user)
-      return user_items.find_or_create_by(user: user)
+    if self.group.include_user?(user)
+      return self.user_items.find_or_create_by(user: user)
     else  
       record.errors[:users] << (options[:message] || "is not a member of the item's group")
       return false
@@ -57,11 +59,11 @@ class Item < ActiveRecord::Base
   end
 
   def get_user_item(user)
-    return user_items.find_by(user: user)
+    return self.user_items.find_by(user: user)
   end
 
   # Unshares item with specified user. Does nothing if item is not already shared with user.
   def remove_user(user)
-    user_items.destroy_all(user: user)
+    self.user_items.destroy_all(user: user)
   end
 end
