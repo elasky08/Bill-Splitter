@@ -16,7 +16,7 @@ class Item < ActiveRecord::Base
   # -----------
 
   NAME_MAX_LENGTH = 20
-  validates :name, presence: true, length: { minimum: 1, maximum: ITEM::NAME_MAX_LENGTH }, uniqueness: { scope: :group }
+  validates :name, presence: true, length: { minimum: 1, maximum: Item::NAME_MAX_LENGTH }, uniqueness: { scope: :group }
   validates :cost, presence: true, currency: true
 
   before_validation {name.downcase}
