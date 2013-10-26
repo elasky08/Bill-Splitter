@@ -1,0 +1,46 @@
+@import "bootstrap";
+@import "bootstrap-responsive";
+
+html {
+  overflow-y: scroll;
+}
+
+body {
+  padding-top: 5px;
+}
+
+section {
+  overflow: auto;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.center {
+  text-align: center;
+}
+
+.center h1 {
+  margin-bottom: 10px;
+}
+
+.hero-unit {
+background-color: #99CCFF;
+width: 40%;
+padding: 5%;
+}
+
+
+td{
+	width:200px;
+}
+th{
+	text-align:left;
+}
+
+hr{
+	border-color: black;
+	border-style: solid none;
+	width:70%;
+}
