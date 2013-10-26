@@ -9,13 +9,13 @@
 <body>
 <header class="navbar navbar-fixed-top navbar-inverse">
       <div class="navbar-inner">
-        <div class="container">
+        <div class="navbar-container">
           <nav>
             <ul class="nav pull-right">
-              <li><%= link_to "Account Settings",    '#' %></li>
-              <li><%= link_to "Sign in", log_out_path %></li>
-              <li><%= link_to "Log out", log_out_path %></li>
-              <li><%= link_to "Sign up", sign_up_path %></li>
+              <% if signed_in? %>
+                <li><%= link_to "Welcome, #{current_user.name}", home_path %></li>
+                <li><%= link_to "Log out", log_out_path %></li>
+              <% end %>
             </ul>
           </nav>
         </div>
