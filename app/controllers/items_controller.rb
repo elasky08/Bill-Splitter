@@ -16,7 +16,7 @@ class ItemsController < ApplicationController
 
   def create
     group = params[:group_id]
-    @item = group.add_item_by_name(item_params[:name])
+    @item = group.edit_item_by_name(item_params[:name], item_params[:cost])
 
     respond_to do |format|
       if @item.save
