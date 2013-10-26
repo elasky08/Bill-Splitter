@@ -3,7 +3,7 @@
 class User < ActiveRecord::Base
   # Use username as id.
   extend FriendlyId
-  friendly_id :username, use: [:slugged]
+  friendly_id :name, use: [:slugged]
 
   # Attributes
   # ----------
