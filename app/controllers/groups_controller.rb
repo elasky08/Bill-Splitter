@@ -2,7 +2,7 @@
 
 class GroupsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_group, except: [:index, :new]
+  before_action :set_group, except: [:index, :new, :create]
   before_action :check_member, only: [:show]
   before_action :check_owner, only: [:edit, :update, :destroy, :add_user]
 
@@ -21,7 +21,7 @@ class GroupsController < ApplicationController
   end
 
   def create
-    @group = current_user.owned_groups.create(group_params)
+    @group = current_user.owned_groups.new(group_params)
 
     respond_to do |format|
       if @group.save

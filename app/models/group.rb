@@ -2,8 +2,8 @@
 
 class Group < ActiveRecord::Base
   # Use unique_name as id.
-  extend FriendlyId
-  friendly_id :name, use: [:slugged]
+  # extend FriendlyId
+  # friendly_id :unique_name, use: [:slugged]
 
   # Attributes
   # ----------
