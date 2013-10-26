@@ -1,32 +1,30 @@
-<h2>Group Name's Bill</h2>
-<br>
-<br>
-<div class="hero-unit">
-  <table>
-    <tbody>
+<div id="show-group">
+  <h2><%= @group.name %></h2>
+  <br>
+  <br>
+  <div class="hero-unit">
+    <table>
+      <% @items.each do |item| %>
         <tr>
-          <td>Item 1</td>
+          <td><%= item.name %></td>
+          <td><%= number_to_currency(item.cost, :unit => "$") %></td>
           <td>
-            <a href="#" class="btn">X</a>
+            <%= link_to 'Edit', item, :class => 'btn' %>
+          </td>
+          <td>
+            <%= link_to 'X', group, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn' %>
           </td>
         </tr>
-
-        <tr>
-          <td>Item 2</td>
-          <td>
-            <a href="#" class="btn">X</a>
-          </td>
-        </tr>
-
-        <tr>
-          <td>Item 3</td>
-          <td>
-            <a href="#" class="btn">X</a>
-          </td>
-        </tr>
-    </tbody>
-  </table>
+      <% end %>
+    </table>
+  </div>
+  <button class="btn btn-large" id="show-add-item">Add Item</button>
+  <a href="#" class="btn btn-large btn-info">Check Please!</a>
+  <div id="add-item-area">
+    <input type="text" />
+    <button class="btn btn-success" id="add-item">Add</button>
+    <button class="btn btn-danger" id="cancel-add-item">Cancel</button>
+  </div>
+  <br /><br />
+  <p><%= link_to "Back to all groups", groups_url, :class => "back-url" %></p>
 </div>
-<a href="#" class="btn btn-large btn-info">Add Item</a> 
-<a href="#" class="btn btn-large btn-success">Check Please!</a><br /><br />
-<p><%= link_to "Back to all groups", groups_url, :class => "back-url" %></p>
