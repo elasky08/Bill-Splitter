@@ -16,13 +16,12 @@ ActiveRecord::Schema.define(version: 20131025174659) do
   create_table "group_users", force: true do |t|
     t.integer  "group_id"
     t.integer  "user_id"
-    t.decimal  "payment",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "groups", force: true do |t|
-    t.string   "name",       null: false
+    t.string   "name"
     t.integer  "owner_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -32,9 +31,17 @@ ActiveRecord::Schema.define(version: 20131025174659) do
   add_index "groups", ["slug"], name: "index_groups_on_slug"
 
   create_table "items", force: true do |t|
-    t.decimal  "cost",       precision: 8, scale: 2, null: false
-    t.string   "name",                               null: false
+    t.decimal  "cost",       precision: 8, scale: 2
+    t.string   "name"
     t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "payments", force: true do |t|
+    t.decimal  "amount"
+    t.integer  "group_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -47,7 +54,7 @@ ActiveRecord::Schema.define(version: 20131025174659) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "name",                                null: false
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "email",                  default: "", null: false
