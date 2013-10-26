@@ -49,8 +49,8 @@ class GroupsController < ApplicationController
   def destroy
     @group.destroy
     respond_to do |format|
-      format.html { redirect_to home_url }
-      format.json { render status: :ok, location: home_url }
+      format.html { redirect_to groups_url }
+      format.json { render status: :ok, location: groups_url }
     end
   end
   
@@ -62,8 +62,8 @@ class GroupsController < ApplicationController
       # If group id is invalid redirect, and throw 404 code.
       unless @group
         respond_to do |format|
-          format.html { redirect_to home_url }
-          format.json { render status: :not_found, location: home_url }
+          format.html { redirect_to groups_url }
+          format.json { render status: :not_found, location: groups_url }
         end
       end 
     end
@@ -77,8 +77,8 @@ class GroupsController < ApplicationController
     def check_member
       unless [@group.users, @group.owner].include?(current_user)
         respond_to do |format|
-          format.html { redirect_to home_url }
-          format.json { render status: :forbidden, location: home_url }
+          format.html { redirect_to groups_url }
+          format.json { render status: :forbidden, location: groups_url }
         end
       end
     end

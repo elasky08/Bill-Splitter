@@ -15,17 +15,8 @@ BillSplitter::Application.routes.draw do
     get "log_in" => "devise/session#new"
     get "log_out" => "devise/sessions#destroy"
   end
-
   
- 
-  get "group_create" => "groups#new"
-  get "group_edit" => "groups#edit"
-  get "group_show" => "groups#show"
-  
-  get "home" => "groups#index", :as => "home"
-
   # Route root to group index
-  resources :groups
   root :to => "groups#index"
 
 
