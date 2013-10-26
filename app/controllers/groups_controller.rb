@@ -58,7 +58,7 @@ class GroupsController < ApplicationController
 
   private
     def set_group
-      @group = Group.find_by_id(params[:id])
+      @group = Group.friendly.find(params[:id])
 
       # If group id is invalid redirect, and throw 404 code.
       unless @group
@@ -76,7 +76,7 @@ class GroupsController < ApplicationController
 
     # If current user is not in group, redirect to home url.
     def check_member
-      unless [@group.users, @group.owner].include?(current_user)
+      unless @group.include_user?(current_user)
         respond_to do |format|
           format.html { redirect_to groups_url }
           format.json { render status: :forbidden, location: groups_url }
@@ -86,7 +86,7 @@ class GroupsController < ApplicationController
 
     # If current user is not group owner, redirect to group url.
     def check_owner
-      unless [@group.owner].include?(current_user)
+      unless @group.owner == current_user
         respond_to do |format|
           format.html { redirect_to @group }
           format.json { render status: :forbidden, location: @group }
