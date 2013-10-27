@@ -61,7 +61,10 @@ class Group < ActiveRecord::Base
 
   # Removes user from group. Does nothing if item is not already shared with user.
   def remove_user(user)
-    self.group_users.delete(user: user)
+    # Cannot remove group owner.
+    if user != self.owner
+      self.group_users.delete(user: user)
+    end
   end
 
   # Returns sum of all payment amounts.
