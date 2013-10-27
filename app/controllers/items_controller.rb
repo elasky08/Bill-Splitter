@@ -3,20 +3,15 @@
 # Controls adding/removing items in a group. All actions only return json.
 class ItemsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_item, except: [:new, :create]
+  before_action :set_group
+  before_action :set_item, except: [:create]
   before_action :check_member
-
-  def new
-    group = params[:group_id]
-    @item = group.items.new
-  end
 
   def edit
   end
 
   def create
-    group = params[:group_id]
-    @item = group.add_item_by_name(item_params[:name])
+    @item = @group.edit_item_by_name(item_params[:name], item_params[:cost])
 
     respond_to do |format|
       if @item.save
@@ -45,13 +40,25 @@ class ItemsController < ApplicationController
   end
 
   private
+    def set_group
+      @group = Group.friendly.find(params[:group_id])
+
+      # If group id is invalid, render 404.
+      unless @group
+        respond_to do |format|
+          format.json { render status: :not_found }
+        end
+      end
+    end
 
     def set_item
       @item = Item.find(params[:id])
 
       # If item id is invalid, render 404.
-      unless @group
-        format.json { render status: :not_found }
+      unless @item
+        respond_to do |format|
+          format.json { render status: :not_found }
+        end
       end 
     end
 
@@ -61,9 +68,8 @@ class ItemsController < ApplicationController
     end
 
     # If current user is not in item's group, render 403.
-    def check_permission
-      group = params[:group_id]
-      unless group.include_user?(current_user)
+    def check_member
+      unless @group.include_user?(current_user)
         respond_to do |format|
           format.json { render status: :forbidden }
         end

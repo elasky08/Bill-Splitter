@@ -3,27 +3,31 @@
 # Controls adding/removing users in a group. Also controls user payments to a group. All actions only return json.
 class GroupUsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_group_user, except: [:create]
+  before_action :set_group
+  before_action :set_user, except: [:create]
 
   # Add user to group
   def create
-    group = Group.find(params[:group_id])
-    user = User.find(params[:id])
+    @user = User.find_by(email: group_user_params[:email])
 
     # If user id or group id is invalid, render 404.
-    unless user && group
-      format.json { render status: :not_found }
+    unless @user
+      respond_to do |format|
+        format.json { render status: :not_found }
+      end
     end 
 
     # If current user does not have permission to add user to group, render 403.
-    unless [group.owner].include?(current_user)
-      format.json { render status: :forbidden }
+    unless @group.owner == current_user
+      respond_to do |format|
+        format.json { render status: :forbidden }
+      end
     end
 
     respond_to do |format|
-      group_user = group.add_user(user)
-      if group_user
-        format.json { render json: group_user, status: :created }
+      @group_user = @group.add_user(user)
+      if @group_user
+        format.json { render json: @group_user, status: :created }
       else
         format.json { render status: :unprocessable_entity }
       end
@@ -33,14 +37,14 @@ class GroupUsersController < ApplicationController
   # Show user personal bill
   def show
     @group_user = @group.get_group_user(@user)
-    @items = @group.get_user_items(@user).include(:user)
+    @items = @group.get_user_items(@user)
     @items_total = @group.get_user_items_total(@user)
   end
 
   # Update user payment to group
   def update
     # If current user does not have permission to update payment, render 403.
-    unless [@user].include?(current_user)
+    unless @user == current_user
       format.json { render status: :forbidden }
     end
 
@@ -68,12 +72,22 @@ class GroupUsersController < ApplicationController
   end
 
   private
-    def set_group_user
-      @group = Group.find(params[:group_id])
-      @user = User.find(params[:id])
+    def set_group
+      @group = Group.friendly.find(params[:group_id])
 
-      # If group or user does not exist, render 404.
-      unless @group && @user
+      # If group does not exist, render 404.
+      unless @group
+        respond_to do |format|
+          format.json { render status: :not_found }
+        end
+      end
+    end
+
+    def set_user
+      @user = User.friendly.find(params[:id])
+
+      # If user does not exist, render 404.
+      unless @user
         respond_to do |format|
           format.json { render status: :not_found }
         end
@@ -82,6 +96,6 @@ class GroupUsersController < ApplicationController
 
     # Sanitize params.
     def group_user_params
-      params.require(:group_user).permit(:payment)
+      params.require(:group_user).permit(:email, :payment)
     end
 end
