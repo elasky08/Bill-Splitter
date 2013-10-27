@@ -43,7 +43,7 @@ $(document).ready(function() {
 		$('.alert').fadeOut();
 	});
 
-	$('#get-bill').click(function() {
+	$('.get-bill').click(function() {
 		getBillSummary();
 	});
 
