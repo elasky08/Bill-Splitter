@@ -1,9 +1,6 @@
 # Primary Author: Jonathan Allen (jallen01)
 
 class Group < ActiveRecord::Base
-  # Use unique_name as id.
-  extend FriendlyId
-  friendly_id :unique_name, use: [:slugged]
 
   # Attributes
   # ----------
@@ -83,7 +80,7 @@ class Group < ActiveRecord::Base
 
   # Returns the group items shared with specified user.
   def get_user_items(user)
-    self.items.where(user: user)
+    self.items.joins(:user_items).where(:user_items => { user: user })
   end
 
   # Returns partial cost of all items shared with specified user.

@@ -73,7 +73,7 @@ class GroupUsersController < ApplicationController
 
   private
     def set_group
-      @group = Group.friendly.find(params[:group_id])
+      @group = Group.find(params[:group_id])
 
       # If group does not exist, render 404.
       unless @group
@@ -84,7 +84,7 @@ class GroupUsersController < ApplicationController
     end
 
     def set_user
-      @user = User.friendly.find(params[:id])
+      @user = User.find(params[:id])
 
       # If user does not exist, render 404.
       unless @user

@@ -63,7 +63,7 @@ class GroupsController < ApplicationController
 
   private
     def set_group
-      @group = Group.friendly.find(params[:id])
+      @group = Group.find(params[:id])
 
       # If group id is invalid redirect, and throw 404 code.
       unless @group

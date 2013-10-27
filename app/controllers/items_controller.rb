@@ -41,7 +41,7 @@ class ItemsController < ApplicationController
 
   private
     def set_group
-      @group = Group.friendly.find(params[:group_id])
+      @group = Group.find(params[:group_id])
 
       # If group id is invalid, render 404.
       unless @group
