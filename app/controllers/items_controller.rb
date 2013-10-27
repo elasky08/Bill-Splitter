@@ -15,7 +15,7 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.save
-        format.json { render status: :created }
+        format.json { render json: @item, status: :created }
       else
         format.json { render json: @item.errors, status: :unprocessable_entity }
       end
@@ -25,7 +25,7 @@ class ItemsController < ApplicationController
   def update
     respond_to do |format|
       if @item.update(item_params)
-        format.json { render status: :ok }
+        format.json { render json: @item, status: :ok }
       else
         format.json { render json: @item.errors, status: :unprocessable_entity }
       end
@@ -35,7 +35,7 @@ class ItemsController < ApplicationController
   def destroy
     @item.destroy
     respond_to do |format|
-      format.json { render status: :ok }
+      format.json { render json: {}, status: :ok }
     end
   end
 
@@ -46,7 +46,7 @@ class ItemsController < ApplicationController
       # If group id is invalid, render 404.
       unless @group
         respond_to do |format|
-          format.json { render status: :not_found }
+          format.json { render json: {}, status: :not_found }
         end
       end
     end
@@ -57,21 +57,21 @@ class ItemsController < ApplicationController
       # If item id is invalid, render 404.
       unless @item
         respond_to do |format|
-          format.json { render status: :not_found }
+          format.json { render json: {}, status: :not_found }
         end
       end 
     end
 
     # Sanitize params.
     def item_params
-      params.require(:item).permit(:name)
+      params.require(:item).permit(:name, :cost)
     end
 
     # If current user is not in item's group, render 403.
     def check_member
       unless @group.include_user?(current_user)
         respond_to do |format|
-          format.json { render status: :forbidden }
+          format.json { render json: {}, status: :forbidden }
         end
       end
     end

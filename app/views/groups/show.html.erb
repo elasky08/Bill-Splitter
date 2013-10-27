@@ -3,16 +3,15 @@
   <br>
   <br>
   <div class="hero-unit">
-    <table>
+    <table id="group-items">
       <% @items.each do |item| %>
         <tr>
           <td><%= item.name %></td>
           <td><%= number_to_currency(item.cost, :unit => "$") %></td>
           <td>
-            <%= link_to 'Edit', item, :class => 'btn' %>
           </td>
           <td>
-            <%= link_to 'X', group, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn' %>
+
           </td>
         </tr>
       <% end %>
@@ -21,9 +20,11 @@
   <button class="btn btn-large" id="show-add-item">Add Item</button>
   <a href="#" class="btn btn-large btn-info">Check Please!</a>
   <div id="add-item-area">
-    <input type="text" />
+    <input type="text" id="item-name" placeholder="Item Name" />
+    <input type="text" id="item-cost" placeholder="Cost"/>
     <button class="btn btn-success" id="add-item">Add</button>
     <button class="btn btn-danger" id="cancel-add-item">Cancel</button>
+    <div class="alert alert-error">Enter a valid numeric cost</div>
   </div>
   <br /><br />
   <p><%= link_to "Back to all groups", groups_url, :class => "back-url" %></p>

@@ -10,5 +10,17 @@
 	#add-item-area {
 		display: none;
 		margin-top: 10px;
+		width: 65%;
+		height: 55px;
+
+		#item-cost {
+			width: 15%;
+		}
+
+		.alert {
+			display: none;
+			margin-top: 10px;
+			width: 65%;
+		}
 	}
 }
