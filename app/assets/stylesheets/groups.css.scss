@@ -3,6 +3,10 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #show-group {
+	h2 {
+		display: inline-block;
+	}
+
 	input[type="text"] {
 		margin: 0px;
 	}
@@ -21,6 +25,12 @@
 			display: none;
 			margin-top: 10px;
 			width: 65%;
+		}
+	}
+
+	.modal-body {
+		input[type="text"] {
+			width: 30px;
 		}
 	}
 }

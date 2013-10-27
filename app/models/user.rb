@@ -1,9 +1,6 @@
 # Primary Author: Jonathan Allen (jallen01)
 
 class User < ActiveRecord::Base
-  # Use username as id.
-  extend FriendlyId
-  friendly_id :unique_name, use: [:slugged]
 
   # Attributes
   # ----------

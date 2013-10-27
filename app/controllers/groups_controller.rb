@@ -40,7 +40,7 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.update(group_params)
         format.html { redirect_to @group }
-        format.json { render status: :ok }
+        format.json { render json: @group, status: :ok }
       else
         format.html { render action: 'edit' }
         format.json { render json: @group.errors, status: :unprocessable_entity }
@@ -52,20 +52,25 @@ class GroupsController < ApplicationController
     @group.destroy
     respond_to do |format|
       format.html { redirect_to groups_url }
-      format.json { render status: :ok, location: groups_url }
+      format.json { render json: {}, status: :ok, location: groups_url }
     end
   end
   
+  def cost
+    respond_to do |format|
+      format.json { render text: @group.get_items_total, status: :ok }
+    end
+  end
 
   private
     def set_group
-      @group = Group.friendly.find(params[:id])
+      @group = Group.find(params[:id])
 
       # If group id is invalid redirect, and throw 404 code.
       unless @group
         respond_to do |format|
           format.html { redirect_to groups_url }
-          format.json { render status: :not_found, location: groups_url }
+          format.json { render json: {}, status: :not_found, location: groups_url }
         end
       end 
     end
@@ -80,7 +85,7 @@ class GroupsController < ApplicationController
       unless @group.include_user?(current_user)
         respond_to do |format|
           format.html { redirect_to groups_url }
-          format.json { render status: :forbidden, location: groups_url }
+          format.json { render json: {}, status: :forbidden, location: groups_url }
         end
       end
     end

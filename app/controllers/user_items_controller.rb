@@ -39,7 +39,7 @@ class UserItemsController < ApplicationController
 
   private
     def set_item
-      @item = Item.friendly.find(params[:item_id])
+      @item = Item.find(params[:item_id])
 
       # If item id is invalid, render 404.
       unless @item
@@ -50,7 +50,7 @@ class UserItemsController < ApplicationController
     end
 
     def set_user
-      @user = User.friendly.find(params[:id])
+      @user = User.find(params[:id])
 
       # If user or item does not exist, render 404.
       unless @user
