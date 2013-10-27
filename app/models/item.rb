@@ -11,7 +11,7 @@ class Item < ActiveRecord::Base
   has_many :users, through: :user_items
   belongs_to :group
 
-  scope :ordered, -> {order :name}
+  scope :ordered, -> { order :name }
 
 
   # Validations
