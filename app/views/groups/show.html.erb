@@ -18,7 +18,7 @@
     </table>
   </div>
   <button class="btn btn-large" id="show-add-item">Add Item</button>
-  <a href="#" class="btn btn-large btn-info">Check Please!</a>
+  <%= link_to "Check Please!", @bill_url, :class => "btn btn-large btn-info" %>
   <div id="add-item-area">
     <input type="text" id="item-name" placeholder="Item Name" />
     <input type="text" id="item-cost" placeholder="Cost"/>

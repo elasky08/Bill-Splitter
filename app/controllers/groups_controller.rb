@@ -12,6 +12,7 @@ class GroupsController < ApplicationController
 
   def show
     @items = @group.items
+    @bill_url = group_user_url(@group, @user)
   end
 
   def new
