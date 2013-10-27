@@ -3,14 +3,14 @@
 <br>
 <div class="hero-unit">
   <h3>
-  Current Groups
+  Your Groups
   </h3>
   <table >
       <% @groups.each do |group| %>
         <tr>
           <td><%= link_to group, group %></td>
           <td>
-            <%= link_to 'X', group, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn' %>
+            <%= link_to 'X', group, method: :delete, data: { confirm: 'Are you sure you want to delete this group?' }, :class => 'btn' %>
           </td>
         </tr>
       <% end %>
@@ -18,6 +18,6 @@
 
 </div>
 
-<%= link_to "Add Group", new_group_url, :class => "btn btn-large btn-info" %>
+<%= link_to "Create a Group", new_group_url, :class => "btn btn-large btn-info" %>
 
 

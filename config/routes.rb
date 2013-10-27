@@ -16,6 +16,9 @@ BillSplitter::Application.routes.draw do
     get "log_out" => "devise/sessions#destroy"
   end
   
+  # Get costs of a group
+  get "groups/:id/cost", to: "groups#cost", as: :group_cost
+
   # Route root to group index
   root :to => "groups#index"
 

@@ -43,7 +43,7 @@ class Item < ActiveRecord::Base
   end
 
   # Returns the partial cost of this item for the specified user.
-  def user_cost(user)
+  def user_cost
     self.cost * (1.0 / self.count_users)
   end
 

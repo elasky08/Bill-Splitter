@@ -18,14 +18,8 @@ $(document).ready(function() {
 		} else {
 			itemCost = parseFloat(itemCost);
 			disableInput(true);
-			var url = window.location.pathname;
-			if (url.slice(-1) === '/') {
-				url += 'items/';
-			} else {
-				url += '/items/';
-			}
 			request = $.post(
-				url,
+				getURL() + '/items/',
 				{ item: { name: itemName, cost: itemCost }},
 				function(data) {
 					$addItemArea.find('input').val('');
@@ -49,6 +43,18 @@ $(document).ready(function() {
 		$('.alert').fadeOut();
 	});
 
+	$('#get-bill').click(function() {
+		getBillSummary();
+	});
+
+	var getURL = function() {
+		var url = window.location.pathname;
+		if (url.slice(-1) === '/') {
+			url = url.substring(0, url.length - 1);
+		} 
+		return url;
+	}
+
 	var disableInput = function(isDisabled) {
 		$addItemArea.find('input').attr('disabled', isDisabled);
 		$('#add-item').attr('disabled', isDisabled);
@@ -66,5 +72,28 @@ $(document).ready(function() {
 		var costStr = '$' + parseFloat(cost).toFixed(2);
 		var $tr = $('<tr />').append($('<td />').text(name)).append($('<td />').text(costStr));
 		$('#group-items').append($tr);
+	};
+
+	var getBillSummary = function() {
+		$.get(getURL() + '/cost/', function(data) {
+			populateBillSummary(data);
+			$('#bill-modal').modal();
+		}, 'json');
+	};
+
+	var populateBillSummary = function(cost) {
+		$('#item-total').text(cost.toFixed(2));
+		computeBillSummary();
+	};
+
+	var computeBillSummary = function() {
+		var subtotal = parseFloat($('#item-total').text());
+		var tax = parseFloat($('#tax-pct').val());
+		var tip = parseFloat($('#tip-pct').val());
+		var numPeople = parseInt($('#num-people').val());
+		var total = subtotal * (1 + tax / 100 + tip / 100);
+		var split = total / numPeople;	
+		$('#total-bill').text(total.toFixed(2));
+		$('#split-cost').text(split.toFixed(2));
 	};
 });

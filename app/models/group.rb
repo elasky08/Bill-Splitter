@@ -44,7 +44,6 @@ class Group < ActiveRecord::Base
     "#{self.name.split.map(&:capitalize).join(' ')}"
   end
 
-
   # Returns true if user is in the group.
   def include_user?(user)
     self.users.exists?(user)
@@ -69,14 +68,12 @@ class Group < ActiveRecord::Base
 
   # Returns sum of all payment amounts.
   def get_payments_total
-    self.group_users.t0_a.sum { |group_user| group_user.payment }
+    self.group_users.to_a.sum { |group_user| group_user.payment }
   end
 
   # Create item with specified name, and add it to the group. Returns the item object. 
-  # If item with same name already exists in the group, returns the existing item.
   def edit_item_by_name(name, cost)
     item = self.items.create(name: name, cost: cost)
-    # item = self.items.create_with(cost: cost).find_or_create_by(name: name)
   end
 
   # Returns sum of all item costs.
