@@ -1,4 +1,5 @@
-$(document).ready(function() {	
+$(document).ready(function() {
+	
 	var $addItemArea = $('#add-item-area');
 	var MAX_LENGTH = 20;
 	var request;
@@ -12,9 +13,9 @@ $(document).ready(function() {
 		var itemName = $('#item-name').val();
 		var itemCost = extractCost($('#item-cost').val());
 		if (itemName.length === 0 || itemName.length > MAX_LENGTH) {
-			$('.alert').text('Name must be 1-20 characters in length').fadeIn();
+			$('#add-item-error').text('Name must be 1-20 characters in length').fadeIn();
 		} else if (isNaN(itemCost)) {
-			$('.alert').text('Cost must be a valid number').fadeIn();
+			$('#add-item-error').text('Cost must be a valid number').fadeIn();
 		} else {
 			itemCost = parseFloat(itemCost);
 			disableInput(true);
@@ -36,15 +37,23 @@ $(document).ready(function() {
 			request.abort();
 		}
 		$addItemArea.slideUp('fast').find('input').val('');
-		$('.alert').hide();
+		$('#add-item-error').hide();
 	});
 
 	$addItemArea.find('input').focus(function() {
-		$('.alert').fadeOut();
+		$('#add-item-error').fadeOut();
 	});
 
-	$('.get-bill').click(function() {
+	$('#get-bill').click(function() {
 		getBillSummary();
+	});
+
+	$('#recompute-bill').click(function() {
+		computeBillSummary();
+	});
+
+	$('#bill-modal input[type="text"]').focus(function() {
+		$('#invalid-bill-input-error').fadeOut();
 	});
 
 	var getURL = function() {
@@ -53,7 +62,7 @@ $(document).ready(function() {
 			url = url.substring(0, url.length - 1);
 		} 
 		return url;
-	}
+	};
 
 	var disableInput = function(isDisabled) {
 		$addItemArea.find('input').attr('disabled', isDisabled);
@@ -88,9 +97,15 @@ $(document).ready(function() {
 
 	var computeBillSummary = function() {
 		var subtotal = parseFloat($('#item-total').text());
-		var tax = parseFloat($('#tax-pct').val());
-		var tip = parseFloat($('#tip-pct').val());
-		var numPeople = parseInt($('#num-people').val());
+		var tax = $('#tax-pct').val();
+		var tip = $('#tip-pct').val();
+		var numPeople = $('#num-people').val();
+		if (isNaN(tax) || isNaN(tip) || isNaN(numPeople)) {
+			$('#invalid-bill-input-error').fadeIn();
+		}
+		tax = parseFloat(tax);
+		tip = parseFloat(tip);
+		numPeople = parseInt(numPeople); 
 		var total = subtotal * (1 + tax / 100 + tip / 100);
 		var split = total / numPeople;	
 		$('#total-bill').text(total.toFixed(2));

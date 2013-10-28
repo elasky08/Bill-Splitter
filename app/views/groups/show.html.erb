@@ -19,13 +19,13 @@
     </table>
   </div>
   <button class="btn btn-large" id="show-add-item">Add Item</button>
-  <button class="btn btn-large btn-info get-bill">Check Please!</button>
+  <button class="btn btn-large btn-info" id="get-bill">Check Please!</button>
   <div id="add-item-area">
     <input type="text" id="item-name" placeholder="Item Name" />
     <input type="text" id="item-cost" placeholder="Cost"/>
     <button class="btn btn-success" id="add-item">Add</button>
     <button class="btn btn-danger" id="cancel-add-item">Cancel</button>
-    <div class="alert alert-error"></div>
+    <div class="alert alert-error" id="add-item-error"></div>
   </div>
   <br /><br />
   <p><%= link_to "Back to all groups", groups_url, :class => "back-url" %></p>
@@ -38,13 +38,14 @@
           <h4 class="modal-title">Compute your bill</h4>
         </div>
         <div class="modal-body">
+          <div class="alert alert-error" id="invalid-bill-input-error">One or more inputs are invalid</div>
           <p>Total items: $<span id="item-total"></span></p>
-          <p>Tax: <input type="text" id="tax-pct" value="7.25"/> % = $<span id="tax-amt"></span></p>
-          <p>Tip: <input type="text" id="tip-pct" value="15" /> % = $<span id="tip-amt"></span></p>
-          <p>Total Bill: <span id="total-bill"></span></p>
+          <p>Tax: <input type="text" id="tax-pct" value="7.25"/> % </p>
+          <p>Tip: <input type="text" id="tip-pct" value="15" /> % </p>
+          <p>Total Bill: $<span id="total-bill"></span></p>
           <p>Split across <input type="text" id="num-people" value="4"/> people</p>
           <p class="bold">Each person owes $<span id="split-cost"></span></p>
-          <button class="btn btn-info get-bill">Compute new bill</button>
+          <button class="btn btn-info" id="recompute-bill">Compute new bill</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
