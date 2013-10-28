@@ -3,7 +3,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group, except: [:index, :new, :create]
-  before_action :check_member, only: [:show]
+  before_action :check_member, only: [:show, :cost]
   before_action :check_owner, only: [:edit, :update, :destroy, :add_user]
 
   def index

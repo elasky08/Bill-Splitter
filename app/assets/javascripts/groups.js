@@ -25,7 +25,7 @@ $(document).ready(function() {
 				function(data) {
 					$addItemArea.find('input').val('');
 					disableInput(false);
-					newRow(data.name, data.cost);
+					newRow(data.id, data.name, data.cost);
 				},
 				'json'
 			);
@@ -56,6 +56,17 @@ $(document).ready(function() {
 		$('#invalid-bill-input-error').fadeOut();
 	});
 
+	$('#group-items').on('click', '.delete-item', function() {
+		var url = $(this).attr('href');
+		var $line = $(this).parents('tr');
+		$.post(url, { _method: 'delete' }, function() {
+			$line.fadeOut(function() {
+				$line.remove();
+			});
+		});
+		return false;
+	});
+
 	var getURL = function() {
 		var url = window.location.pathname;
 		if (url.slice(-1) === '/') {
@@ -77,9 +88,10 @@ $(document).ready(function() {
 		return modifiedCostString;
 	};
 
-	var newRow = function(name, cost) {
+	var newRow = function(id, name, cost) {
 		var costStr = '$' + parseFloat(cost).toFixed(2);
-		var $tr = $('<tr />').append($('<td />').text(name)).append($('<td />').text(costStr));
+		var $deleteLink = $('<td />').append($('<a />').attr('href', getURL() + '/items/' + id).text('Delete').addClass('delete-item'));
+		var $tr = $('<tr />').append($('<td />').text(name)).append($('<td />').text(costStr)).append($deleteLink);
 		$('#group-items').append($tr);
 	};
 

@@ -6,8 +6,11 @@ class ItemsController < ApplicationController
   before_action :set_group
   before_action :set_item, except: [:create]
   before_action :check_member
-
-  def edit
+  
+  def show
+    respond_to do |format|
+      format.json { render json: @item, status: :ok }
+    end
   end
 
   def create

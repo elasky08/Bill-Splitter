@@ -4,7 +4,7 @@ BillSplitter::Application.routes.draw do
   devise_for :users
   resources :groups do
     resources :group_users, only: [:show, :create, :destroy], path: 'users', as: 'users'
-    resources :items, except: [:index, :show] do
+    resources :items, except: [:index, :edit] do
       resources :user_items, only: [:create, :destroy], path: 'users', as: 'users'
     end
   end
