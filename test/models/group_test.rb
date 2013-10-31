@@ -1,7 +1,8 @@
 require 'test_helper'
 
 class GroupTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "create group" do
+    group = FactoryGirl.build(:group)
+    
+  end
 end

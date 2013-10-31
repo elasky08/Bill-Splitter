@@ -1,0 +1,13 @@
+<h2>Add User to item</h2>
+<br>
+<br>
+<div class="hero-unit">
+  <%= form_for @user_item do |f| %>
+    <%= f.label :email %> <%= f.text_field :email %>
+    <%= f.label :cost %> <%= f.text_field :cost %>
+
+    <%= f.submit "Save Item" %>
+  <% end%>
+
+  <%= link_to "Add User", new_group_item_user_url(@group, @item) %>
+</div>
