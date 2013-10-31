@@ -1,7 +1,7 @@
 <!-- Primary Author: Charles Liu (cliu2014) -->
 <div id="show-group">
-  <h2><%= @group.name %></h2>
-  <span><%= link_to "(edit group name)", edit_group_url(@group) %></span>
+  <%= content_tag :h2 @group.name, id: "group-name" %>
+  <span><%= link_to "edit group", edit_group_url(@group), remote: true, class: "edit-group-link" %></span>
   <br>
   <br>
   

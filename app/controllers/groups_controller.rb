@@ -16,7 +16,7 @@ class GroupsController < ApplicationController
   end
 
   def new
-    @group = current_user.owned_groups.new()
+    @group = current_user.owned_groups.new
   end
 
   def edit
@@ -28,9 +28,11 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.save
         format.html { redirect_to @group }
+        format.js
         format.json { render action: 'show', status: :created, location: @group }
       else
         format.html { render action: 'new' }
+        format.js
         format.json { render json: @group.errors, status: :unprocessable_entity }
       end
     end
@@ -40,9 +42,11 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.update(group_params)
         format.html { redirect_to @group }
+        format.js
         format.json { render json: @group, status: :ok }
       else
         format.html { render action: 'edit' }
+        format.js
         format.json { render json: @group.errors, status: :unprocessable_entity }
       end
     end

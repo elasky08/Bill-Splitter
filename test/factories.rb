@@ -10,7 +10,7 @@ FactoryGirl.define do
     password_confirmation "abcd1234"
   end
 
-  sequance :group_name do |n|
+  sequence :group_name do |n|
     "Group #{n}"
   end
 

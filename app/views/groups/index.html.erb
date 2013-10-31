@@ -11,7 +11,7 @@
         <tr>
           <td><%= link_to group, group %></td>
           <td>
-            <%= link_to 'X', group, method: :delete, data: { confirm: 'Are you sure you want to delete this group?' }, :class => 'btn' %>
+            <%= link_to 'X', group, method: :delete, data: { confirm: 'Are you sure you want to delete this group?' }, class: 'btn' %>
           </td>
         </tr>
       <% end %>
@@ -19,6 +19,6 @@
 
 </div>
 
-<%= link_to "Create a Group", new_group_url, :class => "btn btn-large btn-info" %>
+<%= link_to "Create a Group", new_group_url, class: "btn btn-large btn-info", remote: true %>
 
 
