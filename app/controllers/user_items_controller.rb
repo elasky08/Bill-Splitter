@@ -22,6 +22,7 @@ class UserItemsController < ApplicationController
       @user_item = @item.add_user(@user)
       if @user_item
         format.json { render json: @user_item, status: :created }
+        format.js { render "groups/show" }
       else
         format.json { render status: :unprocessable_entity}
       end

@@ -4,18 +4,9 @@
   <span><%= link_to "(edit group name)", edit_group_url(@group) %></span>
   <br>
   <br>
-  <div class="hero-unit">
-    <table id="group-items">
-      <% @items.each do |item| %>
-        <tr>
-          <td><%= item.name %></td>
-          <td><%= number_to_currency(item.cost, :unit => "$") %></td>
-          <td><%= link_to 'Delete', group_item_path(@group, item), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'delete-item' %>
-          </td>
-        </tr>
-      <% end %>
-    </table>
-  </div>
+  
+  <%= render "group_items" %>
+
   <button class="btn btn-large" id="show-add-item">Add Item</button>
   <button class="btn btn-large btn-info" id="get-bill">Check Please!</button>
   <div id="add-item-area">
@@ -28,24 +19,6 @@
   <br /><br />
   <p><%= link_to "Back to all groups", groups_url, :class => "back-url" %></p>
 
-  <div class="modal fade" id="bill-modal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Compute your bill</h4>
-        </div>
-        <div class="modal-body">
-          <div class="alert alert-error" id="invalid-bill-input-error">One or more inputs are invalid</div>
-          <p>Total items: $<span id="item-total"></span></p>
-          <p>Tax: <input type="text" id="tax-pct" value="7.25"/> % </p>
-          <p>Tip: <input type="text" id="tip-pct" value="15" /> % </p>
-          <p>Total Bill: $<span id="total-bill"></span></p>
-          <p>Split across <input type="text" id="num-people" value="4"/> people</p>
-          <p class="bold">Each person owes $<span id="split-cost"></span></p>
-          <button class="btn btn-info" id="recompute-bill">Compute new bill</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+  <%= render "show_bill" %>
+
 </div>
