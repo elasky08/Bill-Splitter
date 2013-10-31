@@ -1,0 +1,12 @@
+<div class="hero-unit">
+  <table id="group-items">
+    <% @items.each do |item| %>
+      <tr>
+        <td><%= item.name %></td>
+        <td><%= number_to_currency(item.cost, :unit => "$") %></td>
+        <td><%= link_to 'Delete', group_item_path(@group, item), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'delete-item' %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>

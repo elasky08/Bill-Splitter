@@ -13,6 +13,7 @@ class GroupUsersController < ApplicationController
     # If user id or group id is invalid, render 404.
     unless @user
       respond_to do |format|
+        format.js { "groups/" }
         format.json { render status: :not_found }
       end
     end 

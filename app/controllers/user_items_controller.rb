@@ -14,6 +14,7 @@ class UserItemsController < ApplicationController
     # If user email is invalid, render 404.
     unless @user
       respond_to do |format|
+        format.html { render  }
         format.json { render status: :not_found }
       end
     end
@@ -22,7 +23,7 @@ class UserItemsController < ApplicationController
       @user_item = @item.add_user(@user)
       if @user_item
         format.json { render json: @user_item, status: :created }
-        format.js { render "groups/show" }
+        format.js { render "groups/show_bill" }
       else
         format.json { render status: :unprocessable_entity}
       end
