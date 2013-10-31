@@ -29,3 +29,16 @@
     </div>
   </div>
 <% end %>
+
+
+
+
+<table class="table">
+  <% @group.users.each do |user| %>
+    <tr>
+      <%= content_tag :td, user.name %>
+      <%= content_tag :td, user.email %>
+      <%= button_to "Remove", group_user_url(@group, @user), method: :delete, remote: true %>
+    </tr>
+  <% end %>
+</table>

@@ -1,12 +1,20 @@
+<!-- Primary Author: Paula Jacobs (paulaj) -->
+
 <div class="modal fade" id="bill-modal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Compute your bill</h4>
+        <h4 class="modal-title">Personal Bill</h4>
       </div>
       <div class="modal-body">
         <div class="alert alert-error" id="invalid-bill-input-error">One or more inputs are invalid</div>
+
+        
+        @items.each do 
+
+
+
         <p>Total items: $<span id="item-total"></span></p>
         <p>Tax: <input type="text" id="tax-pct" value="7.25"/> % </p>
         <p>Tip: <input type="text" id="tip-pct" value="15" /> % </p>
@@ -18,3 +26,52 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<h2>Your Personal Bill</h2>
+<br>
+<br>
+<div class="hero-unit">
+  <table class="table">
+  	<thead>
+      <tr>
+        <th>Your Food</th>
+        <th>What You Owe</th>
+      </tr>
+    </thead>	
+    <tbody>
+
+      <% @items.each do |item| %>
+
+        <tr>
+          <td><%=item%></td>
+          <td>
+            <%=item.cost%>
+          </td>
+        </tr>
+
+      <% end %> 
+    </tbody>
+  </table>
+</div>
+
+<hr>
+  <table>
+  	
+    <tbody>
+        <tr>
+          <td>You Owe: </td>
+          <td>
+          	<%=@items_total%></td>
+        </tr>
+
+ 
+    </tbody>
+  </table>
+ 
+  
+  <br/>
+
+
+ <a href="#" class="btn btn-large btn-danger">Back to Order</a> 
+ <a href="#" class="btn btn-large btn-success">Finish Payment</a> 
+
