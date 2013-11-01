@@ -1,21 +1,15 @@
 <!-- Primary Author: Jonathan Allen (jallen01) -->
-<!-- Group users modal -->
+<!-- Group users list -->
 
-
-
-<div class="modal-body">
-  <table class="table">
-    <% @group.users.each do |user| %>
-      <tr>
-        <%= content_tag :td, user.name %>
-        <%= content_tag :td, user.email %>
-        <%= button_to "Remove", group_user_url(@group, @user), method: :delete, remote: true %>
-      </tr>
-    <% end %>
-  </table>
-
-  <%= render "group_users/form", group_user: @new_group_user %>
-</div>
+<table class="table">
+  <% @group.users.each do |user| %>
+    <tr>
+      <%= content_tag :td, user.name %>
+      <%= content_tag :td, user.email %>
+      <%= button_to "Remove", group_user_url(@group, user), method: :delete, remote: true %>
+    </tr>
+  <% end %>
+</table>
 
 
 

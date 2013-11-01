@@ -8,6 +8,11 @@
     </div>
 
     <%= f.hidden_field :name, id: "original_group_name" %>
+
+    <% unless group.new_record? %>
+      <%= render "group_users/list" %>
+      <%= render "group_users/form", group_user: @new_group_user %>
+    <% end %>
   </div>
 
   <%= render "layouts/modal_form_footer", f: f %>
