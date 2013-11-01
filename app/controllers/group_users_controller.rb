@@ -7,7 +7,7 @@ class GroupUsersController < ApplicationController
   before_action :set_user, except: [:index, :create]
 
   def index
-    @new_group_user = @group.users.new
+    @new_group_user = GroupUser.new
   end
 
   # Add user to group
@@ -76,7 +76,7 @@ class GroupUsersController < ApplicationController
 
   private
     def set_group
-      @group = Group.includes(:group_users, :users).find(id: params[:group_id])
+      @group = Group.includes(:group_users, :users).find_by(id: params[:group_id])
 
       # If group does not exist, render 404.
       unless @group
@@ -87,7 +87,7 @@ class GroupUsersController < ApplicationController
     end
 
     def set_user
-      @user = User.find(id: params[:id])
+      @user = User.find_by(id: params[:id])
 
       # If user does not exist, render 404.
       unless @user

@@ -1,10 +1,7 @@
 <!-- Primary Author: Jonathan Allen (jallen01) -->
-
 <!-- New group modal -->
-<div class="modal-header">
-  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-  <h4 class="modal-title">New Group</h4>
-</div>
+
+<%= render "layouts/modal_header", modal_title: "New Group" %>
 
 <%= form_for @new_group, remote: true do |f| %>
 
@@ -14,15 +11,12 @@
 
     <div class="form-group">
       <%= f.label :name %>
-      <%= f.text_field :name, class: "form-control" %>
+      <%= f.text_field :name, class: "form-control", placeholder: "Group Name" %>
     </div>
 
   </div>
 
-  <div class="modal-footer">
-    <button class="btn btn-default" data-dismiss="modal">Close</button>
-    <%= f.submit class: "btn btn-primary" %>
-  </div>
+  <%= render "layouts/modal_form_footer", f: f %>
 
 <% end %>
 

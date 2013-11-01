@@ -1,6 +1,9 @@
+// Primary Author: Jonathan Allen (jallen01)
+
+// Hide modal if update sucessful, otherwise render edit.
 <% if @item.errors.any %>
-    <%= render "edit" %>
+    $("#edit-item-modal .modal-content").html('<%= j render "edit" %>')
 <% else %>
-    $("#edit-item-modal").remove()
-    $()
+    $("#items-list tbody").html('<%= j render "list" %>');
+    $("#edit-item-modal").modal('hide')
 <% end %>

@@ -1,5 +1,6 @@
 // Primary Author: Jonathan Allen (jallen01)
 
+// If sucessful, redirect to group, otherwise render new.
 <% if @group.errors.any? %>
     $('#new-group-modal .model-content').html('<%= j render "new" %>');
 <% else %>

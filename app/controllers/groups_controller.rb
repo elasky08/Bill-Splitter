@@ -8,17 +8,17 @@ class GroupsController < ApplicationController
 
   def index
     @groups = current_user.groups.ordered
-    @new_group = current_user.owned_groups.new
+    @new_group = Group.new
   end
 
   def show
     @items = @group.items
-    @new_item = @group.items.new
+    @new_item = Item.new
   end
 
   def create
     @group = current_user.owned_groups.new(group_params)
-    @new_group = current_user.owned_groups.new
+    @new_group = Group.new
 
     respond_to do |format|
       if @group.save        

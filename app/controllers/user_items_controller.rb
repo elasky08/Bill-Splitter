@@ -8,7 +8,7 @@ class UserItemsController < ApplicationController
   before_action :check_member
 
   def index
-    @new_user_item = @item.users.new
+    @new_user_item = UserItem.new
   end
 
   # Add user to item.
@@ -45,7 +45,7 @@ class UserItemsController < ApplicationController
 
   private
     def set_item
-      @item = Item.find(id: params[:item_id])
+      @item = Item.find_by(id: params[:item_id])
 
       # If item id is invalid, render 404.
       unless @item
@@ -56,7 +56,7 @@ class UserItemsController < ApplicationController
     end
 
     def set_user
-      @user = User.find(id: params[:id])
+      @user = User.find_by(id: params[:id])
 
       # If user or item does not exist, render 404.
       unless @user

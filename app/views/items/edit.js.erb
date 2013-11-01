@@ -1,1 +1,4 @@
-$("#blank-modal modal-content").html('<%= j render "edit" %>').modal()
+// Primary Author: Jonathan Allen (jallen01)
+
+$(".blank-modal .modal-content").html("<%= j render 'edit' %>")
+$(".blank-modal").addClass("edit-item-modal").modal()

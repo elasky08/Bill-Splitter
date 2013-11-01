@@ -7,9 +7,12 @@ class ItemsController < ApplicationController
   before_action :set_item, except: [:create]
   before_action :check_member
 
+  def edit
+  end
+  
   def create
     @item = @group.edit_item_by_name(item_params[:name], item_params[:cost])
-    @new_item = @group.items.new
+    @new_item = Item.new
 
     respond_to do |format|
       if @item.save
