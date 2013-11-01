@@ -1,8 +1,6 @@
-// Primary Author: Jonathan Allen (jallen01)
+$('#group-name').html('<%= j @group.name %>');
 
-// Hide modal if update sucessful
 <% unless @group.errors.any? %>
-    $('#group-name').html('<%= j @group.name %>');
     $('#edit-group-modal').modal('hide');
 <% end %>
 

@@ -24,7 +24,8 @@ class Group < ActiveRecord::Base
   NAME_MAX_LENGTH = 20
   validates :name, presence: true, length: { minimum: 1, maximum: Group::NAME_MAX_LENGTH }, uniqueness: { scope: :owner }
 
-  before_validation { self.name = self.name.downcase }
+  # Capitalize first letter of each word in name
+  before_validation { self.name = self.name.downcase.split.map(&:capitalize).join(' ') }
 
   # Make sure that owner is a group user
   def add_owner_group_user
@@ -38,7 +39,7 @@ class Group < ActiveRecord::Base
 
   # Returns a string represenation of the group.
   def to_s
-    "#{self.name.split.map(&:capitalize).join(' ')}"
+    "#{self.name}"
   end
 
   # Returns true if user is in the group.

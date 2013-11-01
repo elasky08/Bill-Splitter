@@ -1,0 +1,8 @@
+// Primary Author: Jonathan Allen (jallen01)
+
+<% if @group.errors.any? %>
+    $('#new-group-modal .model-content').html('<%= j render "new" %>');
+<% else %>
+    window.location.href = '<%= group_url(@group) %>';
+<% end %>
+

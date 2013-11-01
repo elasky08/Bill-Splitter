@@ -4,20 +4,21 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group
-  before_action :set_item, except: [:index, :create]
+  before_action :set_item, except: [:create]
   before_action :check_member
-  
-  def index
-    @items = @group.items
-  end
 
   def create
     @item = @group.edit_item_by_name(item_params[:name], item_params[:cost])
+    @new_item = @group.items.new
 
     respond_to do |format|
       if @item.save
+        @items = @group.items
+        
+        format.js
         format.json { render json: @item, status: :created }
       else
+        format.js
         format.json { render json: @item.errors, status: :unprocessable_entity }
       end
     end
@@ -26,8 +27,10 @@ class ItemsController < ApplicationController
   def update
     respond_to do |format|
       if @item.update(item_params)
+        format.js
         format.json { render json: @item, status: :ok }
       else
+        format.js
         format.json { render json: @item.errors, status: :unprocessable_entity }
       end
     end
@@ -35,14 +38,17 @@ class ItemsController < ApplicationController
 
   def destroy
     @item.destroy
+    @items = @group.items
+
     respond_to do |format|
+      format.js
       format.json { render json: {}, status: :ok }
     end
   end
 
   private
     def set_group
-      @group = Group.find(params[:group_id])
+      @group = Group.find_by(id: params[:group_id])
 
       # If group id is invalid, render 404.
       unless @group
@@ -53,7 +59,7 @@ class ItemsController < ApplicationController
     end
 
     def set_item
-      @item = Item.find(params[:id])
+      @item = Item.find_by(id: params[:id])
 
       # If item id is invalid, render 404.
       unless @item

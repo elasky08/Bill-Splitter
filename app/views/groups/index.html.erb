@@ -5,13 +5,17 @@
     <h1>Groups</h1>
 </div>
 
-<!-- List of Groups -->
+<!-- List of groups -->
 <table class="table table-hover table-bordered" id="groups-list" >
   <%= render "list" %>
 </table>
 
 <%= link_to "Create a Group", "#new_group", class: "btn btn-large btn-primary", id: "create-group-link" %>
 
-<%= render "new" %>
-
-
+<div class="modal fade" id="new-group-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <%= render "new" %>
+    </div>
+  </div>
+</div>

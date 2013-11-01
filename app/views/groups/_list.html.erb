@@ -1,3 +1,6 @@
+<!-- Primary Author: Jonathan Allen (jallen01) -->
+
+<!-- List of groups -->
 <thead>
   <tr>
     <th>Name</th>
@@ -11,7 +14,7 @@
     <tr>
       <td>
         <%= link_to group_url(group), class: "list-group-item" do %>
-          <%= capitalize_words(group.name) %>
+          <%= group.name %>
         <% end %>
       </td>
       <td><%= group.owner.name %></td>

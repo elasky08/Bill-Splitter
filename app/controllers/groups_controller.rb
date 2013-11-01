@@ -8,26 +8,24 @@ class GroupsController < ApplicationController
 
   def index
     @groups = current_user.groups.ordered
-
-    @new_group = current_user.groups.new
+    @new_group = current_user.owned_groups.new
   end
 
   def show
     @items = @group.items
-    @bill_url = group_user_url(@group, @user)
-
     @new_item = @group.items.new
   end
 
   def create
     @group = current_user.owned_groups.new(group_params)
+    @new_group = current_user.owned_groups.new
 
     respond_to do |format|
-      if @group.save
-        format.html { redirect_to @group }
+      if @group.save        
+        format.js
         format.json { render action: 'show', status: :created, location: @group }
       else
-        format.html { render action: 'new' }
+        format.js
         format.json { render json: @group.errors, status: :unprocessable_entity }
       end
     end
@@ -36,11 +34,9 @@ class GroupsController < ApplicationController
   def update
     respond_to do |format|
       if @group.update(group_params)
-        format.html { redirect_to @group }
         format.js
         format.json { render json: @group, status: :ok }
       else
-        format.html { render action: 'edit' }
         format.js
         format.json { render json: @group.errors, status: :unprocessable_entity }
       end
@@ -60,7 +56,7 @@ class GroupsController < ApplicationController
 
   private
     def set_group
-      @group = Group.find(params[:id])
+      @group = Group.find_by(id: params[:id])
 
       # If group id is invalid redirect, and throw 404 code.
       unless @group

@@ -1,0 +1,6 @@
+<% unless @item.errors.any %>
+    $("#items-list tbody").html('<%= j render "list" %>');
+    $('#new-item-modal').modal('hide');
+<% end %>
+
+$('#new-item-modal .modal-content').html('<%= j render "new" %>');

@@ -21,7 +21,8 @@ class Item < ActiveRecord::Base
   validates :name, presence: true, length: { minimum: 1, maximum: Item::NAME_MAX_LENGTH }
   validates :cost, presence: true, currency: true
 
-  before_validation { self.name = self.name.downcase }
+  # Capitalize first letter of each word in name
+  before_validation { self.name = self.name.downcase.split.map(&:capitalize).join(' ') }
 
 
   # Methods
@@ -29,7 +30,7 @@ class Item < ActiveRecord::Base
 
   # Returns a string representation of the item. 
   def to_s
-    "#{self.name.split.map(&:capitalize).join(' ')}: #{number_to_currency(self.cost, :unit => "$")}"
+    "#{self.name}: #{number_to_currency(self.cost, :unit => "$")}"
   end
 
   # Returns true if item is shared with specified user.

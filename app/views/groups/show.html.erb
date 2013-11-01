@@ -1,21 +1,48 @@
-<!-- Primary Author: Charles Liu (cliu2014) -->
-<div id="show-group">
-  <h2 id="group-name"><%= @group.name %></h2>
-  <span><%= link_to "edit group", "#edit_group", id: "edit-group-link" %></span>
-  <br>
-  <br>
-  
-  <%= render "items/list" %>
+<!-- Primary Author: Jonathan Allen (jallen01) -->
 
-  <%= link_to "Add Item", new_group_item_url(@group), remote: true, class: "btn btn-large" %>
+<!-- Group page. Includes list of items. -->
 
-  <button class="btn btn-large btn-info" id="get-bill-link">Check Please!</button>
-
-  <p><%= link_to "Back to all groups", groups_url, :class => "back-url" %></p>
-
-  <%= render "edit" %>
-
-  <%= render "items/new" %>
-
-  <%= render "layouts/blank_modal" %>
+<div class="page-header">
+  <h1 id="group-name"><%= @group.name %></h2>
+  <%= link_to "Edit Group", "#edit_group", class: "btn", id: "edit-group-link" %>
 </div>
+
+<!-- Items  -->
+<table class="table table-bordered table-condensed", id="items-list" >
+  <thead>
+    <tr>
+      <th>Item Name</th>
+      <th>Cost</th>
+      <th class="span2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <%= render "items/list" %>
+  </tbody>
+</table>
+
+<%= link_to "Add Item", "#add_item", class: "btn btn-large", id: "new-item-link" %>
+
+<%= link_to "Check Please!", group_user_url(@group, current_user), class: "btn btn-large", id: "get-bill-link", remote: true %>
+
+<!-- Edit group modal -->
+<div class="modal fade" id="edit-group-modal" aria-hidden="true" data-form="persistant">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <%= render "edit" %>
+    </div>
+  </div>
+</div>
+
+<!-- New item modal -->
+<div class="modal fade" id="new-item-modal" aria-hidden="true" data-form="temporary">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    <%= render "items/new" %>
+    </div>
+  </div>
+</div>
+
+<!-- Blank modal for other forms -->
+<%= render "layouts/blank_modal" %>
