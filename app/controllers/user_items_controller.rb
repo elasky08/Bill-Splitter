@@ -4,8 +4,11 @@
 class UserItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item
-  before_action :set_user, except: [:create]
+  before_action :set_user, except: [:index, :create]
   before_action :check_member
+
+  def index
+  end
 
   # Add user to item.
   def create
