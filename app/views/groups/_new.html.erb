@@ -1,7 +1,32 @@
-<%= form_for @group, class: "add-item" do |f| %>
-  <div class="form-group">
-    <%= f.text_field :name, class: "form-control input-xlarge", placeholder: "Group Name" %>
-  </div>
-  <%= f.submit class: "btn btn-primary" %>
-<% end %>
+<div class="modal fade" id="new-group-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">New Group</h4>
+      </div>
+
+      <%= form_for @new_group do |f| %>
+      
+        <div class="modal-body">
+        
+          <%= render "layouts/form_errors", errors: @new_group.errors %>
+
+          <div class="form-group">
+            <%= f.label :name %>
+            <%= f.text_field :name, class: "form-control" %>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-default" data-dismiss="modal">Close</button>
+          <%= f.submit class: "btn btn-primary" %>
+        </div>
+      
+      <% end %>
+
+    </div>
+  </div>
+</div>

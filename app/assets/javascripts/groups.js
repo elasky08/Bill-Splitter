@@ -1,4 +1,15 @@
 // // PRIMARY AUTHOR: Charles Liu (cliu2014)
+
+
+$(document).on('click', '#create-group-link', function (event) {
+    $("#new-group-modal").modal();
+});
+
+$(document).on('click', '#edit-group-link', function (event) {
+    $("#edit-group-modal").modal();
+});
+
+
 // $(document).ready(function() {
 	
 // 	var $addItemArea = $('#add-item-area');

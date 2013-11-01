@@ -5,6 +5,12 @@ class ApplicationController < ActionController::Base
 
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
+  helper_method :capitalize_words
+
+  def capitalize_words(str)
+    str.split(' ').map(&:capitalize).join(' ')
+  end
+
   protected
 
     # Add name to registration.

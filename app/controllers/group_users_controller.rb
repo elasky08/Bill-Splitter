@@ -7,6 +7,7 @@ class GroupUsersController < ApplicationController
   before_action :set_user, except: [:index, :create]
 
   def index
+    @new_group_user = @group.users.new
   end
 
   # Add user to group

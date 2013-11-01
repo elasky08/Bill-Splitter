@@ -1,0 +1,23 @@
+<thead>
+  <tr>
+    <th>Name</th>
+    <th>Owner</th>
+    <th class="span1"></th>
+  </tr>
+</thead>
+
+<tbody>
+  <% @groups.each do |group| %>
+    <tr>
+      <td>
+        <%= link_to group_url(group), class: "list-group-item" do %>
+          <%= capitalize_words(group.name) %>
+        <% end %>
+      </td>
+      <td><%= group.owner.name %></td>
+      <td>
+        <%= link_to glyph(:remove), group_url(group), method: :delete, confirm: 'Are you sure you want to delete this group?', class: 'btn btn-danger btn-lg' %>
+      </td>
+    </tr>
+  <% end %>
+</tbody>

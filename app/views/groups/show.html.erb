@@ -1,7 +1,7 @@
 <!-- Primary Author: Charles Liu (cliu2014) -->
 <div id="show-group">
   <h2 id="group-name"><%= @group.name %></h2>
-  <span><%= link_to "edit group", edit_group_url(@group), remote: true, class: "edit-group-link" %></span>
+  <span><%= link_to "edit group", "#edit_group", id: "edit-group-link" %></span>
   <br>
   <br>
   
@@ -13,16 +13,9 @@
 
   <p><%= link_to "Back to all groups", groups_url, :class => "back-url" %></p>
 
-  <div class="modal fade" id="edit-group-modal">
-  </div>
+  <%= render "edit" %>
 
-  <div class="modal fade" id="personal-bill-modal">
-  </div>
+  <%= render "items/new" %>
 
-  <div class="modal fade" id="item-users-modal">
-  </div>
-
-  <div class="modal fade" id="edit-item-modal">
-  </div>
-
+  <%= render "layouts/blank_modal" %>
 </div>

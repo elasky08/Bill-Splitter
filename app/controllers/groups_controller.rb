@@ -2,24 +2,21 @@
 
 class GroupsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_group, except: [:index, :new, :create]
+  before_action :set_group, except: [:index, :create]
   before_action :check_member, only: [:show, :cost]
-  before_action :check_owner, only: [:edit, :update, :destroy, :add_user]
+  before_action :check_owner, only: [:update, :destroy, :add_user]
 
   def index
     @groups = current_user.groups.ordered
+
+    @new_group = current_user.groups.new
   end
 
   def show
     @items = @group.items
     @bill_url = group_user_url(@group, @user)
-  end
 
-  def new
-    @group = current_user.owned_groups.new
-  end
-
-  def edit
+    @new_item = @group.items.new
   end
 
   def create
@@ -52,15 +49,12 @@ class GroupsController < ApplicationController
 
   def destroy
     @group.destroy
+    @groups = current_user.groups.ordered
+    
     respond_to do |format|
       format.html { redirect_to groups_url }
+      format.js
       format.json { render json: {}, status: :ok, location: groups_url }
-    end
-  end
-  
-  def cost
-    respond_to do |format|
-      format.json { render text: @group.get_items_total, status: :ok }
     end
   end
 

@@ -1,2 +1,7 @@
-$("#edit-group").remove();
-$("#group-name").html('<%= j @group.name %>');
+$('#group-name').html('<%= j @group.name %>');
+
+<% unless @group.errors.any? %>
+    $('#edit-group.modal').modal('hide');
+<% end %>
+
+$('#edit-group.modal').html('<%= j render "edit" %>');

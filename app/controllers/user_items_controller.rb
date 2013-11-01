@@ -8,6 +8,7 @@ class UserItemsController < ApplicationController
   before_action :check_member
 
   def index
+    @new_user_item = @item.users.new
   end
 
   # Add user to item.
