@@ -28,16 +28,13 @@
 <%= link_to "Check Please!", group_user_url(@group, current_user), class: "btn btn-large", id: "get-bill-link", remote: true %>
 
 <!-- Edit group modal -->
-<div class="modal fade" id="edit-group-modal" aria-hidden="true" data-form="persistant">
+<div class="modal fade" id="edit-group-modal" aria-hidden="true" data-form="reset">
   <div class="modal-dialog">
     <div class="modal-content">
-      <%= render "layouts/modal_header", modal_title: "Edit Group" %>
-      <%= render "groups/form", group: @group %>
+      <%= render "groups/edit" %>
     </div>
   </div>
 </div>
-
-
 
 <!-- New item modal -->
 <div class="modal fade" id="new-item-modal" aria-hidden="true" data-form="temporary">

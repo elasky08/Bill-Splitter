@@ -14,15 +14,15 @@ class ItemsController < ApplicationController
     @new_item = @group.edit_item_by_name(item_params[:name], item_params[:cost])
     
     respond_to do |format|
-      if @item.save
+      if @new_item.save
         @items = @group.items
         @new_item = Item.new
         
         format.js
-        format.json { render json: @item, status: :created }
+        format.json { render json: @new_item, status: :created }
       else
         format.js
-        format.json { render json: @item.errors, status: :unprocessable_entity }
+        format.json { render json: @new_item.errors, status: :unprocessable_entity }
       end
     end
   end

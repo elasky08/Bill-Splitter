@@ -5,6 +5,16 @@ $(document).on('hide', '.modal', function () {
     removeHash();
 });
 
+// Reset form fields if data-form="reset"
+$(document).on('hide', '.modal[data-form="reset"]', function () {
+    var modal = $(this);
+    modal.find("input[type=text], textarea").not("input[type==hidden]").each(function (i, elem) {
+        var elem = $(elem); 
+        value = modal.find("#original_" + String(elem.attr('id'))).val();
+        elem.val(value);
+    });
+});
+
 // Reset form if data-form="temporary"
 $(document).on('hide', '.modal[data-form="temporary"]', function () {
     $(this).find("input[type=text], textarea").val("");

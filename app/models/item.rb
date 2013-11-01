@@ -43,9 +43,13 @@ class Item < ActiveRecord::Base
     self.users.count
   end
 
-  # Returns the partial cost of this item for the specified user.
+  # Returns the partial cost of this item for users sharing it. Returns 0 if no users are sharing the item.
   def user_cost
-    self.cost * (1.0 / self.count_users)
+    if self.count_users == 0
+      return 0
+    else
+      return self.cost * (1.0 / self.count_users)
+    end
   end
 
   # Shares item with specified user. Does nothing if item is already shared with user. Returns true if successful, false otherwise.

@@ -21,12 +21,12 @@ class GroupsController < ApplicationController
     @new_group = current_user.owned_groups.new(group_params)
 
     respond_to do |format|
-      if @group.save   
+      if @new_group.save   
         format.js
-        format.json { render action: 'show', status: :created, location: @group }
+        format.json { render action: 'show', status: :created, location: @new_group }
       else
         format.js
-        format.json { render json: @group.errors, status: :unprocessable_entity }
+        format.json { render json: @new_group.errors, status: :unprocessable_entity }
       end
     end
   end

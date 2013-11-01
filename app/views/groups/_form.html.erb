@@ -6,6 +6,8 @@
       <%= f.label :name %>
       <%= f.text_field :name, class: "form-control", placeholder: "Group Name" %>
     </div>
+
+    <%= f.hidden_field :name, id: "original_group_name" %>
   </div>
 
   <%= render "layouts/modal_form_footer", f: f %>

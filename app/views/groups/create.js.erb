@@ -1,9 +1,9 @@
 // Primary Author: Jonathan Allen (jallen01)
 
 // If sucessful, redirect to group, otherwise render new.
-<% if @group.errors.any? %>
+<% if @new_group.errors.any? %>
     $('#new-group-modal .model-content').html('<%= j render "new" %>');
 <% else %>
-    window.location.href = '<%= group_url(@group) %>';
+    window.location.href = '<%= group_url(@new_group) %>';
 <% end %>
 
