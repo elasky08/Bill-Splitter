@@ -11,12 +11,12 @@ class ItemsController < ApplicationController
   end
   
   def create
-    @item = @group.edit_item_by_name(item_params[:name], item_params[:cost])
-    @new_item = Item.new
-
+    @new_item = @group.edit_item_by_name(item_params[:name], item_params[:cost])
+    
     respond_to do |format|
       if @item.save
         @items = @group.items
+        @new_item = Item.new
         
         format.js
         format.json { render json: @item, status: :created }

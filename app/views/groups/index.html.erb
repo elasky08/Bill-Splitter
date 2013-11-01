@@ -15,7 +15,8 @@
 <div class="modal fade" id="new-group-modal">
   <div class="modal-dialog">
     <div class="modal-content">
-      <%= render "new" %>
+      <%= render "layouts/modal_header", modal_title: "New Group" %>
+      <%= render "groups/form", group: @new_group %>
     </div>
   </div>
 </div>

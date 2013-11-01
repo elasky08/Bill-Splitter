@@ -5,6 +5,7 @@
 <div class="page-header">
   <h1 id="group-name"><%= @group.name %></h2>
   <%= link_to "Edit Group", "#edit_group", class: "btn", id: "edit-group-link" %>
+  <%= link_to "Group Users", "#group_users", class: "btn", id: "group-users-link" %>
 </div>
 
 <!-- Items  -->
@@ -30,16 +31,19 @@
 <div class="modal fade" id="edit-group-modal" aria-hidden="true" data-form="persistant">
   <div class="modal-dialog">
     <div class="modal-content">
-      <%= render "edit" %>
+      <%= render "layouts/modal_header", modal_title: "Edit Group" %>
+      <%= render "groups/form", group: @group %>
     </div>
   </div>
 </div>
+
+
 
 <!-- New item modal -->
 <div class="modal fade" id="new-item-modal" aria-hidden="true" data-form="temporary">
   <div class="modal-dialog">
     <div class="modal-content">
-    <%= render "items/new" %>
+      <%= render "items/new" %>
     </div>
   </div>
 </div>

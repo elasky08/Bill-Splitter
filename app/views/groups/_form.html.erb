@@ -1,0 +1,13 @@
+<%= form_for group, remote: true do |f| %>
+
+  <div class="modal-body">
+    <%= render "layouts/form_errors", errors: group.errors %>
+    <div class="form-group">
+      <%= f.label :name %>
+      <%= f.text_field :name, class: "form-control", placeholder: "Group Name" %>
+    </div>
+  </div>
+
+  <%= render "layouts/modal_form_footer", f: f %>
+
+<% end %>

@@ -9,6 +9,10 @@ $(document).on('click', '#edit-group-link', function (event) {
     $("#edit-group-modal").modal();
 });
 
+$(document).on('click', '#group-users-link', function (event) {
+    $("#group-users-modal").modal();
+});
+
 $(document).on('click', '#new-item-link', function (event) {
     $("#new-item-modal").modal();
 });

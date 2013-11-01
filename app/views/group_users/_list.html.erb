@@ -1,10 +1,7 @@
 <!-- Primary Author: Jonathan Allen (jallen01) -->
+<!-- Group users modal -->
 
-<div class="modal-header">
-  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-  <h4 class="modal-title">Share Item
-  </h4>
-</div>
+
 
 <div class="modal-body">
   <table class="table">
@@ -17,11 +14,9 @@
     <% end %>
   </table>
 
-  <%= render "new" %>
+  <%= render "group_users/form", group_user: @new_group_user %>
 </div>
 
-<div class="modal-footer">
-  <button class="btn btn-default" data-dismiss="modal">Close</button>
-</div>
+
 
 

@@ -6,4 +6,4 @@
     $('#edit-group-modal').modal('hide');
 <% end %>
 
-$('#edit-group-modal .model-content').html('<%= j render "edit" %>');
+$('#edit-group-modal .model-content').html('<%= j render "groups/form", group: @group %>');

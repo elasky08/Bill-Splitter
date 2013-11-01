@@ -1,0 +1,15 @@
+<%= form_for [@group, group_user], url: group_user_url(@group, ), remote: true do |f| %>
+
+  <div class="modal-body">
+
+    <%= render "layouts/form_errors", errors: group_user.errors %>
+
+    <div class="form-group">
+      <%= f.label :email %>
+      <%= f.text_field :email, class: "form-control", placeholder: "User Email" %>
+    </div>
+  </div>
+
+  <%= render "layouts/modal_form_footer", f: f %>
+
+<% end %>

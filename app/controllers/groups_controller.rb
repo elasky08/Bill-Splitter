@@ -4,7 +4,7 @@ class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group, except: [:index, :create]
   before_action :check_member, only: [:show, :cost]
-  before_action :check_owner, only: [:update, :destroy, :add_user]
+  before_action :check_owner, only: [:update, :destroy]
 
   def index
     @groups = current_user.groups.ordered
@@ -14,14 +14,14 @@ class GroupsController < ApplicationController
   def show
     @items = @group.items
     @new_item = Item.new
+    @new_group_user = GroupUser.new
   end
 
   def create
-    @group = current_user.owned_groups.new(group_params)
-    @new_group = Group.new
+    @new_group = current_user.owned_groups.new(group_params)
 
     respond_to do |format|
-      if @group.save        
+      if @group.save   
         format.js
         format.json { render action: 'show', status: :created, location: @group }
       else
@@ -46,9 +46,9 @@ class GroupsController < ApplicationController
   def destroy
     @group.destroy
     @groups = current_user.groups.ordered
+    @new_group = Group.new
     
     respond_to do |format|
-      format.html { redirect_to groups_url }
       format.js
       format.json { render json: {}, status: :ok, location: groups_url }
     end

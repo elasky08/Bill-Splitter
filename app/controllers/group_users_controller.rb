@@ -17,20 +17,23 @@ class GroupUsersController < ApplicationController
     respond_to do |format|
       # If user id or group id is invalid, render 404.
       unless @user
-        format.js { render "groups/" }
         format.json { render status: :not_found }
       end 
 
       # If current user does not have permission to add user to group, render 403.
       unless @group.owner == current_user
-        format.html {  }
         format.json { render status: :forbidden }
       end
 
-      @group_user = @group.add_user(user)
-      if @group_user
+      @new_group_user = @group.add_user(user)
+      if @new_group_user
+        @group_user = @new_group_user
+        @new_group_user = GroupUser.new
+
+        format.js
         format.json { render json: @group_user, status: :created }
       else
+        format.js
         format.json { render status: :unprocessable_entity }
       end
     end
