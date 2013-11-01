@@ -1,0 +1,7 @@
+<%= form_for @group, html: { class: 'form-inline' id: "add-item" } >
+  <input type="text" id="item-name" placeholder="Item Name" />
+  <input type="text" id="item-cost" placeholder="Cost"/>
+  <button class="btn btn-success" id="add-item">Add</button>
+  <button class="btn btn-danger" id="cancel-add-item">Cancel</button>
+  <div class="alert alert-error" id="add-item-error"></div>
+</div>

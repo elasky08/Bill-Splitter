@@ -1,11 +1,11 @@
 <!-- Primary Author: Charles Liu (cliu2014) -->
 <div id="show-group">
-  <%= content_tag :h2 @group.name, id: "group-name" %>
+  <h2 id="group-name"><%= @group.name %></h2>
   <span><%= link_to "edit group", edit_group_url(@group), remote: true, class: "edit-group-link" %></span>
   <br>
   <br>
   
-  <%= render "group_items" %>
+  <%= render "items/list" %>
 
   <button class="btn btn-large" id="show-add-item">Add Item</button>
   <button class="btn btn-large btn-info" id="get-bill">Check Please!</button>
@@ -22,7 +22,6 @@
   <p><%= link_to "Back to all groups", groups_url, :class => "back-url" %></p>
 
   <div class="modal fade" id="personal-bill">
-    <%= render "show_bill" %>
   </div>
 
 </div>
