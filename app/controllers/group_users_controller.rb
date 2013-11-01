@@ -40,7 +40,6 @@ class GroupUsersController < ApplicationController
     @group_user = @group.get_group_user(@user)
     @items = @group.get_user_items(@user)
     @items_total = @group.get_user_items_total(@user)
-    @bill_url = show_group_user_url(@group, @user)
   end
 
   # Update user payment to group

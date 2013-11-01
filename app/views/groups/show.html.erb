@@ -9,6 +9,7 @@
 
   <button class="btn btn-large" id="show-add-item">Add Item</button>
   <button class="btn btn-large btn-info" id="get-bill">Check Please!</button>
+
   <div id="add-item-area">
     <input type="text" id="item-name" placeholder="Item Name" />
     <input type="text" id="item-cost" placeholder="Cost"/>
@@ -16,9 +17,12 @@
     <button class="btn btn-danger" id="cancel-add-item">Cancel</button>
     <div class="alert alert-error" id="add-item-error"></div>
   </div>
+  
   <br /><br />
   <p><%= link_to "Back to all groups", groups_url, :class => "back-url" %></p>
 
-  <%= render "show_bill" %>
+  <div class="modal fade" id="personal-bill">
+    <%= render "show_bill" %>
+  </div>
 
 </div>

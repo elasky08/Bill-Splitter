@@ -1,77 +1,31 @@
-<!-- Primary Author: Paula Jacobs (paulaj) -->
+<!-- Primary Author: Jonathan Allen (jallen01) -->
 
-<div class="modal fade" id="bill-modal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Personal Bill</h4>
-      </div>
-      <div class="modal-body">
-        <div class="alert alert-error" id="invalid-bill-input-error">One or more inputs are invalid</div>
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h4 class="modal-title">Personal Bill</h4>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-error" id="invalid-bill-input-error">One or more inputs are invalid</div>
 
-        
-        @items.each do 
-
-
-
-        <p>Total items: $<span id="item-total"></span></p>
-        <p>Tax: <input type="text" id="tax-pct" value="7.25"/> % </p>
-        <p>Tip: <input type="text" id="tip-pct" value="15" /> % </p>
-        <p>Total Bill: $<span id="total-bill"></span></p>
-        <p>Split across <input type="text" id="num-people" value="4"/> people</p>
-        <p class="bold">Each person owes $<span id="split-cost"></span></p>
-        <button class="btn btn-info" id="recompute-bill">Compute new bill</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<h2>Your Personal Bill</h2>
-<br>
-<br>
-<div class="hero-unit">
-  <table class="table">
-  	<thead>
-      <tr>
-        <th>Your Food</th>
-        <th>What You Owe</th>
-      </tr>
-    </thead>	
-    <tbody>
-
-      <% @items.each do |item| %>
-
+      <table class="table table-condensed">
         <tr>
-          <td><%=item%></td>
-          <td>
-            <%=item.cost%>
-          </td>
+          <th>Item Name</th>
+          <th>Item Cost</th>
+          <th>Personal Cost</th>
         </tr>
+        <% @items.each do |item| %>
+          <tr>
+            <%= content_tag :td, item.name %>
+            <%= content_tag :td, number_to_currency(item.cost) %>
+            <%= content_tag :td, number_to_currency(item.user_cost) %>
+          </tr>
+        <% end %>
+      </table>
 
-      <% end %> 
-    </tbody>
-  </table>
+      <h4>Total Bill: <%= @items_total %></h4>
+    </div>
+  </div>
 </div>
-
-<hr>
-  <table>
-  	
-    <tbody>
-        <tr>
-          <td>You Owe: </td>
-          <td>
-          	<%=@items_total%></td>
-        </tr>
-
- 
-    </tbody>
-  </table>
- 
-  
-  <br/>
-
-
- <a href="#" class="btn btn-large btn-danger">Back to Order</a> 
- <a href="#" class="btn btn-large btn-success">Finish Payment</a> 
 

@@ -28,11 +28,9 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.save
         format.html { redirect_to @group }
-        format.js
         format.json { render action: 'show', status: :created, location: @group }
       else
         format.html { render action: 'new' }
-        format.js
         format.json { render json: @group.errors, status: :unprocessable_entity }
       end
     end
