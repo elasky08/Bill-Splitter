@@ -4,17 +4,24 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group
-  before_action :set_item, except: [:new, :create]
+  before_action :set_item, except: [:index, :new, :create]
   before_action :check_member
   
-  def new
-    @item = @group.items.new
+  def index
+    @items = @group.items
   end
 
   def show
     respond_to do |format|
       format.json { render json: @item, status: :ok }
     end
+  end
+
+  def new
+    @item = @group.items.new
+  end
+
+  def edit
   end
 
   def create

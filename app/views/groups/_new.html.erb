@@ -1,4 +1,7 @@
-<%= form_for @group, remote: true, class: "add-item" do |f| %>
-  <%= f.text_field :name, class: "input-xlarge", placeholder: "Group Name" %>
-  <%= f.submit class: "btn" %>
+<%= form_for @group, class: "add-item" do |f| %>
+  <div class="form-group">
+    <%= f.text_field :name, class: "form-control input-xlarge", placeholder: "Group Name" %>
+  </div>
+  <%= f.submit class: "btn btn-primary" %>
 <% end %>
+
