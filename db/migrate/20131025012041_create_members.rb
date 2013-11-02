@@ -1,6 +1,6 @@
-class CreateGroupUsers < ActiveRecord::Migration
+class CreateMemberships < ActiveRecord::Migration
   def change
-    create_table :group_users do |t|
+    create_table :memberships do |t|
       t.belongs_to :group
       t.belongs_to :user
       t.decimal :payment, null: false

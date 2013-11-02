@@ -1,6 +1,6 @@
 # Primary Author: Jonathan Allen (jallen01)
 
-class GroupUser < ActiveRecord::Base
+class Membership < ActiveRecord::Base
 
 
   # Attributes

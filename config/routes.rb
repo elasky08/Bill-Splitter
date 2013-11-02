@@ -3,9 +3,9 @@
 BillSplitter::Application.routes.draw do
   devise_for :users
   resources :groups, except: [:edit] do
-    resources :group_users, only: [:show, :create, :destroy], path: 'users', as: 'users'
+    resources :memberships, only: [:show, :create, :destroy]
     resources :items, only: [:edit, :create, :update, :destroy] do
-      resources :user_items, only: [:index, :create, :destroy], path: 'users', as: 'users'
+      resources :partitions, only: [:index, :create, :destroy]
     end
   end
 
@@ -15,9 +15,6 @@ BillSplitter::Application.routes.draw do
     get "log_in" => "devise/session#new"
     get "log_out" => "devise/sessions#destroy"
   end
-  
-  # Get costs of a group
-  get "groups/:id/cost", to: "groups#cost", as: :group_cost
 
   # Route root to group index
   root :to => "groups#index"

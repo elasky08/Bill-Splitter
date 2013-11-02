@@ -1,18 +1,18 @@
 # Primary Author: Jonathan Allen (jallen01)
 
 # Controls adding/removing users in a group. Also controls user payments to a group. All actions only return json.
-class GroupUsersController < ApplicationController
+class MembershipsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group
   before_action :set_user, except: [:index, :create]
 
   def index
-    @new_group_user = GroupUser.new
+    @new_membership = Membership.new
   end
 
   # Add user to group
   def create
-    @user = User.find_by(email: group_user_params[:email])
+    @user = User.find_by(email: membership_params[:email])
 
     respond_to do |format|
       # If user id or group id is invalid, render 404.
@@ -25,13 +25,13 @@ class GroupUsersController < ApplicationController
         format.json { render status: :forbidden }
       end
 
-      @new_group_user = @group.add_user(user)
-      if @new_group_user
-        @group_user = @new_group_user
-        @new_group_user = GroupUser.new
+      @new_membership = @group.add_user(user)
+      if @new_membership
+        @membership = @new_membership
+        @new_membership = Membership.new
 
         format.js
-        format.json { render json: @group_user, status: :created }
+        format.json { render json: @membership, status: :created }
       else
         format.js
         format.json { render status: :unprocessable_entity }
@@ -41,9 +41,9 @@ class GroupUsersController < ApplicationController
 
   # Show user personal bill
   def show
-    @group_user = @group.get_group_user(@user)
-    @items = @group.get_user_items(@user)
-    @items_total = @group.get_user_items_total(@user)
+    @membership = @group.get_membership(@user)
+    @items = @group.get_partitions(@user)
+    @items_total = @group.get_partitions_total(@user)
   end
 
   # Update user payment to group
@@ -54,11 +54,11 @@ class GroupUsersController < ApplicationController
     end
 
     respond_to do |format|
-      group_user = @group.get_group_user(@user)
-      if group_user.update(payment: group_user_params[:payment])
+      membership = @group.get_membership(@user)
+      if membership.update(payment: membership_params[:payment])
         format.json { render status: :ok }
       else
-        format.json { render json: group_user.errors, status: :unprocessable_entity}
+        format.json { render json: membership.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -79,7 +79,7 @@ class GroupUsersController < ApplicationController
 
   private
     def set_group
-      @group = Group.includes(:group_users, :users).find_by(id: params[:group_id])
+      @group = Group.includes(:memberships, :users).find_by(id: params[:group_id])
 
       # If group does not exist, render 404.
       unless @group
@@ -101,7 +101,7 @@ class GroupUsersController < ApplicationController
     end
 
     # Sanitize params.
-    def group_user_params
-      params.require(:group_user).permit(:email, :payment)
+    def membership_params
+      params.require(:membership).permit(:email, :payment)
     end
 end

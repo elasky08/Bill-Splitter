@@ -7,8 +7,8 @@ class Item < ActiveRecord::Base
   # Attributes
   # ----------
 
-  has_many :user_items, dependent: :destroy
-  has_many :users, through: :user_items
+  has_many :partitions, dependent: :destroy
+  has_many :users, through: :partitions
   belongs_to :group
 
   scope :ordered, -> { order :name }
@@ -56,19 +56,19 @@ class Item < ActiveRecord::Base
   def add_user(user)
     # Check that the user is in the item's group.
     if self.group.include_user?(user)
-      return self.user_items.find_or_create_by(user: user)
+      return self.partitions.find_or_create_by(user: user)
     else  
       record.errors[:users] << (options[:message] || "is not a member of the item's group")
       return false
     end
   end
 
-  def get_user_item(user)
-    return self.user_items.find_by(user: user)
+  def get_partition(user)
+    return self.partitions.find_by(user: user)
   end
 
   # Unshares item with specified user. Does nothing if item is not already shared with user.
   def remove_user(user)
-    self.user_items.destroy_all(user: user)
+    self.partitions.destroy_all(user: user)
   end
 end

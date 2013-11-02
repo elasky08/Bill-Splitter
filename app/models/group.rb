@@ -5,8 +5,8 @@ class Group < ActiveRecord::Base
   # Attributes
   # ----------
 
-  has_many :group_users, dependent: :destroy
-  has_many :users, through: :group_users
+  has_many :members, dependent: :destroy
+  has_many :users, through: :members
   has_many :items, dependent: :destroy
   belongs_to :owner, class_name: "User"
 
@@ -28,10 +28,10 @@ class Group < ActiveRecord::Base
   before_validation { self.name = self.name.downcase.split.map(&:capitalize).join(' ') }
 
   # Make sure that owner is a group user
-  def add_owner_group_user
+  def add_owner_member
     self.add_user(self.owner)
   end
-  after_save :add_owner_group_user
+  after_save :add_owner_member
 
 
   # Methods
@@ -49,24 +49,24 @@ class Group < ActiveRecord::Base
 
   # Adds user to group. Does nothing if user is already in group. Returns true if successful, false otherwise.
   def add_user(user)
-    return self.group_users.find_or_create_by(user: user)
+    return self.members.find_or_create_by(user: user)
   end
 
-  def get_group_user(user)
-    return self.group_users.find_by(user: user)
+  def get_member(user)
+    return self.members.find_by(user: user)
   end
 
   # Removes user from group. Does nothing if item is not already shared with user.
   def remove_user(user)
     # Cannot remove group owner.
     if user != self.owner
-      self.group_users.delete(user: user)
+      self.members.delete(user: user)
     end
   end
 
   # Returns sum of all payment amounts.
   def get_payments_total
-    self.group_users.to_a.sum { |group_user| group_user.payment }
+    self.members.to_a.sum { |member| member.payment }
   end
 
   # Create item with specified name, and add it to the group. Returns the item object. 
@@ -80,13 +80,13 @@ class Group < ActiveRecord::Base
   end
 
   # Returns the group items shared with specified user.
-  def get_user_items(user)
-    self.items.joins(:user_items).where(:user_items => { user: user })
+  def get_partitions(user)
+    self.items.joins(:partitions).where(:partitions => { user: user })
   end
 
   # Returns partial cost of all items shared with specified user.
-  def get_user_items_total(user)
-    self.get_user_items(user).to_a.sum { |item| item.cost }
+  def get_partitions_total(user)
+    self.get_partitions(user).to_a.sum { |item| item.cost }
   end
 
 end

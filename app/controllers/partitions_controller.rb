@@ -1,7 +1,7 @@
 # Primary Author: Jonathan Allen (jallen01)
 
 # Controls adding/removing users in an item. All actions only return json.
-class UserItemsController < ApplicationController
+class PartitionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_item
   before_action :set_user, except: [:index, :create]
@@ -9,12 +9,12 @@ class UserItemsController < ApplicationController
 
   def index
     @users = @item.users
-    @new_user_item = UserItem.new
+    @new_partition = Partition.new
   end
 
   # Add user to item.
   def create
-    @user = User.find_by(email: user_item_params[:email])
+    @user = User.find_by(email: partition_params[:email])
 
     # If user email is invalid, render 404.
     unless @user
@@ -24,9 +24,9 @@ class UserItemsController < ApplicationController
     end
 
     respond_to do |format|
-      @user_item = @item.add_user(@user)
-      if @user_item
-        format.json { render json: @user_item, status: :created }
+      @partition = @item.add_user(@user)
+      if @partition
+        format.json { render json: @partition, status: :created }
       else
         format.json { render status: :unprocessable_entity}
       end
@@ -77,7 +77,7 @@ class UserItemsController < ApplicationController
       end
     end
 
-    def user_item_params
-      params.require(:user_item).permit(:email)
+    def partition_params
+      params.require(:partition).permit(:email)
     end
 end

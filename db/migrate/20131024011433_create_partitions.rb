@@ -1,4 +1,4 @@
-class CreateUserItems < ActiveRecord::Migration
+class CreatePartitions < ActiveRecord::Migration
   def change
     create_table :user_items do |t|
       t.belongs_to :user

@@ -14,7 +14,7 @@ class GroupsController < ApplicationController
   def show
     @items = @group.items
     @new_item = Item.new
-    @new_group_user = GroupUser.new
+    @new_membership = Membership.new
   end
 
   def create
