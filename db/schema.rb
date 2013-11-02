@@ -11,30 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131025174659) do
-
-  create_table "group_users", force: true do |t|
-    t.integer  "group_id"
-    t.integer  "user_id"
-    t.decimal  "payment",    null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+ActiveRecord::Schema.define(version: 20131025012041) do
 
   create_table "groups", force: true do |t|
     t.string   "name",       null: false
     t.integer  "owner_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "slug"
   end
-
-  add_index "groups", ["slug"], name: "index_groups_on_slug"
 
   create_table "items", force: true do |t|
     t.decimal  "cost",       precision: 8, scale: 2, null: false
     t.string   "name",                               null: false
     t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "memberships", force: true do |t|
+    t.integer  "group_id"
+    t.integer  "user_id"
+    t.decimal  "payment",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -60,11 +57,9 @@ ActiveRecord::Schema.define(version: 20131025174659) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.string   "slug"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  add_index "users", ["slug"], name: "index_users_on_slug", unique: true
 
 end

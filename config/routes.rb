@@ -4,9 +4,8 @@ BillSplitter::Application.routes.draw do
   devise_for :users
   resources :groups, except: [:edit] do
     resources :memberships, only: [:show, :create, :destroy]
-    resources :items, only: [:edit, :create, :update, :destroy] do
-      resources :partitions, only: [:index, :create, :destroy]
-    end
+    resources :items, only: [:edit, :create, :update, :destroy]
+    resources :partitions, only: [:show, :create, :destroy]
   end
 
   # Aliases

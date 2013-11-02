@@ -3,40 +3,44 @@
 # Controls adding/removing users in an item. All actions only return json.
 class PartitionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_item
-  before_action :set_user, except: [:index, :create]
-  before_action :check_member
+  before_action :set_partition, except: [:create]
+  before_action :check_membership, except: [:create]
 
-  def index
-    @users = @item.users
+  def show
     @new_partition = Partition.new
   end
 
   # Add user to item.
   def create
-    @user = User.find_by(email: partition_params[:email])
-
-    # If user email is invalid, render 404.
-    unless @user
-      respond_to do |format|
-        format.json { render status: :not_found }
-      end
-    end
+    user = User.find_by(email: partition_params[:email])
+    item = Item.find_by(id: partition_params[:item_id])
 
     respond_to do |format|
-      @partition = @item.add_user(@user)
-      if @partition
+      # If user email is invalid, render 404.
+      unless user && item
+        respond_to do |format|
+          self.errors.add(:email, "does not exist")
+          format.js
+          format.json { render status: :not_found }
+        end
+      end
+
+      @new_partition = item.add_user(user)
+      if @new_partition.save
+        @partition = @new_partition
+        @new_partition = Partition.new
+        format.js
         format.json { render json: @partition, status: :created }
       else
-        format.json { render status: :unprocessable_entity}
+        format.js
+        format.json { render json: @new_partition.errors, status: :unprocessable_entity }
       end
-    end
   end
 
   # Remove user from item.
   def destroy
-    @item.remove_user(@user)
-    @users = @item.users
+    @partition.item.remove_user(@partition.user)
+    @users = @partition.item.users
 
     respond_to do |format|
       format.js
@@ -46,22 +50,11 @@ class PartitionsController < ApplicationController
 
 
   private
-    def set_item
-      @item = Item.find_by(id: params[:item_id])
-
-      # If item id is invalid, render 404.
-      unless @item
-        respond_to do |format|
-          format.json { render status: :not_found }
-        end
-      end
-    end
-
-    def set_user
-      @user = User.find_by(id: params[:id])
+    def set_partition
+      @partition = Partition.includes(:users).find_by(id: params[:id])
 
       # If user or item does not exist, render 404.
-      unless @user
+      unless @partition
         respond_to do |format|
           format.json { render status: :not_found }
         end
@@ -69,8 +62,8 @@ class PartitionsController < ApplicationController
     end
 
     # If current user does not have permission to edit item, render 403.
-    def check_member
-      unless @item.group.include_user?(current_user)
+    def check_membership
+      unless @item.group.is_member?(current_user)
         respond_to do |format|
           format.json { render status: :forbidden }
         end

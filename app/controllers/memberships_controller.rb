@@ -4,7 +4,8 @@
 class MembershipsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group
-  before_action :set_user, except: [:index, :create]
+  before_action :set_membership, except: [:index, :create]
+  before_action :check_owner, only: [:create]
 
   def index
     @new_membership = Membership.new
@@ -12,30 +13,22 @@ class MembershipsController < ApplicationController
 
   # Add user to group
   def create
-    @user = User.find_by(email: membership_params[:email])
+    user = User.find_by(email: membership_params[:email])
 
     respond_to do |format|
-      # If user id or group id is invalid, render 404.
-      unless @user
-        format.json { render status: :not_found }
+      # Check that user exists.
+      unless user
+        self.errors.add(:email, "does not exist")
+        format.js
       end 
 
-      # If current user does not have permission to add user to group, render 403.
-      unless @group.owner == current_user
-        format.json { render status: :forbidden }
-      end
-
       @new_membership = @group.add_user(user)
-      if @new_membership
+      if @new_membership.save
         @membership = @new_membership
         @new_membership = Membership.new
-
-        format.js
-        format.json { render json: @membership, status: :created }
-      else
-        format.js
-        format.json { render status: :unprocessable_entity }
       end
+
+      format.js
     end
   end
 
@@ -48,32 +41,29 @@ class MembershipsController < ApplicationController
 
   # Update user payment to group
   def update
-    # If current user does not have permission to update payment, render 403.
-    unless @user == current_user
-      format.json { render status: :forbidden }
+    # Check that user is current user.
+    unless @membership.user == current_user
+      flash.alert = "Forbidden: must be user."
+      format.js { format js: "window.location.href = '<%= group_url(@group) %>'" }
     end
 
+    @membership.update(payment: membership_params[:payment])
     respond_to do |format|
-      membership = @group.get_membership(@user)
-      if membership.update(payment: membership_params[:payment])
-        format.json { render status: :ok }
-      else
-        format.json { render json: membership.errors, status: :unprocessable_entity}
-      end
+      format.js
     end
   end
 
   # Remove user from group
   def destroy
     respond_to do |format|
-      # If current user does not have permission to remove user from group, render 403.
+      # If current user does not have permission to remove user from group, return error.
       unless [@group.owner, @user].include?(current_user)
-        format.json { render status: :forbidden }
+        flash.alert = "Forbidden: must be user or group owner."
+      format.js { format js: "window.location.href = '<%= group_url(@group) %>'" }
       end
 
       @group.remove_user(user)
-        
-      format.json { render status: :ok }
+      format.js
     end
   end
 
@@ -84,18 +74,20 @@ class MembershipsController < ApplicationController
       # If group does not exist, render 404.
       unless @group
         respond_to do |format|
-          format.json { render status: :not_found }
+          flash.alert = "Group not found."
+          format.js { format js: "window.location.href = '<%= groups_url %>'" }
         end
       end
     end
 
-    def set_user
-      @user = User.find_by(id: params[:id])
+    def set_membership
+      @membership = Membership.find_by(id: params[:id])
 
-      # If user does not exist, render 404.
-      unless @user
+      # Check that user exists.
+      unless @membership
         respond_to do |format|
-          format.json { render status: :not_found }
+          flash.alert = "Membership not found."
+          format.js { format js: "window.location.href = '<%= group_url(@group) %>'" }
         end
       end 
     end
@@ -103,5 +95,13 @@ class MembershipsController < ApplicationController
     # Sanitize params.
     def membership_params
       params.require(:membership).permit(:email, :payment)
+    end
+
+    def check_ownership
+      # If current user does not have permission to add user to group, redirect.
+      unless @group.owner == current_user
+        flash.alert = "Forbidden: must be owner."
+        format.js { format js: "window.location.href = '<%= group_url(@group) %>'" }
+      end
     end
 end

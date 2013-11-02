@@ -34,7 +34,7 @@ class Item < ActiveRecord::Base
   end
 
   # Returns true if item is shared with specified user.
-  def include_user?(user)
+  def includes_user?(user)
     self.users.exists?(user)
   end
 
@@ -55,7 +55,7 @@ class Item < ActiveRecord::Base
   # Shares item with specified user. Does nothing if item is already shared with user. Returns true if successful, false otherwise.
   def add_user(user)
     # Check that the user is in the item's group.
-    if self.group.include_user?(user)
+    if self.group.is_member?(user)
       return self.partitions.find_or_create_by(user: user)
     else  
       record.errors[:users] << (options[:message] || "is not a member of the item's group")

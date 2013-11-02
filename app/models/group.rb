@@ -5,8 +5,8 @@ class Group < ActiveRecord::Base
   # Attributes
   # ----------
 
-  has_many :members, dependent: :destroy
-  has_many :users, through: :members
+  has_many :memberships, dependent: :destroy
+  has_many :users, through: :memberships
   has_many :items, dependent: :destroy
   belongs_to :owner, class_name: "User"
 
@@ -28,10 +28,10 @@ class Group < ActiveRecord::Base
   before_validation { self.name = self.name.downcase.split.map(&:capitalize).join(' ') }
 
   # Make sure that owner is a group user
-  def add_owner_member
+  def add_owner_membership
     self.add_user(self.owner)
   end
-  after_save :add_owner_member
+  after_save :add_owner_membership
 
 
   # Methods
@@ -43,50 +43,52 @@ class Group < ActiveRecord::Base
   end
 
   # Returns true if user is in the group.
-  def include_user?(user)
+  def is_member?(user)
     self.users.exists?(user)
   end 
 
   # Adds user to group. Does nothing if user is already in group. Returns true if successful, false otherwise.
   def add_user(user)
-    return self.members.find_or_create_by(user: user)
+    return self.memberships.find_or_create_by(user: user)
   end
 
-  def get_member(user)
-    return self.members.find_by(user: user)
+  def get_membership(user)
+    return self.memberships.find_by(user: user)
   end
 
   # Removes user from group. Does nothing if item is not already shared with user.
   def remove_user(user)
     # Cannot remove group owner.
     if user != self.owner
-      self.members.delete(user: user)
+      self.memberships.delete(user: user)
     end
   end
 
+
   # Returns sum of all payment amounts.
   def get_payments_total
-    self.members.to_a.sum { |member| member.payment }
+    self.memberships.to_a.sum { |membership| membership.payment }
   end
+
+  # Returns the group items shared with specified user.
+  def get_user_partitions(user)
+    self.items.joins(:partitions).where(:partitions => { user: user })
+  end
+
+  # Returns partial cost of all items shared with specified user.
+  def get_user_total(user)
+    self.get_partitions(user).to_a.sum { |item| item.cost }
+  end
+
 
   # Create item with specified name, and add it to the group. Returns the item object. 
   def edit_item_by_name(name, cost)
-    item = self.items.create(name: name, cost: cost)
+    self.items.create_with(cost: cost).find_or_create_by(name: name)
   end
 
   # Returns sum of all item costs.
   def get_items_total
     self.items.to_a.sum { |item| item.cost }
-  end
-
-  # Returns the group items shared with specified user.
-  def get_partitions(user)
-    self.items.joins(:partitions).where(:partitions => { user: user })
-  end
-
-  # Returns partial cost of all items shared with specified user.
-  def get_partitions_total(user)
-    self.get_partitions(user).to_a.sum { |item| item.cost }
-  end
+  end  
 
 end
