@@ -1,4 +1,4 @@
-<%= form_for group, remote: true do |f| %>
+<%= form_for group, remote: true, id: "group-form" do |f| %>
 
   <div class="modal-body">
     <%= render "layouts/form_errors", errors: group.errors %>
@@ -11,8 +11,23 @@
     <%= hidden_field_tag "original_group_name", group.name %>
 
     <% unless group.new_record? %>
-      <%= render "memberships/list" %>
-      <%= render "memberships/form", membership: @new_membership %>
+      <!-- Membership list -->
+      <table class="table table-bordered table-condensed", id="memberships-list">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th class="span1"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render "memberships/list" %>
+        </tbody>
+      </table>
+      
+      <div>
+        <%= render "memberships/form", membership: @new_membership %>
+      </div>
     <% end %>
   </div>
 

@@ -6,11 +6,21 @@
 
 <!-- List of groups -->
 <table class="table table-hover table-bordered" id="groups-list" >
-  <%= render "list" %>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Owner</th>
+      <th class="span1"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render "list" %>
+  </tbody>
 </table>
 
 <%= link_to "Create a Group", "#new_group", class: "btn btn-large btn-primary", id: "create-group-link" %>
 
+<!-- New group modal -->
 <div class="modal fade" id="new-group-modal" data-form="temporary">
   <div class="modal-dialog">
     <div class="modal-content">

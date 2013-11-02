@@ -1,9 +1,7 @@
 <!-- Primary Author: Jonathan Allen (jallen01) -->
+<!-- Personal bill modal -->
 
-<div class="modal-header">
-  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-  <h4 class="modal-title">Personal Bill</h4>
-</div>
+<%= render "layouts/modal_header", modal_title: "Personal Bill" %>
 
 <div class="modal-body">
 
@@ -24,4 +22,6 @@
 
   <h4>Total Bill: <%= @user_total %></h4>
 </div>
+
+<%= render "layouts/modal_footer" %>
 

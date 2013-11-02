@@ -1,15 +1,21 @@
 <!-- Primary Author: Jonathan Allen (jallen01) -->
 <!-- Group users list -->
 
-<table class="table">
-  <% @group.users.each do |user| %>
-    <tr>
-      <%= content_tag :td, user.name %>
-      <%= content_tag :td, user.email %>
-      <%= button_to "Remove", group_membership_url(@group, membership), method: :delete, remote: true %>
-    </tr>
-  <% end %>
-</table>
+<% @group.memberships.each do |membership| %>
+  <tr>
+    <td>
+      <%= membership.user.name %>
+    </td>
+    <td><%= membership.user.email %></td>
+    <td>
+      <% if membership.user != @group.owner %>
+        <%= link_to glyph(:remove), group_membership_url(@group, membership), method: :delete, remote: true %>
+      <% else %>
+        Owner
+      <% end %>
+    </td>
+  </tr>
+<% end %>
 
 
 

@@ -9,7 +9,7 @@ $(document).on('hide', '.modal', function () {
 $(document).on('hide', '.modal[data-form="reset"]', function () {
     var modal = $(this);
     modal.find(".validation-errors").remove();
-    modal.find("input[type=text], textarea").not("input[type==hidden]").each(function (i, elem) {
+    modal.find("input[type=text], textarea").not("input[type=hidden]").each(function (i, elem) {
         var elem = $(elem); 
         value = modal.find("#original_" + String(elem.attr('id'))).val();
         elem.val(value);

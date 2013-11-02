@@ -1,0 +1,9 @@
+// Primary Author: Jonathan Allen (jallen01)
+
+// Hide modal if create sucessful
+<% unless @new_membership.errors.any? %>
+    $("#memberships-list tbody").html('<%= j render "memberships/list" %>');
+<% end %>
+
+
+$('#membership-form').parent().html('<%= j render "memberships/form" %>');
