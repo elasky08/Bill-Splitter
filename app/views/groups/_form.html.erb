@@ -2,16 +2,17 @@
 
   <div class="modal-body">
     <%= render "layouts/form_errors", errors: group.errors %>
+
     <div class="form-group">
       <%= f.label :name %>
       <%= f.text_field :name, class: "form-control", placeholder: "Group Name" %>
     </div>
 
-    <%= f.hidden_field :name, id: "original_group_name" %>
+    <%= hidden_field_tag "original_group_name", group.name %>
 
     <% unless group.new_record? %>
-      <%= render "group_users/list" %>
-      <%= render "group_users/form", group_user: @new_group_user %>
+      <%= render "memberships/list" %>
+      <%= render "memberships/form", membership: @new_membership %>
     <% end %>
   </div>
 

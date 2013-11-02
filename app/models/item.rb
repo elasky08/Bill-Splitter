@@ -18,7 +18,7 @@ class Item < ActiveRecord::Base
   # -----------
 
   NAME_MAX_LENGTH = 20
-  validates :name, presence: true, length: { minimum: 1, maximum: Item::NAME_MAX_LENGTH }
+  validates :name, presence: true, length: { maximum: Item::NAME_MAX_LENGTH }
   validates :cost, presence: true, currency: true
 
   # Capitalize first letter of each word in name

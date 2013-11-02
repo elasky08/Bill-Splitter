@@ -13,7 +13,7 @@
       <th>Item Cost</th>
       <th>Personal Cost</th>
     </tr>
-    <% @items.each do |item| %>
+    <% @user_items.each do |item| %>
       <tr>
         <%= content_tag :td, item.name %>
         <%= content_tag :td, number_to_currency(item.cost) %>
@@ -22,6 +22,6 @@
     <% end %>
   </table>
 
-  <h4>Total Bill: <%= @items_total %></h4>
+  <h4>Total Bill: <%= @user_total %></h4>
 </div>
 

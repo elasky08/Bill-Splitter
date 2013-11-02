@@ -48,7 +48,7 @@ class ItemsController < ApplicationController
       unless @group
         respond_to do |format|
           flash.alert = "Group not found."
-          format.js { format js: "window.location.href = '<%= groups_url %>'" }
+          format.js { render js: "window.location.href = '#{groups_url}'" }
         end
       end
     end
@@ -60,7 +60,7 @@ class ItemsController < ApplicationController
       unless @item
         respond_to do |format|
           flash.alert = "Item not found."
-          format.js { format js: "window.location.href = '<%= group_url(@group) %>'" }
+          format.js { render js: "window.location.href = '#{group_url(@group)}'" }
         end
       end 
     end
@@ -75,7 +75,7 @@ class ItemsController < ApplicationController
       unless @group.is_member?(current_user)
         respond_to do |format|
           flash.alert = "Forbidden: must be a member."
-          format.js { format js: "window.location.href = '<%= groups_url %>'" }
+          format.js { render js: "window.location.href = '#{groups_url}'" }
         end
       end
     end

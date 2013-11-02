@@ -22,7 +22,7 @@ class Group < ActiveRecord::Base
   # -----------
 
   NAME_MAX_LENGTH = 20
-  validates :name, presence: true, length: { minimum: 1, maximum: Group::NAME_MAX_LENGTH }, uniqueness: { scope: :owner }
+  validates :name, presence: true, length: { maximum: Group::NAME_MAX_LENGTH }, uniqueness: { scope: :owner }
 
   # Capitalize first letter of each word in name
   before_validation { self.name = self.name.downcase.split.map(&:capitalize).join(' ') }
@@ -71,7 +71,7 @@ class Group < ActiveRecord::Base
   end
 
   # Returns the group items shared with specified user.
-  def get_user_partitions(user)
+  def get_user_items(user)
     self.items.joins(:partitions).where(:partitions => { user: user })
   end
 

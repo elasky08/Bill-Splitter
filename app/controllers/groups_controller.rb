@@ -22,7 +22,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @new_group.save
-        format.js { format js: "window.location.href = '<%= group_url(@new_group) %>'" }
+        format.js { render js: "window.location.href = '#{group_url(@new_group)}'" }
       else
         format.js
       end
@@ -54,7 +54,7 @@ class GroupsController < ApplicationController
       unless @group
         respond_to do |format|
           flash.alert = "Group not found."
-          format.js { format js: "window.location.href = '<%= groups_url %>'" }
+          format.js { render js: "window.location.href = '#{groups_url}'" }
         end
       end 
     end
@@ -69,7 +69,7 @@ class GroupsController < ApplicationController
       unless @group.is_member?(current_user)
         respond_to do |format|
           flash.alert = "Forbidden: must be a member."
-          format.js { format js: "window.location.href = '<%= groups_url %>'" }
+          format.js { render js: "window.location.href = '#{groups_url}'" }
         end
       end
     end
@@ -79,7 +79,7 @@ class GroupsController < ApplicationController
       unless @group.owner == current_user
         respond_to do |format|
           flash.alert = "Forbidden: must be owner."
-          format.js { format js: "window.location.href = '<%= group_url(@group) %>'" }
+          format.js { render js: "window.location.href = '#{group_url(@group)}'" }
         end
       end
     end

@@ -10,8 +10,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :group_users, dependent: :destroy
-  has_many :groups, through: :group_users
+  has_many :memberships, dependent: :destroy
+  has_many :groups, through: :memberships
   has_many :partitions, dependent: :destroy
   has_many :items, through: :partitions
   has_many :owned_groups, class_name: "Group", foreign_key: "owner_id", dependent: :destroy
@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
   # -----------
 
   NAME_MAX_LENGTH = 20
-  validates :name, presence: true, length: { minimum: 1, maximum: User::NAME_MAX_LENGTH }
+  validates :name, presence: true, length: { maximum: User::NAME_MAX_LENGTH }
 
   
   # Methods

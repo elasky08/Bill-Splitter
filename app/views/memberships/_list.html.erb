@@ -6,7 +6,7 @@
     <tr>
       <%= content_tag :td, user.name %>
       <%= content_tag :td, user.email %>
-      <%= button_to "Remove", group_user_url(@group, user), method: :delete, remote: true %>
+      <%= button_to "Remove", group_membership_url(@group, membership), method: :delete, remote: true %>
     </tr>
   <% end %>
 </table>

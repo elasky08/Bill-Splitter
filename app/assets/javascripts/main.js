@@ -8,6 +8,7 @@ $(document).on('hide', '.modal', function () {
 // Reset form fields if data-form="reset"
 $(document).on('hide', '.modal[data-form="reset"]', function () {
     var modal = $(this);
+    modal.find(".validation-errors").remove();
     modal.find("input[type=text], textarea").not("input[type==hidden]").each(function (i, elem) {
         var elem = $(elem); 
         value = modal.find("#original_" + String(elem.attr('id'))).val();
@@ -17,13 +18,16 @@ $(document).on('hide', '.modal[data-form="reset"]', function () {
 
 // Reset form if data-form="temporary"
 $(document).on('hide', '.modal[data-form="temporary"]', function () {
-    $(this).find("input[type=text], textarea").val("");
+    var modal = $(this);
+    modal.find("input[type=text], textarea").val("");
+    modal.find(".validation-errors").remove();
 });
 
 // Destroy modal content if data-form="destroy"
 $(document).on('hide', '.modal[data-form="destroy"]', function () {
-    $(this).modal('hide');
-    $(this).find(".modal-content").empty();
+    var modal = $(this);
+    modal.modal('hide');
+    modal.find(".modal-content").empty();
 });
 
 // Remove url hash without reloading page
