@@ -20,13 +20,11 @@
     </div>
   </div>
 
-  <% if item.new_record? %>
-    <div class="checkbox">
-      <%= f.label :group_expense do %>
-        <%= f.check_box :group_expense %> Group Cost
-      <% end %>
-    </div>
-  <% end %>
+  <div class="checkbox">
+    <%= f.label :group_expense do %>
+      <%= f.check_box :group_expense %> Include All Users (e.g. tax)
+    <% end %>
+  </div>
 
 <% end %>
 

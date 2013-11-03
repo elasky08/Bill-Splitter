@@ -28,13 +28,7 @@ class Group < ActiveRecord::Base
   before_validation { self.name = self.name.downcase.split.map(&:capitalize).join(' ') }
 
   # Make sure that owner is a group user
-  def add_owner_membership
-    self.add_user(self.owner)
-  end
-  after_save :add_owner_membership
-
-  def add_
-
+  after_save { self.add_user(self.owner) }
 
   # Methods
   # -------

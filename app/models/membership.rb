@@ -19,8 +19,8 @@ class Membership < ActiveRecord::Base
   before_validation { self.payment ||= 0 }
 
   # Remove group partitions associated with user
-  def remove_partitions
-    Partition.joins(:items).where(user: self.user, items: { group_id: self.group.id }).destroy_all
-  end
-  before_destroy :remove_partitions
+  before_destroy { self.group.items.each { |item| item.partitions.where(user: self.user).destroy_all } }
+
+  # Resave all group items to include new user on group expenses.
+  after_create { self.group.items.each { |item| item.save } }
 end

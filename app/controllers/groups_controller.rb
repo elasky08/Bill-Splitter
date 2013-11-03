@@ -92,6 +92,7 @@ class GroupsController < ApplicationController
         respond_to do |format|
           flash.alert = "Group not found."
           format.js { render js: "window.location.href = '#{groups_url}'" }
+          format.html { redirect_to groups_url }
         end
       end 
     end
@@ -107,6 +108,7 @@ class GroupsController < ApplicationController
         respond_to do |format|
           flash.alert = "Forbidden: must be a member."
           format.js { render js: "window.location.href = '#{groups_url}'" }
+          format.html { redirect_to groups_url }
         end
       end
     end
@@ -117,6 +119,7 @@ class GroupsController < ApplicationController
         respond_to do |format|
           flash.alert = "Forbidden: must be owner."
           format.js { render js: "window.location.href = '#{group_url(@group)}'" }
+          format.html { redirect_to group_url(@group) }
         end
       end
     end

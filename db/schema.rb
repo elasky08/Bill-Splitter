@@ -21,9 +21,9 @@ ActiveRecord::Schema.define(version: 20131025012041) do
   end
 
   create_table "items", force: true do |t|
-    t.decimal  "cost",       precision: 8, scale: 2, null: false
-    t.boolean  "all_users"
-    t.string   "name",                               null: false
+    t.decimal  "cost",          precision: 8, scale: 2, null: false
+    t.boolean  "group_expense"
+    t.string   "name",                                  null: false
     t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"

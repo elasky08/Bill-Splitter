@@ -104,7 +104,7 @@ class ItemsController < ApplicationController
 
     # Sanitize params.
     def item_params
-      params.require(:item).permit(:name, :cost)
+      params.require(:item).permit(:name, :cost, :group_expense)
     end
 
     # Check that user is a member of the item's group.

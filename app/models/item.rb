@@ -24,6 +24,14 @@ class Item < ActiveRecord::Base
   # Capitalize first letter of each word in name
   before_validation { self.name = self.name.downcase.split.map(&:capitalize).join(' ') }
 
+  # Add all group members to group expenses
+  def add_group_to_group_expense
+    if self.group_expense
+      self.group.users.each { |user| self.add_user(user) }
+    end
+  end
+  after_save :add_group_to_group_expense
+
 
   # Methods
   # -------

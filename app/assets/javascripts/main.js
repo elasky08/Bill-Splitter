@@ -3,13 +3,14 @@
 // Remove hash on modal close
 $(document).on('hidden', '.modal', function () {
     removeHash();
+    $(this).find(".validation-errors").remove();
 });
 
 // Reset form fields if data-form="reset"
 $(document).on('hidden', '.modal[data-form="reset"]', function () {
-    $(this).find(".validation-errors").remove();
-    $(this).find("input[type=text], textarea").not("input[type=hidden]").each(function (i, elem) {
-        var value = $(this).find("#original_" + String($(elem).attr('id'))).val();
+    var modal = $(this);
+    modal.find("input[type=text], textarea").not("input[type=hidden]").each(function (i, elem) {
+        var value = modal.find("#original_" + String($(elem).attr('id'))).val();
         $(elem).val(value);
     });
 });
@@ -17,7 +18,6 @@ $(document).on('hidden', '.modal[data-form="reset"]', function () {
 // Reset form if data-form="temporary"
 $(document).on('hidden', '.modal[data-form="temporary"]', function () {
     $(this).find("input[type=text], textarea").val("");
-    $(this).find(".validation-errors").remove();
 });
 
 // Destroy modal if data-form="destroy"
