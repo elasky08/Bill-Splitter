@@ -33,6 +33,8 @@ class Group < ActiveRecord::Base
   end
   after_save :add_owner_membership
 
+  def add_
+
 
   # Methods
   # -------

@@ -20,9 +20,17 @@
     </div>
   </div>
 
+  <% if item.new_record? %>
+    <div class="checkbox">
+      <%= f.label :group_expense do %>
+        <%= f.check_box :group_expense %> Group Cost
+      <% end %>
+    </div>
+  <% end %>
+
 <% end %>
 
-<% unless item.new_record? %>
+<% unless item.new_record? || item.group_expense %>
   <!-- List users associated with item -->
   <table class="table table-bordered table-condensed" id="item-users-list" >
     <thead>

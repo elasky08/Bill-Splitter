@@ -22,10 +22,4 @@
 <%= link_to "Create a Group", "#new_group", class: "btn btn-large btn-primary", id: "create-group-link" %>
 
 <!-- New group modal -->
-<div class="modal fade" id="new-group-modal" data-form="temporary">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <%= render "groups/new_form" %>
-    </div>
-  </div>
-</div>
+<%= render "layouts/modal_form", modal_id: "new-group-modal", modal_title: "New Group", modal_data: { form: "reset" }, modal_content: "groups/new_form" %>

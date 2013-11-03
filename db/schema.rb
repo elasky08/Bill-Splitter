@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20131025012041) do
 
   create_table "items", force: true do |t|
     t.decimal  "cost",       precision: 8, scale: 2, null: false
+    t.boolean  "all_users"
     t.string   "name",                               null: false
     t.integer  "group_id"
     t.datetime "created_at"

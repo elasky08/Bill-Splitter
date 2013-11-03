@@ -13,8 +13,14 @@ class Membership < ActiveRecord::Base
   # Validations
   # -----------
 
-  validates :payment, presence: true, currency: true
+  validates :payment, presence: true, numericality: true
 
   # If no payment, set to 0.
   before_validation { self.payment ||= 0 }
+
+  # Remove group partitions associated with user
+  def remove_partitions
+    Partition.joins(:items).where(user: self.user, items: { group_id: self.group.id }).destroy_all
+  end
+  before_destroy :remove_partitions
 end

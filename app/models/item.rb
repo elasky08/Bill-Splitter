@@ -19,7 +19,7 @@ class Item < ActiveRecord::Base
 
   NAME_MAX_LENGTH = 20
   validates :name, presence: true, uniqueness: {scope: :group}, length: { maximum: Item::NAME_MAX_LENGTH }
-  validates :cost, presence: true, currency: true
+  validates :cost, presence: true, numericality: true
 
   # Capitalize first letter of each word in name
   before_validation { self.name = self.name.downcase.split.map(&:capitalize).join(' ') }
@@ -54,7 +54,7 @@ class Item < ActiveRecord::Base
 
   # Shares item with specified user. Does nothing if item is already shared with user. Returns true if successful, false otherwise.
   def add_user(user)
-    self.partitions.create(user: user)
+    self.partitions.find_or_create_by(user: user)
   end
 
   def get_partition(user)
