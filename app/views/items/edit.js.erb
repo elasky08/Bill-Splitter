@@ -1,4 +1,4 @@
 // Primary Author: Jonathan Allen (jallen01)
-
+$("#edit-item-modal").data("group-expense", <%= @item.group_expense %>);
 $("#page-container").append("<%= j render 'items/edit' %>")
 $("#edit-item-modal").modal();

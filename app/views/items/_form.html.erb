@@ -20,7 +20,7 @@
     </div>
 
     <!-- Show the checkbox only with the edit users table -->
-    <% unless item.new_record? || item.group_expense %>
+    <% unless item.new_record? %>
       <div class="checkbox">
         <%= f.label :group_expense do %>
           <%= f.check_box :group_expense %> Include All Users (e.g. tax)
@@ -30,25 +30,28 @@
   </div>
 <% end %>
 
-<% unless item.new_record? || item.group_expense %>
-  <!-- List users associated with item -->
-  <table class="table table-bordered table-condensed" id="item-users-list" >
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th class="span1"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= render "items/users_list" %>
-    </tbody>
-  </table>
+<% unless item.new_record? %>
+  <div class="edit-users">
+    <h4>Who consumed this item?</h4>
+    <!-- List users associated with item -->
+    <table class="table table-bordered table-condensed" id="item-users-list" >
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th class="span1"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render "items/users_list" %>
+      </tbody>
+    </table>
 
-  <div>
+    <div>
 
-  <!-- Add user to item -->
-  <div id="item-add-user-form">
-    <%= render "items/add_user_form" %>
+    <!-- Add user to item -->
+    <div id="item-add-user-form">
+      <%= render "items/add_user_form" %>
+    </div>
   </div>
 <% end %>
