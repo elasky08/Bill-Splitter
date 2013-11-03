@@ -18,13 +18,9 @@ class GroupsController < ApplicationController
 
   def create
     @new_group = current_user.owned_groups.new(group_params)
-
+    @new_group.save
     respond_to do |format|
-      if @new_group.save
-        format.js { render js: "window.location.href = '#{group_url(@new_group)}'" }
-      else
-        format.js
-      end
+      format.js
     end
   end
 

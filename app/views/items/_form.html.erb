@@ -18,14 +18,16 @@
         <%= f.text_field :cost, placeholder: "0.00", class: "form-control" %>
       </div>
     </div>
-  </div>
 
-  <div class="checkbox">
-    <%= f.label :group_expense do %>
-      <%= f.check_box :group_expense %> Include All Users (e.g. tax)
+    <!-- Show the checkbox only with the edit users table -->
+    <% unless item.new_record? || item.group_expense %>
+      <div class="checkbox">
+        <%= f.label :group_expense do %>
+          <%= f.check_box :group_expense %> Include All Users (e.g. tax)
+        <% end %>
+      </div>
     <% end %>
   </div>
-
 <% end %>
 
 <% unless item.new_record? || item.group_expense %>

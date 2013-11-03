@@ -2,6 +2,10 @@
 // This file is only called if new group form has errors
 
 // Render new form
-$('#new-group-modal .modal-body').html('<%= j render "new" %>');
+<% if @new_group.errors.any? %>
+	$('#new-group-modal .modal-body').html('<%= j render "groups/new_form" %>');
+<% else %>
+	window.location.href = '<%= group_url(@new_group) %>';
+<% end %>
 
 
