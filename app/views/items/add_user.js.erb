@@ -1,7 +1,6 @@
 // Primary Author: Jonathan Allen (jallen01)
 
 <% unless @new_partition.errors.any? %>
-    console.log('hi');
     $("#item-users-list tbody").html('<%= j render "items/users_list" %>');
 <% end %>
 
