@@ -4,8 +4,8 @@
 <%= form_for group, remote: true, html: { class: "modal-form" } do |f| %>
   <%= render "layouts/form_errors", errors: group.errors %>
 
+  <h4>Group name</h4>
   <div class="form-group">
-    <%= f.label :name %>
     <%= f.text_field :name, class: "form-control", placeholder: "Group Name" %>
     <%= hidden_field_tag "original_group_name", group.name %>
   </div>
