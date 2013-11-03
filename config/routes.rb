@@ -4,14 +4,14 @@ BillSplitter::Application.routes.draw do
   devise_for :users
   resources :groups, except: [:edit] do
     member do
-      get 'add_user'
+      post 'add_user'
       get 'remove_user'
     end
 
     resources :memberships, only: [:show, :update]
     resources :items, only: [:edit, :create, :update, :destroy] do
       member do
-        get 'add_user'
+        post 'add_user'
         get 'remove_user'
       end
     end

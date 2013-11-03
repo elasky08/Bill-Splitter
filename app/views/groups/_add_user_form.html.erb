@@ -1,9 +1,14 @@
 <!-- Primary Author: Jonathan Allen (jallen01) -->
 <!-- Add user to group form -->
 
-<%= render "layouts/form_errors", errors: @new_membership.errors %>
+<%= form_tag add_user_group_url(@group), remote: true do %>
+  <%= render "layouts/form_errors", errors: @new_membership.errors %>
 
-<%= text_field_tag :email, nil, placeholder: "User Email" %>
-<span class="input-group-btn">
-  <%= link_to "Add User", add_user_group_url(@group), remote: true, class: "btn btn-default" %>
-</span>
+  <div class="form-group">
+    <%= text_field_tag :email, nil, placeholder: "User Email", class: "form-control" %>
+  </div>
+
+  <%= submit_tag "Add User", remote: true, class: "btn btn-default" %>
+
+<% end %>
+

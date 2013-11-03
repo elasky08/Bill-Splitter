@@ -1,7 +1,7 @@
 <!-- Primary Author: Jonathan Allen (jallen01) -->
 <!-- List of items in group. Table rows.  -->
 
-<% @items.each do |item| %>
+<% @group.items.each do |item| %>
   <tr>
     <td><%= item.name %></td>
     <td><%= number_to_currency(item.cost, :unit => "$") %></td>

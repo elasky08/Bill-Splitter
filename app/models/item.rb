@@ -18,7 +18,7 @@ class Item < ActiveRecord::Base
   # -----------
 
   NAME_MAX_LENGTH = 20
-  validates :name, presence: true, length: { maximum: Item::NAME_MAX_LENGTH }
+  validates :name, presence: true, uniqueness: {scope: :group}, length: { maximum: Item::NAME_MAX_LENGTH }
   validates :cost, presence: true, currency: true
 
   # Capitalize first letter of each word in name
@@ -58,11 +58,11 @@ class Item < ActiveRecord::Base
   end
 
   def get_partition(user)
-    return self.partitions.find_by(user_id: user)
+    return self.partitions.find_by(user: user)
   end
 
   # Unshares item with specified user. Does nothing if item is not already shared with user.
   def remove_user(user)
-    self.partitions.destroy_all(user_id: user)
+    self.get_partition(user).destroy
   end
 end

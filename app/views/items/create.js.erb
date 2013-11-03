@@ -5,9 +5,8 @@
     $("#items-list tbody").html('<%= j render "items/list" %>');
     $('#new-item-modal').modal('hide');
 
-    $(".blank-modal .modal-content").html("<%= j render 'items/edit_form' %>")
-    $(".blank-modal").attr("id", "edit-item-modal").modal()
+    $("#page-container").append("<%= j render 'items/edit' %>")
+    $("#edit-item-modal").modal();
 <% end %>
 
-
-$('#new-item-modal .modal-content').html('<%= j render "items/new_form" %>');
+$('#new-item-modal .modal-body').html('<%= j render "items/new_form" %>');

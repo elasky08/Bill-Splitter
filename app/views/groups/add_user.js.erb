@@ -2,8 +2,7 @@
 
 // Hide modal if create sucessful
 <% unless @new_membership.errors.any? %>
-    $("#memberships-list tbody").html('<%= j render "memberships/list" %>');
+    $("#group-users-list tbody").html('<%= j render "groups/users_list" %>');
 <% end %>
 
-
-$('#membership-form').parent().html('<%= j render "memberships/form" %>');
+$('#group-add-user-form').html('<%= j render "groups/add_user_form" %>');

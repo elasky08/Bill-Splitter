@@ -4,8 +4,9 @@
 <% @item.users.each do |user| %>
   <tr>
     <td><%= user.name %></td>
+    <td><%= user.email %></td>
     <td>
-      <%= link_to glyph(:remove), remove_user_group_item_url(@group, @item), user_id: user.id, :class => 'btn btn-danger btn-lg' %>
+      <%= link_to glyph(:remove), remove_user_group_item_url(@group, @item, user_id: user.id), remote: true %>
     </td>
   </tr>
 <% end %>

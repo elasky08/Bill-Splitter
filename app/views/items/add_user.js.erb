@@ -1,13 +1,9 @@
 // Primary Author: Jonathan Allen (jallen01)
 
-console.log('hi');
-
 <% unless @new_partition.errors.any? %>
-    $("#item-users-list tbody").html('<%= render "items/users_list" %>');
+    console.log('hi');
+    $("#item-users-list tbody").html('<%= j render "items/users_list" %>');
 <% end %>
 
-$("#item-add-user-form").html('<%= render "items/add_user_form" %>');
-
-$("#item-add-user-form").html('hi');
-
+$("#item-add-user-form").html('<%= j render "items/add_user_form" %>');
 

@@ -1,7 +1,7 @@
 <!-- Primary Author: Jonathan Allen (jallen01) -->
 <!-- Item info modal form -->
 
-<%= form_for [@group, item], remote: true do |f| %>
+<%= form_for [@group, item], remote: true, html: { class: "modal-form" } do |f| %>
   <div class="modal-body">
 
     <%= render "layouts/form_errors", errors: item.errors %>
@@ -18,25 +18,29 @@
         <%= f.text_field :cost, placeholder: "0.00", class: "form-control" %>
       </div>
     </div>
-
-    <% unless item.new_record? %>
-      <!-- List users associated with item -->
-      <table class="table table-bordered table-condensed" id="item-users-list" >
-        <tbody>
-          <%= render "items/users_list" %>
-        </tbody>
-      </table>
-
-      <div>
-
-      <!-- Add user to item -->
-      <div class="input-group" id="item-add-user-form">
-        <%= render "items/add_user_form" %>
-      </div>
-    <% end %>
-
   </div>
 
-  <%= render "layouts/modal_form_footer", f: f %>
+<% end %>
 
+<% unless item.new_record? %>
+  <!-- List users associated with item -->
+  <table class="table table-bordered table-condensed" id="item-users-list" >
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th class="span1"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render "items/users_list" %>
+    </tbody>
+  </table>
+
+  <div>
+
+  <!-- Add user to item -->
+  <div id="item-add-user-form">
+    <%= render "items/add_user_form" %>
+  </div>
 <% end %>

@@ -9,7 +9,7 @@
     <td><%= membership.user.email %></td>
     <td>
       <% if membership.user != @group.owner %>
-        <%= link_to glyph(:remove), group_membership_url(@group, membership), method: :delete, remote: true %>
+        <%= link_to glyph(:remove), remove_user_group_url(@group, user_id: membership.user.id), remote: true %>
       <% else %>
         Owner
       <% end %>

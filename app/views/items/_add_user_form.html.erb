@@ -1,11 +1,14 @@
 <!-- Primary Author: Jonathan Allen (jallen01) -->
 <!-- Add user to item form -->
 
-<%= render "layouts/form_errors", errors: @new_partition.errors %>
+<%= form_tag add_user_group_item_url(@group, @item), remote: true do %>
+  <%= render "layouts/form_errors", errors: @new_partition.errors %>
 
-<%= text_field_tag :email, nil, placeholder: "User Email" %>
-<span class="input-group-btn">
-  <%= link_to "Add User", add_user_group_item_url(@group, @item), remote: true, class: "btn btn-default" %>
-</span>
+  <div class="form-group">
+    <%= text_field_tag :email, nil, placeholder: "User Email", class: "form-control" %>
+  </div>
+  
+  <%= submit_tag "Add User", remote: true, class: "btn btn-default" %>
+<% end %>
 
 

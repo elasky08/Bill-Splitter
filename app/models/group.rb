@@ -60,7 +60,7 @@ class Group < ActiveRecord::Base
   def remove_user(user)
     # Cannot remove group owner.
     if user != self.owner
-      self.memberships.delete(user: user)
+      self.get_membership(user).destroy
     end
   end
 

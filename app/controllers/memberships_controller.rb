@@ -5,6 +5,7 @@ class MembershipsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group
   before_action :set_membership
+  before_action :check_permissions
 
   # Show user personal bill
   def show
@@ -14,13 +15,8 @@ class MembershipsController < ApplicationController
 
   # Update user payment to group
   def update
-    # Check that user is current user.
-    unless @membership.user == current_user
-      flash.alert = "Forbidden: must be user."
-      format.js { render js: "window.location.href = '#{group_url(@group)}'" }
-    end
-
     @membership.update(payment: membership_params[:payment])
+    
     respond_to do |format|
       format.js
     end
@@ -28,7 +24,7 @@ class MembershipsController < ApplicationController
 
   private
     def set_group
-      @group = Group.includes(:memberships, :users).find_by(id: params[:group_id])
+      @group = Group.find_by(id: params[:group_id])
 
       # If group does not exist, render 404.
       unless @group
@@ -56,10 +52,10 @@ class MembershipsController < ApplicationController
       params.require(:membership).permit(:email, :payment)
     end
 
-    def check_ownership
-      # If current user does not have permission to add user to group, redirect.
-      unless @group.owner == current_user
-        flash.alert = "Forbidden: must be owner."
+    def check_permissions
+      # Check that user is current user.
+      unless @membership.user == current_user
+        flash.alert = "Forbidden: must be user."
         format.js { render js: "window.location.href = '#{group_url(@group)}'" }
       end
     end

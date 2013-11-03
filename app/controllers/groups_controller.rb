@@ -12,9 +12,7 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @items = @group.items
     @new_item = Item.new
-    @membership = @group.get_membership(current_user)
     @new_membership = Membership.new
   end
 
@@ -32,6 +30,7 @@ class GroupsController < ApplicationController
 
   def update
     @group.update(group_params)
+    self.show
 
     respond_to do |format|
       format.js
@@ -40,7 +39,7 @@ class GroupsController < ApplicationController
 
   def destroy
     @group.destroy
-    @groups = current_user.groups.ordered
+    self.index
 
     respond_to do |format|
       format.js
@@ -48,17 +47,17 @@ class GroupsController < ApplicationController
   end
 
   def add_user
-    user = User.find_by(email: params[:email])
+    user = User.find_by(email: params[:email].downcase)
     @new_membership = Membership.new
+    
+    # Check that user exists
+    if user.blank?
+      @new_membership.errors.add(:email, "does not exist")
+    else
+      @group.add_user(user)
+    end
 
     respond_to do |format|
-      # Check that user exists
-      unless user
-        @new_membership.errors.add(:email, "does not exist")
-        format.js
-      end
-
-      @group.add_user(user)
       format.js
     end
   end
@@ -66,8 +65,16 @@ class GroupsController < ApplicationController
   def remove_user
     user = User.find_by(id: params[:user_id])
 
+    # Check that user is not group owner.
+    if user == @group.owner
+      respond_to do |format|
+        flash.alert = "Cannot remove owner of group."
+        format.js { render js: "window.location.href = '#{group_url(@group)}'" }
+      end
+    end
+
     if user
-      @item.remove_user(user)
+      @group.remove_user(user)
     end
 
     respond_to do |format|

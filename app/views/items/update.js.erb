@@ -2,7 +2,7 @@
 
 // Hide modal if update sucessful, otherwise render edit.
 <% if @item.errors.any? %>
-    $("#edit-item-modal .modal-content").html('<%= j render "items/edit_form" %>')
+    $("#edit-item-modal .modal-body").html('<%= j render "items/edit_form" %>')
 <% else %>
     $("#items-list tbody").html('<%= j render "items/list" %>');
     $("#edit-item-modal").modal('hide');

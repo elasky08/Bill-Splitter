@@ -15,10 +15,9 @@ class ItemsController < ApplicationController
     @new_item = @group.edit_item_by_name(item_params[:name], item_params[:cost])
 
     if @new_item.save
-      @items = @group.items
       @item = @new_item
       @new_item = Item.new
-      @new_partition = Partition.new
+      self.edit
     end
     
     respond_to do |format|
@@ -28,8 +27,7 @@ class ItemsController < ApplicationController
 
   def update
     @item.update(item_params)
-    @items = @group.items
-    @new_partition = Partition.new
+    self.edit
 
     respond_to do |format|
       format.js
@@ -38,7 +36,6 @@ class ItemsController < ApplicationController
 
   def destroy
     @item.destroy
-    @items = @group.items
 
     respond_to do |format|
       format.js
@@ -46,27 +43,24 @@ class ItemsController < ApplicationController
   end
 
   def add_user
-    user = User.find_by(email: params[:email])
+    user = User.find_by(email: params[:email].downcase)
     @new_partition = Partition.new
 
+    # Check that user exists.
+    unless user
+      @new_partition.errors.add(:email, "does not exist")
+    end
+
+    # Check that user is in group.
+    unless @item.group.includes_user?(user)
+      @new_partition.errors.add(:email, "is not a member of the group")
+    end
+
+    unless @item.add_user(user)
+      @new_partition.errors.add(:email, "is already a member of the group")
+    end
+
     respond_to do |format|
-      # Check that user exists.
-      unless user
-        @new_partition.errors.add(:email, "does not exist")
-        format.js
-      end
-
-      # Check that user is in group.
-      unless @item.group.includes_user?(user)
-        @new_partition.errors.add(:email, "is not a member of the group")
-        format.js
-      end
-
-      unless @item.add_user(user)
-        @new_partition.errors.add(:email, "is already a member of the group")
-        format.js
-      end
-
       format.js
     end
   end

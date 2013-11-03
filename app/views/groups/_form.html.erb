@@ -1,39 +1,33 @@
 <!-- Primary Author: Jonathan Allen (jallen01) -->
 <!-- Group info modal form -->
 
-<%= form_for group, remote: true, id: "group-form" do |f| %>
+<%= form_for group, remote: true, html: { class: "modal-form" } do |f| %>
+  <%= render "layouts/form_errors", errors: group.errors %>
 
-  <div class="modal-body">
-    <%= render "layouts/form_errors", errors: group.errors %>
-
-    <div class="form-group">
-      <%= f.label :name %>
-      <%= f.text_field :name, class: "form-control", placeholder: "Group Name" %>
-    </div>
-
-    <%= hidden_field_tag "original_group_name", group.name %>
-
-    <% unless group.new_record? %>
-      <!-- Membership list -->
-      <table class="table table-bordered table-condensed", id="memberships-list">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th class="span1"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <%= render "groups/users_list" %>
-        </tbody>
-      </table>
-      
-      <div class="input-group" id="group-add-user-form" >
-        <%= render "groups/add_user_form" %>
-      </div>
-    <% end %>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "form-control", placeholder: "Group Name" %>
   </div>
 
-  <%= render "layouts/modal_form_footer", f: f %>
+  <%= hidden_field_tag "original_group_name", group.name %>
+<% end %>
 
+<% unless group.new_record? %>
+  <!-- Membership list -->
+  <table class="table table-bordered table-condensed", id="group-users-list">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th class="span1"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render "groups/users_list" %>
+    </tbody>
+  </table>
+  
+  <div id="group-add-user-form" >
+    <%= render "groups/add_user_form" %>
+  </div>
 <% end %>

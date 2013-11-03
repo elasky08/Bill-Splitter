@@ -26,25 +26,10 @@
 </table>
 
 <%= link_to "Add Item", "#add_item", class: "btn btn-large", id: "new-item-link" %>
-<%= link_to "Check Please!", group_membership_url(@group, @membership), class: "btn btn-large btn-success", id: "get-bill-link", remote: true %>
+<%= link_to "Check Please!", group_membership_url(@group, @group.get_membership(current_user)), class: "btn btn-large btn-success", id: "get-bill-link", remote: true %>
 
 <!-- Edit group modal -->
-<div class="modal fade" id="edit-group-modal" data-form="reset">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <%= render "groups/edit_form" %>
-    </div>
-  </div>
-</div>
+<%= render "layouts/modal_form", modal_id: "edit-group-modal", modal_title: "Edit Group", modal_data: { form: "reset" }, modal_content: "groups/edit_form" %>
 
 <!-- New item modal -->
-<div class="modal fade" id="new-item-modal" data-form="temporary">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <%= render "items/new_form" %>
-    </div>
-  </div>
-</div>
-
-<!-- Blank modal for other forms -->
-<%= render "layouts/blank_modal" %>
+<%= render "layouts/modal_form", modal_id: "new-item-modal", modal_title: "New Item", modal_data: { form: "temporary" }, modal_content: "items/new_form" %>

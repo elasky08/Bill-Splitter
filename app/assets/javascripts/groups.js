@@ -1,4 +1,4 @@
-// // PRIMARY AUTHOR: Charles Liu (cliu2014)
+// PRIMARY AUTHOR: Charles Liu (cliu2014)
 
 
 $(document).on('click', '#create-group-link', function (event) {
