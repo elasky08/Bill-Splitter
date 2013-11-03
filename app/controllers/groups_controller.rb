@@ -43,6 +43,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.js
+      format.html { redirect_to groups_url }
     end
   end
 

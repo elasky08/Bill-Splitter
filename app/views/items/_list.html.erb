@@ -6,8 +6,12 @@
     <td><%= item.name %></td>
     <td><%= number_to_currency(item.cost, :unit => "$") %></td>
     <td>
-      <%= link_to glyph(:edit), edit_group_item_url(@group, item), remote: true, :class => 'btn btn-default btn-lg' %>
-      <%= link_to glyph(:remove), group_item_url(@group, item), method: :delete, remote: true, :class => 'btn btn-danger btn-lg' %>
+      <div class="pagination-centered">
+        <div class="btn-group">
+          <%= link_to glyph(:edit), edit_group_item_url(@group, item), remote: true, :class => 'btn btn-default btn-lg' %>
+          <%= link_to glyph(:remove), group_item_url(@group, item), method: :delete, remote: true, :class => 'btn btn-danger btn-lg' %>
+        </div>
+      </div>
     </td>
   </tr>
 <% end %>

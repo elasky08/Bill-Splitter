@@ -9,8 +9,8 @@ class MembershipsController < ApplicationController
 
   # Show user personal bill
   def show
-    @user_items = @group.get_user_items(@user)
-    @user_total = @group.get_user_total(@user)
+    @user_items = @group.get_user_items(current_user)
+    @user_total = @group.get_user_total(current_user)
   end
 
   # Update user payment to group

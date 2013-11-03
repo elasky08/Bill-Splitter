@@ -72,12 +72,12 @@ class Group < ActiveRecord::Base
 
   # Returns the group items shared with specified user.
   def get_user_items(user)
-    self.items.joins(:partitions).where(:partitions => { user: user })
+    self.items.joins(:partitions).where(partitions: { user_id: user.id })
   end
 
   # Returns partial cost of all items shared with specified user.
   def get_user_total(user)
-    self.get_partitions(user).to_a.sum { |item| item.cost }
+    self.get_user_items(user).to_a.sum { |item| item.cost }
   end
 
 

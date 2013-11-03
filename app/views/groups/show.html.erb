@@ -2,31 +2,39 @@
 <!-- Group page. Includes list of items. -->
 
 <!-- Header -->
-<div class="page-header">
+<div class="page-header pagination-centered">
   <h1 id="group-name"><%= @group.name %></h2>
   <% if @group.owner == current_user %>
-    <%= link_to "Edit Group", "#edit_group", class: "btn", id: "edit-group-link" %>
+    <div class="btn-group">
+    <%= link_to "Edit Group", "#edit_group", class: "btn btn-default", id: "edit-group-link" %>
+    <%= link_to "Delete Group", group_url(@group), method: :delete, confirm: 'Are you sure you want to delete this group?', class: "btn btn-default", id: "delete-group-link" %>
+    </div>
   <% else %>
     <%= link_to "View Members", "#view_members", class: "btn", id: "view-members-link" %>
   <% end %>
 </div>
 
-<!-- Items  -->
-<table class="table table-bordered table-condensed", id="items-list" >
-  <thead>
-    <tr>
-      <th>Item Name</th>
-      <th>Cost</th>
-      <th class="span2"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= render "items/list" %>
-  </tbody>
-</table>
+<div class="row">
+  <!-- Items  -->
+  <table class="table table-bordered table-condensed", id="items-list" >
+    <thead>
+      <tr>
+        <th>Item Name</th>
+        <th>Cost</th>
+        <th class="span2"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render "items/list" %>
+    </tbody>
+  </table>
 
-<%= link_to "Add Item", "#add_item", class: "btn btn-large", id: "new-item-link" %>
-<%= link_to "Check Please!", group_membership_url(@group, @group.get_membership(current_user)), class: "btn btn-large btn-success", id: "get-bill-link", remote: true %>
+  <%= link_to "Add Item", "#add_item", class: "btn btn-default", id: "new-item-link" %>
+</div>
+
+<div class="row pagination-centered btn-toolbar">
+  <%= link_to "Check Please!", group_membership_url(@group, @group.get_membership(current_user)), class: "btn btn-large btn-success", id: "get-bill-link", remote: true %>
+</div>
 
 <!-- Edit group modal -->
 <%= render "layouts/modal_form", modal_id: "edit-group-modal", modal_title: "Edit Group", modal_data: { form: "reset" }, modal_content: "groups/edit_form" %>

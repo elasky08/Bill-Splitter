@@ -1,27 +1,22 @@
 <!-- Primary Author: Jonathan Allen (jallen01) -->
 <!-- Personal bill modal -->
 
-<%= render "layouts/modal_header", modal_title: "Personal Bill" %>
-
-<div class="modal-body">
-
-  <table class="table table-condensed">
+<table class="table table-condensed">
+  <tr>
+    <th>Item Name</th>
+    <th>Item Cost</th>
+    <th>Personal Cost</th>
+  </tr>
+  <% @user_items.each do |item| %>
     <tr>
-      <th>Item Name</th>
-      <th>Item Cost</th>
-      <th>Personal Cost</th>
+      <%= content_tag :td, item.name %>
+      <%= content_tag :td, number_to_currency(item.cost) %>
+      <%= content_tag :td, number_to_currency(item.user_cost) %>
     </tr>
-    <% @user_items.each do |item| %>
-      <tr>
-        <%= content_tag :td, item.name %>
-        <%= content_tag :td, number_to_currency(item.cost) %>
-        <%= content_tag :td, number_to_currency(item.user_cost) %>
-      </tr>
-    <% end %>
-  </table>
+  <% end %>
+</table>
 
-  <h4>Total Bill: <%= @user_total %></h4>
-</div>
 
-<%= render "layouts/modal_footer" %>
+<h4>Total: <%= number_to_currency(@user_total) %></h4>
+
 
