@@ -1,3 +1,6 @@
+<!-- Primary Author: Jonathan Allen (jallen01) -->
+<!-- Group info modal form -->
+
 <%= form_for group, remote: true, id: "group-form" do |f| %>
 
   <div class="modal-body">
@@ -21,12 +24,12 @@
           </tr>
         </thead>
         <tbody>
-          <%= render "memberships/list" %>
+          <%= render "groups/users_list" %>
         </tbody>
       </table>
       
-      <div>
-        <%= render "memberships/form", membership: @new_membership %>
+      <div class="input-group" id="group-add-user-form" >
+        <%= render "groups/add_user_form" %>
       </div>
     <% end %>
   </div>

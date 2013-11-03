@@ -4,7 +4,7 @@ class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group, except: [:index, :create]
   before_action :check_membership, only: [:show, :cost]
-  before_action :check_ownership, only: [:update, :destroy]
+  before_action :check_ownership, only: [:update, :destroy, :add_user]
 
   def index
     @groups = current_user.groups.ordered
@@ -47,6 +47,34 @@ class GroupsController < ApplicationController
     end
   end
 
+  def add_user
+    user = User.find_by(email: params[:email])
+    @new_membership = Membership.new
+
+    respond_to do |format|
+      # Check that user exists
+      unless user
+        @new_membership.errors.add(:email, "does not exist")
+        format.js
+      end
+
+      @group.add_user(user)
+      format.js
+    end
+  end
+
+  def remove_user
+    user = User.find_by(id: params[:user_id])
+
+    if user
+      @item.remove_user(user)
+    end
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
     def set_group
       @group = Group.find_by(id: params[:id])
@@ -67,7 +95,7 @@ class GroupsController < ApplicationController
 
     # Check that current user is a member of the group.
     def check_membership
-      unless @group.is_member?(current_user)
+      unless @group.includes_user?(current_user)
         respond_to do |format|
           flash.alert = "Forbidden: must be a member."
           format.js { render js: "window.location.href = '#{groups_url}'" }

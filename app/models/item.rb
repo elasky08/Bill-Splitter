@@ -54,21 +54,15 @@ class Item < ActiveRecord::Base
 
   # Shares item with specified user. Does nothing if item is already shared with user. Returns true if successful, false otherwise.
   def add_user(user)
-    # Check that the user is in the item's group.
-    if self.group.is_member?(user)
-      return self.partitions.find_or_create_by(user: user)
-    else  
-      record.errors[:users] << (options[:message] || "is not a member of the item's group")
-      return false
-    end
+    self.partitions.create(user: user)
   end
 
   def get_partition(user)
-    return self.partitions.find_by(user: user)
+    return self.partitions.find_by(user_id: user)
   end
 
   # Unshares item with specified user. Does nothing if item is not already shared with user.
   def remove_user(user)
-    self.partitions.destroy_all(user: user)
+    self.partitions.destroy_all(user_id: user)
   end
 end

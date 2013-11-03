@@ -1,10 +1,13 @@
 // Primary Author: Jonathan Allen (jallen01)
 
-// Hide modal if create sucessful
+// Hide new item modal if create sucessful, and show edit item modal.
 <% unless @new_item.errors.any? %>
-    $("#items-list tbody").html('<%= j render "list" %>');
+    $("#items-list tbody").html('<%= j render "items/list" %>');
     $('#new-item-modal').modal('hide');
+
+    $(".blank-modal .modal-content").html("<%= j render 'items/edit_form' %>")
+    $(".blank-modal").attr("id", "edit-item-modal").modal()
 <% end %>
 
 
-$('#new-item-modal .modal-content').html('<%= j render "items/new" %>');
+$('#new-item-modal .modal-content').html('<%= j render "items/new_form" %>');

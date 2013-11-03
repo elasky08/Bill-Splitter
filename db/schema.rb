@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20131025012041) do
     t.datetime "updated_at"
   end
 
-  create_table "user_items", force: true do |t|
+  create_table "partitions", force: true do |t|
     t.integer  "user_id"
     t.integer  "item_id"
     t.datetime "created_at"

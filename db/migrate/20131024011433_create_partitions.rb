@@ -1,6 +1,6 @@
 class CreatePartitions < ActiveRecord::Migration
   def change
-    create_table :user_items do |t|
+    create_table :partitions do |t|
       t.belongs_to :user
       t.belongs_to :item
 

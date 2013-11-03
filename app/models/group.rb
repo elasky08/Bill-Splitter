@@ -43,7 +43,7 @@ class Group < ActiveRecord::Base
   end
 
   # Returns true if user is in the group.
-  def is_member?(user)
+  def includes_user?(user)
     self.users.exists?(user)
   end 
 

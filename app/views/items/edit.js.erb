@@ -1,4 +1,4 @@
 // Primary Author: Jonathan Allen (jallen01)
 
-$(".blank-modal .modal-content").html("<%= j render 'edit' %>")
-$(".blank-modal").addClass("edit-item-modal").modal()
+$(".blank-modal .modal-content").html("<%= j render 'items/edit_form' %>")
+$(".blank-modal").attr("id", "edit-item-modal").modal()

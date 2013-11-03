@@ -5,6 +5,13 @@ $(document).on('hide', '.modal', function () {
     removeHash();
 });
 
+// Reset blank modal on cloase
+$(document).on('hide', '.blank-modal', function () {
+    var modal = $(this);
+    modal.attr("id", "");
+    modal.find(".modal-content").empty();
+});
+
 // Reset form fields if data-form="reset"
 $(document).on('hide', '.modal[data-form="reset"]', function () {
     var modal = $(this);
@@ -21,13 +28,6 @@ $(document).on('hide', '.modal[data-form="temporary"]', function () {
     var modal = $(this);
     modal.find("input[type=text], textarea").val("");
     modal.find(".validation-errors").remove();
-});
-
-// Destroy modal content if data-form="destroy"
-$(document).on('hide', '.modal[data-form="destroy"]', function () {
-    var modal = $(this);
-    modal.modal('hide');
-    modal.find(".modal-content").empty();
 });
 
 // Remove url hash without reloading page

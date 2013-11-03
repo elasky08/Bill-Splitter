@@ -1,9 +1,10 @@
 // Primary Author: Jonathan Allen (jallen01)
 
-// Hide modal if update sucessful
+// If no errors, update group and hide modal.
 <% unless @group.errors.any? %>
     $('#group-name').html('<%= j @group.name %>');
     $('#edit-group-modal').modal('hide');
 <% end %>
 
+// Render new form.
 $('#edit-group-modal .modal-content').html('<%= j render "groups/form", group: @group %>');

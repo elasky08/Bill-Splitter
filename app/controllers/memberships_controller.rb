@@ -4,37 +4,10 @@
 class MembershipsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group
-  before_action :set_membership, except: [:index, :create]
-  before_action :check_owner, only: [:create]
-
-  def index
-    @new_membership = Membership.new
-  end
-
-  # Add user to group
-  def create
-    user = User.find_by(email: membership_params[:email])
-
-    respond_to do |format|
-      # Check that user exists.
-      unless user
-        self.errors.add(:email, "does not exist")
-        format.js
-      end 
-
-      @new_membership = @group.add_user(user)
-      if @new_membership.save
-        @membership = @new_membership
-        @new_membership = Membership.new
-      end
-
-      format.js
-    end
-  end
+  before_action :set_membership
 
   # Show user personal bill
   def show
-    @membership = @group.get_membership(@user)
     @user_items = @group.get_user_items(@user)
     @user_total = @group.get_user_total(@user)
   end
@@ -49,20 +22,6 @@ class MembershipsController < ApplicationController
 
     @membership.update(payment: membership_params[:payment])
     respond_to do |format|
-      format.js
-    end
-  end
-
-  # Remove user from group
-  def destroy
-    respond_to do |format|
-      # If current user does not have permission to remove user from group, return error.
-      unless [@group.owner, @user].include?(current_user)
-        flash.alert = "Forbidden: must be user or group owner."
-      format.js { render js: "window.location.href = '#{group_url(@group)}'" }
-      end
-
-      @group.remove_user(user)
       format.js
     end
   end

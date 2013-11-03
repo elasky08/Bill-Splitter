@@ -8,6 +8,7 @@ class ItemsController < ApplicationController
   before_action :check_membership
 
   def edit
+    @new_partition = Partition.new
   end
   
   def create
@@ -17,6 +18,7 @@ class ItemsController < ApplicationController
       @items = @group.items
       @item = @new_item
       @new_item = Item.new
+      @new_partition = Partition.new
     end
     
     respond_to do |format|
@@ -26,6 +28,9 @@ class ItemsController < ApplicationController
 
   def update
     @item.update(item_params)
+    @items = @group.items
+    @new_partition = Partition.new
+
     respond_to do |format|
       format.js
     end
@@ -34,6 +39,44 @@ class ItemsController < ApplicationController
   def destroy
     @item.destroy
     @items = @group.items
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def add_user
+    user = User.find_by(email: params[:email])
+    @new_partition = Partition.new
+
+    respond_to do |format|
+      # Check that user exists.
+      unless user
+        @new_partition.errors.add(:email, "does not exist")
+        format.js
+      end
+
+      # Check that user is in group.
+      unless @item.group.includes_user?(user)
+        @new_partition.errors.add(:email, "is not a member of the group")
+        format.js
+      end
+
+      unless @item.add_user(user)
+        @new_partition.errors.add(:email, "is already a member of the group")
+        format.js
+      end
+
+      format.js
+    end
+  end
+
+  def remove_user
+    user = User.find_by(id: params[:user_id])
+
+    if user
+      @item.remove_user(user)
+    end
 
     respond_to do |format|
       format.js
@@ -72,7 +115,7 @@ class ItemsController < ApplicationController
 
     # Check that user is a member of the item's group.
     def check_membership
-      unless @group.is_member?(current_user)
+      unless @group.includes_user?(current_user)
         respond_to do |format|
           flash.alert = "Forbidden: must be a member."
           format.js { render js: "window.location.href = '#{groups_url}'" }
