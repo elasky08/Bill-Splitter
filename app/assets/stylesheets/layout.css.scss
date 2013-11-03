@@ -9,3 +9,8 @@ body {
 .row {
 	margin-left: 0px;
 }
+
+td {
+	// HACK! Overwrite the default Bootstrap td style of vertical-align: top
+	vertical-align: middle !important;
+}
