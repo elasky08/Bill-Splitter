@@ -1,3 +1,5 @@
+// PRIMARY AUTHOR: Charles Liu (cliu2014)
+
 $(document).on('shown', '#edit-item-modal', function() {
 	console.log('here1');
 	if ($('#item_group_expense').is(':checked')) {
