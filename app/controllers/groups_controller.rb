@@ -9,6 +9,10 @@ class GroupsController < ApplicationController
   def index
     @groups = current_user.groups.ordered
     @new_group = Group.new
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def show

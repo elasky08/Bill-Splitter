@@ -1,5 +1,13 @@
 // PRIMARY AUTHOR: Charles Liu (cliu2014)
 
+$(document).ready(function() {
+	if ($('#groups-list').length) {
+		setInterval(function() {
+			$.get('/groups.js');
+		}, 5000);
+	}
+});
+
 $(document).on('click', '#create-group-link', function (event) {
     $("#new-group-modal").modal();
 });
