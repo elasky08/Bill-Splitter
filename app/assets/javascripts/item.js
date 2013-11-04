@@ -2,6 +2,8 @@
 
 // Reload items list automatically every few seconds.
 $(document).ready(function() {
+	var REFRESH_INTERVAL = 5000;
+
 	if ($('#items-list').length) {
 		var path = window.location.pathname;
 
@@ -12,7 +14,7 @@ $(document).ready(function() {
 		}
 		setInterval(function() {
 			$.get(path + '.js');
-		}, 5000);
+		}, REFRESH_INTERVAL);
 	}
 });	
 

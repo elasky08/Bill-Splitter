@@ -2,10 +2,12 @@
 
 // Reload groups list every few seconds.
 $(document).ready(function() {
+	var REFRESH_INTERVAL = 5000;
+
 	if ($('#groups-list').length) {
 		setInterval(function() {
 			$.get('/groups.js');
-		}, 5000);
+		}, REFRESH_INTERVAL);
 	}
 });
 
