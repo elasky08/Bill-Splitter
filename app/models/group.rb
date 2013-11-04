@@ -61,12 +61,6 @@ class Group < ActiveRecord::Base
     end
   end
 
-
-  # Returns sum of all payment amounts.
-  def get_payments_total
-    self.memberships.to_a.sum { |membership| membership.payment }
-  end
-
   # Returns the group items shared with specified user.
   def get_user_items(user)
     self.items.joins(:partitions).where(partitions: { user_id: user.id })
@@ -74,9 +68,8 @@ class Group < ActiveRecord::Base
 
   # Returns partial cost of all items shared with specified user.
   def get_user_total(user)
-    self.get_user_items(user).to_a.sum { |item| item.user_cost }
+    self.get_user_items(user).to_a.sum(&:user_cost)
   end
-
 
   # Create item with specified name, and add it to the group. Returns the item object. 
   def edit_item_by_name(name, cost)
@@ -85,7 +78,7 @@ class Group < ActiveRecord::Base
 
   # Returns sum of all item costs.
   def get_items_total
-    self.items.to_a.sum { |item| item.cost }
+    self.items.to_a.sum(&:cost)
   end  
 
 end

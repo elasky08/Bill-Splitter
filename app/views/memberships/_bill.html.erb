@@ -1,21 +1,49 @@
 <!-- Primary Author: Jonathan Allen (jallen01) -->
 <!-- Personal bill modal -->
 
-<table class="table table-condensed">
-  <tr>
-    <th>Item Name</th>
-    <th>Item Cost</th>
-    <th>Personal Cost</th>
-  </tr>
-  <% @user_items.each do |item| %>
-    <tr>
-      <%= content_tag :td, item.name %>
-      <%= content_tag :td, number_to_currency(item.cost) %>
-      <%= content_tag :td, number_to_currency(item.user_cost) %>
-    </tr>
-  <% end %>
-</table>
+<div class="row">
+  <h4>Your Items</h4>
 
-<h4>Total: <%= number_to_currency(@user_total) %></h4>
+  <table class="table table-condensed">
+    <tr>
+      <th>Item Name</th>
+      <th>Item Cost</th>
+      <th>Personal Cost</th>
+    </tr>
+    <% @group.get_user_items(current_user).each do |item| %>
+      <tr>
+        <td><%= item.name %></td>
+        <td><%= number_to_currency(item.cost) %></td>
+        <td><%= number_to_currency(item.user_cost) %></td>
+      </tr>
+    <% end %>
+  </table>
+
+  <h5>Your Items Total: <%= number_to_currency(@group.get_user_total(current_user)) %></h5>
+</div>
+
+<div class="row">
+  <h4>People You Are Spotting</h4>
+
+  <table class="table table-condensed" id="debtors-list">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Cost</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render "memberships/debtors_list" %>
+    </tbody>
+  </table>
+
+  <div id="#add-debtor-form" >
+    <%= render "memberships/add_debtor_form" %>
+  </div>
+</div>
+
+<h3 class="text-danger">Total Bill: <%= number_to_currency(@total_bill) %></h3>
+
 
 

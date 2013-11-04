@@ -1,0 +1,7 @@
+// Primary Author: Jonathan Allen (jallen01)
+
+<% unless @membership.errors.any? %>
+    $("#debtors-list tbody").html('<%= j render "memberships/debtors_list" %>');
+<% end %>
+
+$("#add-debtor-form").html('<%= j render "memberships/add_debtor_form" %>');

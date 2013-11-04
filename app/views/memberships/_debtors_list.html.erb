@@ -1,0 +1,10 @@
+<!-- Primary Author (jallen01) -->
+<!-- List debtors. Table rows. -->
+
+<% @membership.debtor_users.each do |user| %>
+  <tr>
+    <td><%= user.name %></td>
+    <td><%= user.email %></td>
+    <td><%= number_to_currency(@group.get_user_total(user)) %></td>
+  </tr>
+<% end %>

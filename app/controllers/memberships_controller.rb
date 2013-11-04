@@ -1,6 +1,6 @@
 # Primary Author: Jonathan Allen (jallen01)
 
-# Controls adding/removing users in a group. Also controls user payments to a group. All actions only return json.
+# Controls adding/removing users in a group. Also controls debtors. All actions only return js.
 class MembershipsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group
@@ -9,14 +9,42 @@ class MembershipsController < ApplicationController
 
   # Show user personal bill
   def show
-    @user_items = @group.get_user_items(current_user)
-    @user_total = @group.get_user_total(current_user)
+    @total_bill = [current_user, @membership.debtor_users].flatten(1).sum { |user| @group.get_user_total(user) }
+    @other_members = @group.users.where.not(id: current_user)
   end
 
-  # Update user payment to group
-  def update
-    @membership.update(payment: membership_params[:payment])
-    
+  def add_debtor
+    user = User.find_by(id: params[:debtor_id])
+
+    # Check that user exists
+    if not user
+      @membership.errors.add(:debtor_id, "does not exist")
+
+    # Check that user is in group.
+    elsif not @group.includes_user?(user)
+      @membership.errors.add(:debtor_id, "is not a member of the group")
+
+    else
+      @group.get_membership(user).update_attribute(:creditor, @membership)
+    end
+
+    @other_members = @group.users.where.not(id: current_user)
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def remove_debtor
+    user = User.find_by(id: params[:debtor_id])
+
+    # Check that user exists and membership user is user's creditor
+    if user &&  @group.get_membership(user).creditor == @membership
+      @group.get_membership(user).update_attribute(:creditor, nil)
+    end
+
+    @other_members = @group.users.where.not(id: current_user)
+
     respond_to do |format|
       format.js
     end
@@ -26,7 +54,7 @@ class MembershipsController < ApplicationController
     def set_group
       @group = Group.find_by(id: params[:group_id])
 
-      # If group does not exist, render 404.
+      # Check that group exists.
       unless @group
         respond_to do |format|
           flash.alert = "Group not found."
@@ -49,7 +77,7 @@ class MembershipsController < ApplicationController
 
     # Sanitize params.
     def membership_params
-      params.require(:membership).permit(:email, :payment)
+      params.require(:membership).permit(:email)
     end
 
     def check_permissions

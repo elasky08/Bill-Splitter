@@ -3,7 +3,7 @@ class CreateMemberships < ActiveRecord::Migration
     create_table :memberships do |t|
       t.belongs_to :group
       t.belongs_to :user
-      t.decimal :payment, null: false
+      t.integer :creditor_id, 
       
       t.timestamps
     end

@@ -8,7 +8,7 @@
     <%= text_field_tag :email, nil, placeholder: "User Email", class: "form-control" %>
   </div>
   
-  <%= submit_tag "Add User", remote: true, class: "btn btn-default" %>
+  <%= submit_tag "Add User", class: "btn btn-default" %>
 <% end %>
 
 <%= link_to "Add me to this item", add_user_group_item_url(@group, @item), id: "add-me", data: { :email => current_user.email} %><br />

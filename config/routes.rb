@@ -8,7 +8,13 @@ BillSplitter::Application.routes.draw do
       get 'remove_user', defaults: { format: 'js' }
     end
 
-    resources :memberships, only: [:show, :update], defaults: { format: 'js'}
+    resources :memberships, only: [:show], defaults: { format: 'js'} do
+      member do
+        post 'add_debtor', defaults: { format: 'js' }
+        get 'remove_debtor', defaults: { format: 'js' } 
+      end
+    end
+
     resources :items, only: [:edit, :create, :update, :destroy], defaults: { format: 'js'} do
       member do
         post 'add_user', defaults: { format: 'js'}

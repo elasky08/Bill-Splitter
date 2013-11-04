@@ -1,0 +1,12 @@
+<!-- Primary Author: Jonathan Allen (jallen01) -->
+<!-- Add debtor form -->
+
+<%= form_tag add_debtor_group_membership_url(@group, @membership), remote: true do %>
+  <%= render "layouts/form_errors", errors: @membership.errors %>
+
+  <div class="form-group">
+    <%= select_tag "debtor_id", options_from_collection_for_select(@other_members, "id", "name"), class: "form-control", placeholder: "User Email" %>
+  </div>
+
+  <%= submit_tag "Add User", remote: true, class: "btn btn-default" %>
+<% end %>

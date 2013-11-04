@@ -32,9 +32,10 @@ ActiveRecord::Schema.define(version: 20131025012041) do
   create_table "memberships", force: true do |t|
     t.integer  "group_id"
     t.integer  "user_id"
-    t.decimal  "payment",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "creditor_id"
+    t.integer  "#<ActiveRecord::ConnectionAdapters::TableDefinition:0x00000002c542a0>"
   end
 
   create_table "partitions", force: true do |t|

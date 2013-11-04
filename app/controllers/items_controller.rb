@@ -1,6 +1,6 @@
 # Primary Author: Jonathan Allen (jallen01)
 
-# Controls adding/removing items in a group. All actions only return json.
+# Controls adding/removing items in a group. All actions only return js.
 class ItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group
