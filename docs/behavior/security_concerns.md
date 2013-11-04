@@ -14,6 +14,8 @@ Primary author: Charles Liu (cliu2014)
 
 ## 2 How Standard Attacks are Mitigated ##
 
++ **Access control:** Logins are required to use any part of the site (see below for login security details). Without a login, or if the logged in user is not part of a group, access to the group is denied. For each action, permissions are checked before the request is processed.
+
 + **Password security:** The Devise plugin is used for authentication. The plugin employs BCrypt, which securely encrypts passwords with the application key. In addition, BCrypt uses salts to further randomize the password digests. Should more security be needed, BCrypt supports calculating a digest multiple times, which makes reversing the process even harder.
 
 + **SQL injection attacks:** All transactions with the database are done via ActiveRecord, so no user input is executed directly as a query string. Our database calls are limited by the security vulnerabilities of ActiveRecord
