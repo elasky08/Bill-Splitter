@@ -46,18 +46,13 @@ class ItemsController < ApplicationController
     user = User.find_by(email: params[:email].downcase)
     @new_partition = Partition.new
 
-    # Check that user exists.
-    unless user
+    if !user
+      # Check that user exists.
       @new_partition.errors.add(:email, "does not exist")
-    end
-
-    # Check that user is in group.
-    unless @item.group.includes_user?(user)
+    elsif !@item.group.includes_user?(user)
+      # Check that user is in group.
       @new_partition.errors.add(:email, "is not a member of the group")
-    end
-
-    # Add user should only fail if user is not a member of the group.
-    unless @item.add_user(user)
+    elsif !@item.add_user(user)
       @new_partition.errors.add(:email, "is already a member of the group")
     end
 
