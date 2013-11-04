@@ -1,7 +1,7 @@
 <!-- Primary Author: Jonathan Allen (jallen01) -->
 <!-- Group info modal form -->
 
-<% if current_user == group.owner %>
+<% if current_user == group.owner || group.new_record? %>
   <%= form_for group, remote: true, html: { class: "modal-form" } do |f| %>
     <%= render "layouts/form_errors", errors: group.errors %>
 
