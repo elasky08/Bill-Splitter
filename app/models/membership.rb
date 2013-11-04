@@ -13,7 +13,7 @@ class Membership < ActiveRecord::Base
   belongs_to :creditor, class_name: "Membership"
 
   # Remove group partitions associated with user
-  before_destroy { self.group.items.each { |item| item.get_partition(user).destroy_all } }
+  before_destroy { self.group.items.each { |item| item.get_partition(user).destroy } }
 
   # Resave all group items to include new user on group expenses.
   after_create { self.group.items.each { |item| item.save } }
