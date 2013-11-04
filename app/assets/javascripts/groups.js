@@ -16,6 +16,10 @@ $(document).on('click', '#edit-group-link', function (event) {
     $("#edit-group-modal").modal();
 });
 
+$(document).on('click', '#view-group-link', function (event) {
+    $("#view-group-modal").modal();
+});
+
 $(document).on('click', '#memberships-link', function (event) {
     $("#memberships-modal").modal();
 });

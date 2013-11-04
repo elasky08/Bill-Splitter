@@ -9,9 +9,9 @@
     <td><%= membership.user.email %></td>
     <td>
       <div class="pagination-centered">
-        <% if membership.user != @group.owner %>
+        <% if membership.user != @group.owner && @group.owner == current_user %>
           <%= link_to glyph(:remove), remove_user_group_url(@group, user_id: membership.user.id), remote: true %>
-        <% else %>
+        <% elsif membership.user == @group.owner %>
           Owner
         <% end %>
       </div>

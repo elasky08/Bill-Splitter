@@ -1,16 +1,1 @@
-<div class="modal fade" id="personal-bill-modal" data-form="destroy" aria-hidden=true style="display: none;" >
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Personal Bill</h4>
-      </div>
-      <div class="modal-body">
-        <%= render "memberships/bill" %>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render "layouts/modal_display", modal_id: "personal-bill-modal", modal_title: "Personal Bill", modal_data: { form: "destroy" }, modal_content: "memberships/bill" %>

@@ -1,16 +1,18 @@
 <!-- Primary Author: Jonathan Allen (jallen01) -->
 <!-- Group info modal form -->
 
-<%= form_for group, remote: true, html: { class: "modal-form" } do |f| %>
-  <%= render "layouts/form_errors", errors: group.errors %>
+<% if current_user == group.owner %>
+  <%= form_for group, remote: true, html: { class: "modal-form" } do |f| %>
+    <%= render "layouts/form_errors", errors: group.errors %>
 
-  <h4>Group name</h4>
-  <div class="form-group">
-    <%= f.text_field :name, class: "form-control", placeholder: "Group Name" %>
-    <%= hidden_field_tag "original_group_name", group.name %>
-  </div>
-  
-<% end %>
+    <h4>Group Name</h4>
+    <div class="form-group">
+      <%= f.text_field :name, class: "form-control", placeholder: "Group Name" %>
+      <%= hidden_field_tag "original_group_name", group.name %>
+    </div>
+    
+  <% end %>
+<% end %>  
 
 <% unless group.new_record? %>
   <!-- Membership list -->
@@ -28,7 +30,9 @@
     </tbody>
   </table>
   
-  <div id="group-add-user-form" >
-    <%= render "groups/add_user_form" %>
-  </div>
+  <% if current_user == group.owner %>
+    <div id="group-add-user-form" >
+      <%= render "groups/add_user_form" %>
+    </div>
+  <% end %>
 <% end %>

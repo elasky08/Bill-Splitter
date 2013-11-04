@@ -10,7 +10,8 @@
     <%= link_to "Delete Group", group_url(@group), method: :delete, confirm: 'Are you sure you want to delete this group?', class: "btn btn-default", id: "delete-group-link" %>
     </div>
   <% else %>
-    <%= link_to "View Members", "#view_members", class: "btn", id: "view-members-link" %>
+    <%= link_to "View Members", "#view_members", class: "btn", id: "view-group-link" %>
+    <%= link_to "Leave Group", remove_user_group_url(@group, user_id: current_user.id), remote: true, confirm: 'Are you sure you want to delete this group?', class: "btn btn-default", id: "delete-group-link" %>
   <% end %>
 </div>
 
@@ -36,8 +37,12 @@
   <%= link_to "Check Please!", group_membership_url(@group, @group.get_membership(current_user)), class: "btn btn-large btn-success", id: "get-bill-link", remote: true %>
 </div>
 
-<!-- Edit group modal -->
-<%= render "layouts/modal_form", modal_id: "edit-group-modal", modal_title: "Edit Group", modal_data: { form: "reset" }, modal_content: "groups/edit_form" %>
+<% if current_user == @group.owner %>
+  <!-- Edit group modal -->
+  <%= render "layouts/modal_form", modal_id: "edit-group-modal", modal_title: "Edit Group", modal_data: { form: "reset" }, modal_content: "groups/edit_form" %>
+<% else %>
+  <%= render "layouts/modal_display", modal_id: "view-group-modal", modal_title: "View Members", modal_data: {},modal_content: "groups/edit_form" %>
+<% end %>
 
 <!-- New item modal -->
 <%= render "layouts/modal_form", modal_id: "new-item-modal", modal_title: "New Item", modal_data: { form: "temporary" }, modal_content: "items/new_form" %>

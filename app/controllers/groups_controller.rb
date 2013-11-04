@@ -79,7 +79,12 @@ class GroupsController < ApplicationController
     end
 
     respond_to do |format|
-      format.js
+      if user == current_user
+        flash.alert = "Unsubscribed from group."
+        format.js { render js: "window.location.href = '#{groups_url}'" }
+      else
+        format.js
+      end
     end
   end
 
