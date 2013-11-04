@@ -30,6 +30,7 @@ class Group < ActiveRecord::Base
   # Make sure that owner is a group user
   after_save { self.add_user(self.owner) }
 
+
   # Methods
   # -------
 
@@ -73,7 +74,7 @@ class Group < ActiveRecord::Base
 
   # Returns partial cost of all items shared with specified user.
   def get_user_total(user)
-    self.get_user_items(user).to_a.sum { |item| item.cost }
+    self.get_user_items(user).to_a.sum { |item| item.user_cost }
   end
 
 

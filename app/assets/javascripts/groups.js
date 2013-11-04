@@ -1,5 +1,6 @@
 // PRIMARY AUTHOR: Charles Liu (cliu2014)
 
+// Reload groups list every few seconds.
 $(document).ready(function() {
 	if ($('#groups-list').length) {
 		setInterval(function() {

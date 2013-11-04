@@ -56,6 +56,7 @@ class ItemsController < ApplicationController
       @new_partition.errors.add(:email, "is not a member of the group")
     end
 
+    # Add user should only fail if user is not a member of the group.
     unless @item.add_user(user)
       @new_partition.errors.add(:email, "is already a member of the group")
     end

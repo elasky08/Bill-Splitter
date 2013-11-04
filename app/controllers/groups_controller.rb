@@ -51,11 +51,11 @@ class GroupsController < ApplicationController
     user = User.find_by(email: params[:email].downcase)
     @new_membership = Membership.new
     
-    # Check that user exists
-    if user.blank?
-      @new_membership.errors.add(:email, "does not exist")
-    else
+    # Return error if user does not exist.
+    if user
       @group.add_user(user)
+    else
+      @new_membership.errors.add(:email, "does not exist")
     end
 
     respond_to do |format|

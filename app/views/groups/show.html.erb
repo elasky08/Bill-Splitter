@@ -15,8 +15,8 @@
   <% end %>
 </div>
 
+<!-- Items list  -->
 <div class="row">
-  <!-- Items  -->
   <table class="table table-bordered table-condensed", id="items-list" >
     <thead>
       <tr>
@@ -33,6 +33,7 @@
   <%= link_to "Add Item", "#add_item", class: "btn btn-default", id: "new-item-link" %>
 </div>
 
+<!-- Check link -->
 <div class="row pagination-centered btn-toolbar">
   <%= link_to "Check Please!", group_membership_url(@group, @group.get_membership(current_user)), class: "btn btn-large btn-success", id: "get-bill-link", remote: true %>
 </div>
@@ -41,7 +42,8 @@
   <!-- Edit group modal -->
   <%= render "layouts/modal_form", modal_id: "edit-group-modal", modal_title: "Edit Group", modal_data: { form: "reset" }, modal_content: "groups/edit_form" %>
 <% else %>
-  <%= render "layouts/modal_display", modal_id: "view-group-modal", modal_title: "View Members", modal_data: {},modal_content: "groups/edit_form" %>
+  <!-- View group members modal -->
+  <%= render "layouts/modal_display", modal_id: "view-group-modal", modal_title: "View Members", modal_data: {}, modal_content: "groups/edit_form" %>
 <% end %>
 
 <!-- New item modal -->

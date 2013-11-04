@@ -1,7 +1,9 @@
 <!-- Primary Author: Jonathan Allen (jallen01) -->
 <!-- Group info modal form -->
+<!-- Partial variables: group -->
 
-<% if current_user == group.owner || group.new_record? %>
+<!-- Group name form. -->
+<% if (current_user == group.owner) || group.new_record? %>
   <%= form_for group, remote: true, html: { class: "modal-form" } do |f| %>
     <%= render "layouts/form_errors", errors: group.errors %>
 
@@ -14,8 +16,8 @@
   <% end %>
 <% end %>  
 
+<!-- Membership list -->
 <% unless group.new_record? %>
-  <!-- Membership list -->
   <h4>Members</h4>
   <table class="table table-bordered table-condensed", id="group-users-list">
     <thead>
@@ -30,6 +32,7 @@
     </tbody>
   </table>
   
+  <!-- Add new member -->
   <% if current_user == group.owner %>
     <div id="group-add-user-form" >
       <%= render "groups/add_user_form" %>
