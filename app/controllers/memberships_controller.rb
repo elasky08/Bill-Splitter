@@ -10,7 +10,8 @@ class MembershipsController < ApplicationController
   # Show user personal bill
   def show
     @total_bill = [current_user, @membership.debtor_users].flatten(1).sum { |user| @group.get_user_total(user) }
-    @other_members = @group.users.where.not(id: current_user)
+
+    @other_members = @group.users.where.not(id: current_user).to_a.select { |user| !@membership.debtor_users.include?(user) }
   end
 
   def add_debtor
@@ -28,7 +29,7 @@ class MembershipsController < ApplicationController
       @group.get_membership(user).update_attribute(:creditor, @membership)
     end
 
-    @other_members = @group.users.where.not(id: current_user)
+    self.show
 
     respond_to do |format|
       format.js
@@ -43,7 +44,7 @@ class MembershipsController < ApplicationController
       @group.get_membership(user).update_attribute(:creditor, nil)
     end
 
-    @other_members = @group.users.where.not(id: current_user)
+    self.show
 
     respond_to do |format|
       format.js

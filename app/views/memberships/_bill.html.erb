@@ -23,27 +23,34 @@
 </div>
 
 <div class="row">
-  <h4>People You Are Spotting</h4>
+    <h4>People You Are Spotting</h4>
 
-  <table class="table table-condensed" id="debtors-list">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Cost</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= render "memberships/debtors_list" %>
-    </tbody>
-  </table>
+    <table class="table table-condensed" id="debtors-list">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Cost</th>
+          <th class="span1"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render "memberships/debtors_list" %>
+      </tbody>
+    </table>
 
-  <div id="#add-debtor-form" >
-    <%= render "memberships/add_debtor_form" %>
-  </div>
+    <div id="add-debtor-form" >
+      <%= render "memberships/add_debtor_form" %>
+    </div>
 </div>
 
-<h3 class="text-danger">Total Bill: <%= number_to_currency(@total_bill) %></h3>
+<% if @membership.creditor %>
+  <div class="row">
+    <h4><%= @membership.creditor.user.name %> [ <%= @membership.creditor.user.email %> ] is spotting you!</h4>
+  </div>
+<% end %>
+
+<h3 class="text-danger" id="total-bill"><%= render "memberships/total_bill" %></h3>
 
 
 

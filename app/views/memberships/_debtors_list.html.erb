@@ -6,5 +6,10 @@
     <td><%= user.name %></td>
     <td><%= user.email %></td>
     <td><%= number_to_currency(@group.get_user_total(user)) %></td>
+    <td>
+      <div class="pagination-centered">
+        <%= link_to glyph(:remove), remove_debtor_group_membership_url(@group, @membership, debtor_id: user.id), remote: true %>
+      </div>
+    </td>
   </tr>
 <% end %>
