@@ -14,4 +14,4 @@ Contributors
 Description
 -----------
 
-[Heroku Deployment](http://shrouded-fortress-5220.herokuapp.com/)
+[Heroku Deployment](https://jallen01-bill-splitter.herokuapp.com/users/)
