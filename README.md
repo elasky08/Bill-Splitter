@@ -10,8 +10,3 @@ Contributors
 
 + Team Member Names: Jonathan Allen, Paula Jacobs, Charles Liu
 + Athena: jallen01, paulaj, cliu2014
-
-Description
------------
-
-[Heroku Deployment](https://jallen01-bill-splitter.herokuapp.com/users/)
